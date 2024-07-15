@@ -6,7 +6,7 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/custom_button.dart';
 import '../../../auth/widget/custom_auth_welcome_text.dart';
 import '../../../auth/widget/logo.dart';
-import '../../../settings/pre/view_model/cubit/setting_cubit.dart';
+import '../../../main_pages/pre/pages/settings/pre/view_model/cubit/setting_cubit.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ghanim_law_app/core/shared_preferences/cache_helper.dart';
-import 'package:ghanim_law_app/features/auth/sign_up/pre/view/sign_up_screen.dart';
+import 'package:ghanim_law_app/features/main_pages/pre/view_model/cubit/main_page_cubit.dart';
 
 import 'core/AppLocalizations/app_localizations.dart';
 import 'core/get_it/service_locator.dart';
-import 'features/auth/login/pre/view/login_screen.dart';
-import 'features/settings/pre/view_model/cubit/setting_cubit.dart';
+
+import 'features/main_pages/pre/pages/settings/pre/view_model/cubit/setting_cubit.dart';
+import 'features/main_pages/pre/view/main_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
   ServiceLocator().init();
   CacheHelper.init();
   runApp(const MyApp());
@@ -25,11 +25,12 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: getIt<SettingCubit>()..getSavedLanguage()),
+        BlocProvider.value(value: getIt<MainPageCubit>()),
       ],
       child: Builder(builder: (context) {
-        context.watch<SettingCubit>().state;
+        final settingCubit = context.watch<SettingCubit>();
         return MaterialApp(
-          locale: BlocProvider.of<SettingCubit>(context).locale,
+          locale: settingCubit.state.locale,
           supportedLocales: const [Locale('en'), Locale('ar')],
           localizationsDelegates: const [
             AppLocalizations.delegate,
@@ -48,10 +49,13 @@ class MyApp extends StatelessWidget {
           },
           title: 'Flutter Demo',
           theme: ThemeData(
+            fontFamily: settingCubit.state.locale.languageCode == 'ar'
+                ? "Cairo"
+                : "Rubik",
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: false,
+            useMaterial3: true,
           ),
-          home: const LoginScreen(),
+          home: const MainScreen(),
         );
       }),
     );
