@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/features/auth/sign_up/pre/view/sign_up_screen.dart';
 import 'package:ghanim_law_app/features/auth/widget/logo.dart';
+import 'package:ghanim_law_app/features/main_pages/pre/view/main_screen.dart';
 
 import '../../../../../core/constants/app_colors.dart';
 
@@ -85,7 +86,11 @@ class LoginScreen extends StatelessWidget {
                       textColor: AppColors.grey,
                       text: 'login'.tr(context),
                       onPressed: () {
-                        // Get.toNamed(AppRoutes.navbar);
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MainScreen()),
+                            (Route<dynamic> route) => false);
                       },
                     ),
                     const SizedBox(
