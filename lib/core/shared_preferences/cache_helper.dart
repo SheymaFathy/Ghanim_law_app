@@ -24,7 +24,8 @@ class CacheHelper {
     if (value is String) return await sharedPreferences!.setString(key, value);
     if (value is int) return await sharedPreferences!.setInt(key, value);
     if (value is bool) return await sharedPreferences!.setBool(key, value);
-    if (value is List) return await sharedPreferences!.setStringList(key, List.from(value));
+    if (value is List)
+      return await sharedPreferences!.setStringList(key, List.from(value));
     return await sharedPreferences!.setDouble(key, value);
   }
 

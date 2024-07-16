@@ -1,6 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:ghanim_law_app/core/enum/enum.dart';
+import 'package:ghanim_law_app/features/auth/sign_up/data/model/get/sign_up_model.dart';
+import 'package:ghanim_law_app/features/auth/sign_up/data/model/set/set_sign_up_model.dart';
 import 'package:ghanim_law_app/features/auth/sign_up/data/repository/sign_up_repo.dart';
 
 part 'sign_up_state.dart';
@@ -19,7 +22,18 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   bool _formValidate() => formKey.currentState!.validate();
 
-  void fetchSignUp({String? name, email, password, int? phoneNumber}) {
-    if (_formValidate()) {}
+  void fetchSignUp(SetSignUpModel data) async {
+    if (_formValidate()) {
+      final result = await signUpRepo.fetchSignUp(data);
+      result.fold((ifLeft) {
+        emit(state.copyWith(
+            signUpNewAccoutErorrMessage: ifLeft.erorrMessage,
+            signUpNewAccoutState: AuthRequestState.erorr));
+      }, (ifRight) {
+        emit(state.copyWith(
+            signUpNewAccoutModel: ifRight,
+            signUpNewAccoutState: AuthRequestState.sucess));
+      });
+    }
   }
 }

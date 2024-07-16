@@ -22,7 +22,6 @@ class SettingsPage extends StatelessWidget {
                   title: const Text("الانجليزية"),
                   onTap: () {
                     settingCubit.changeLanguage("en");
-
                   },
                   selected: state.locale.languageCode == "en",
                 ),
@@ -30,7 +29,6 @@ class SettingsPage extends StatelessWidget {
                   title: const Text("العربية"),
                   onTap: () {
                     settingCubit.changeLanguage("ar");
-
                   },
                   selected: state.locale.languageCode == "ar",
                 ),

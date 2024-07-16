@@ -26,6 +26,7 @@ class CustomAuthTextFormFeild extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 20),
       child: TextFormField(
         validator: validator,
+        controller: mycontroller,
         obscureText: obbscureText ?? false,
         decoration: InputDecoration(
           hintText: hinttext,

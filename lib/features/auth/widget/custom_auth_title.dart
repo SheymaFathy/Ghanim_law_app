@@ -6,13 +6,10 @@ class CustomTextTitleAuth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Text(
+    return Text(
       textAlign: TextAlign.center,
-     title,
-      style: Theme.of(context)
-          .textTheme
-          .titleLarge!
-          .copyWith(fontSize: 25),
+      title,
+      style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 25),
     );
   }
 }
