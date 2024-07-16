@@ -9,7 +9,6 @@ import 'core/get_it/service_locator.dart';
 
 import 'features/auth/login/pre/view/login_screen.dart';
 import 'features/main_pages/pre/pages/settings/pre/view_model/cubit/setting_cubit.dart';
-import 'features/main_pages/pre/view/main_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

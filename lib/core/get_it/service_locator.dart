@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import 'package:ghanim_law_app/features/auth/login/data/repository/login_repo.dart';
+import 'package:ghanim_law_app/features/auth/sign_up/data/repository/sign_up_repo.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/view_model/cubit/main_page_cubit.dart';
 
 import '../../features/main_pages/pre/pages/settings/pre/view_model/cubit/setting_cubit.dart';
@@ -11,5 +13,7 @@ class ServiceLocator {
     getIt.registerFactory(() => LanguageCacheHelper());
     getIt.registerLazySingleton(() => SettingCubit(getIt()));
     getIt.registerLazySingleton(() => MainPageCubit());
+    getIt.registerSingleton<LoginRepo>(LoginRepoImp());
+    getIt.registerSingleton<SignUpRepo>(SignUpRepoImp());
   }
 }
