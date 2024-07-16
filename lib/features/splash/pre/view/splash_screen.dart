@@ -29,7 +29,7 @@ class SplashScreen extends StatelessWidget {
                 welcometextbody: "splash_welcome_text".tr(context),
               ),
               const Spacer(),
-              ChangeLanguageColumn(),
+              const ChangeLanguageColumn(),
             ],
           ),
         ),

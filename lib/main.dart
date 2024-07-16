@@ -3,12 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ghanim_law_app/core/shared_preferences/cache_helper.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/view_model/cubit/main_page_cubit.dart';
-
 import 'core/AppLocalizations/app_localizations.dart';
 import 'core/get_it/service_locator.dart';
-
-import 'features/auth/login/pre/view/login_screen.dart';
 import 'features/main_pages/pre/pages/settings/pre/view_model/cubit/setting_cubit.dart';
+import 'features/main_pages/pre/view/main_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,7 +53,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: const LoginScreen(),
+          home: const MainScreen(),
         );
       }),
     );

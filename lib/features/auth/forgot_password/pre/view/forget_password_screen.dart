@@ -21,7 +21,6 @@ class ForgotPasswordScreen extends StatelessWidget {
           create: (context) => ForgotPasswordCubit(),
           child: BlocConsumer<ForgotPasswordCubit, ForgotPasswordState>(
             listener: (context, state) {
-              // TODO: implement listener
             },
             builder: (context, state) {
               final forgotCubit = context.read<ForgotPasswordCubit>();
