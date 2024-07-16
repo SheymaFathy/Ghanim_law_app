@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
+import 'package:ghanim_law_app/core/constants/app_router.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/custom_button.dart';
@@ -65,6 +67,7 @@ class ChangeLanguageColumn extends StatelessWidget {
               text: 'arabic'.tr(context),
               onPressed: () {
                 context.read<SettingCubit>().changeLanguage("ar");
+                GoRouter.of(context).push(AppRouter.kHomeView);
               },
             ),
             const SizedBox(
@@ -76,6 +79,7 @@ class ChangeLanguageColumn extends StatelessWidget {
               text: 'english'.tr(context),
               onPressed: () {
                 context.read<SettingCubit>().changeLanguage("en");
+                GoRouter.of(context).push(AppRouter.kHomeView);
               },
             ),
           ],

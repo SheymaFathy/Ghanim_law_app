@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
+import 'package:ghanim_law_app/core/constants/app_router.dart';
 import 'package:ghanim_law_app/core/widget/app_bar.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../core/constants/app_colors.dart';
 import '../../../widget/custom_auth_title.dart';
@@ -43,7 +45,9 @@ class OtpCodeScreen extends StatelessWidget {
                 },
                 //runs when every textfield is filled
                 onSubmit: (String verificationCode) {
-                  //  controller.goToResetPass();
+                  // here if verfiy code is ok go to reset password page ,
+                  GoRouter.of(context).push(AppRouter.kResetPassword);
+                   // controller.goToResetPass();
                 }, // end onSubmit
               ),
               const SizedBox(

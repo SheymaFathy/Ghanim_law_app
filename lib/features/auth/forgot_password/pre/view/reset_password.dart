@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
+import 'package:ghanim_law_app/core/constants/app_router.dart';
 import 'package:ghanim_law_app/core/widget/app_bar.dart';
 import 'package:ghanim_law_app/features/auth/forgot_password/pre/view_model/cubit/forgot_password_cubit.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/custom_button.dart';
@@ -53,7 +55,8 @@ class ResetPasswordScreen extends StatelessWidget {
                 textColor: AppColors.grey,
                 text: 'continue_btn'.tr(context),
                 onPressed: () {
-                  // Get.toNamed(AppRoutes.navbar);
+                  // here update password then go to home page
+                  GoRouter.of(context).push(AppRouter.kHomeView);
                 },
               ),
             ],

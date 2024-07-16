@@ -5,7 +5,6 @@
     "title": "GHANIM LAW FIRM",
     "home": "Home",
     "profile": "Profile",
-    "my_order": "My Orders",
     "settings": "Settings",
     "enter_email": "Write your Email",
     "enter_pass": "Please enter your password.",
@@ -41,5 +40,13 @@
     "write_new_password": "Write a new Password",
     "re_write_pass": "Re-Write a Password",
     "new_password": "New Password",
-    "continue_btn": "Continue"
+    "continue_btn": "Continue",
+    "language": "Language",
+    "eng": "English",
+    "arb": "Arabic",
+    "our_services": "Our Services",
+    "legal-consultations": "Legal Consultations",
+    "preparing-and-reviewing-contract": "Preparing and reviewing a contract",
+    "preparing-and-reviewing-book": "Preparing and reviewing a book",
+    "my-order": "My transactions"
 }

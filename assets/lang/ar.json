@@ -5,7 +5,6 @@
     "title": "غانم للمحاماة",
     "home": "الرئيسية",
     "profile": "الملف الشخصي",
-    "my_order": "طلباتي",
     "settings": "الإعدادات",
     "enter_email": "الرجاء ادخال بريد الكتروني",
     "enter_pass": "الرجاء ادخال كلمة المرور",
@@ -41,5 +40,14 @@
     "write_new_password": "اكتب كلمة مرور جديدة",
     "re_write_pass": "اعد كتابة كلمة المرور",
     "new_password": "كلمة مرور جديدة",
-    "continue_btn": "استمرار"
+    "continue_btn": "استمرار",
+    "language": "اللغة",
+    "eng": "الانجليزية",
+    "arb": "العربية",
+    "our_services": "خدماتنا",
+    "legal-consultations": "استشارات قانونية",
+    "preparing-and-reviewing-contract": "اعداد ومراجعة عقد",
+    "preparing-and-reviewing-book": "اعداد ومراجعة كتاب",
+    "my-order": "معاملاتي"
+
 }

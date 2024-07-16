@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
+import 'package:ghanim_law_app/features/auth/sign_up/data/model/set/set_sign_up_model.dart';
 
 import 'package:ghanim_law_app/features/auth/sign_up/pre/view_model/cubit/sign_up_cubit.dart';
 import '../../../../../core/constants/app_colors.dart';
@@ -111,7 +112,14 @@ class SignUpScreen extends StatelessWidget {
                         textColor: AppColors.grey,
                         text: 'sign_up_now'.tr(context),
                         onPressed: () {
-                          signUpCubit.fetchSignUp();
+                          print(signUpCubit.nameController.text);
+                          signUpCubit.fetchSignUp(SetSignUpModel(
+                              name: signUpCubit.nameController.text,
+                              email: signUpCubit.emailController.text,
+                              phone: signUpCubit.phoneController.text,
+                              password: signUpCubit.passwordController.text,
+                              passwordConfirmation:
+                                  signUpCubit.passwordController.text));
                         },
                       ),
                       const SizedBox(

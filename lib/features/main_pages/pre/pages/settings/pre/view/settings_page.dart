@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import '../view_model/cubit/setting_cubit.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -15,22 +16,20 @@ class SettingsPage extends StatelessWidget {
             final settingCubit = context.read<SettingCubit>();
             return ExpansionTile(
               leading: const Icon(Icons.language),
-              title: const Text("Language"),
+              title:  Text("language".tr(context)),
               // subtitle: const Text("You can switch between Arabic and English"),
               children: [
                 ListTile(
-                  title: const Text("الانجليزية"),
+                  title: Text("eng".tr(context)),
                   onTap: () {
                     settingCubit.changeLanguage("en");
-
                   },
                   selected: state.locale.languageCode == "en",
                 ),
                 ListTile(
-                  title: const Text("العربية"),
+                  title:  Text("arb".tr(context)),
                   onTap: () {
                     settingCubit.changeLanguage("ar");
-
                   },
                   selected: state.locale.languageCode == "ar",
                 ),

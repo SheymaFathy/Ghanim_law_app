@@ -14,7 +14,7 @@ part 'main_page_state.dart';
 class MainPageCubit extends Cubit<MainPageState> {
   MainPageCubit() : super(const MainPageState());
   List<Widget> bottomNavBarPages = [
-    const HomePage(),
+     HomePage(),
     const MyOrdersPage(),
     const ProfilePage(),
     const SettingsPage()
@@ -23,22 +23,22 @@ class MainPageCubit extends Cubit<MainPageState> {
         GButton(
           icon: Icons.home,
           text: 'home'.tr(context),
-          textStyle: const TextStyle(fontSize: 14.0),
+          textStyle: const TextStyle(fontSize: 10.0),
         ),
         GButton(
           icon: Icons.list_alt,
-          text: 'my_order'.tr(context),
-          textStyle: const TextStyle(fontSize: 14.0),
+          text: 'my-order'.tr(context),
+          textStyle: const TextStyle(fontSize: 10.0),
         ),
         GButton(
           icon: Icons.person,
           text: 'profile'.tr(context),
-          textStyle: const TextStyle(fontSize: 14.0),
+          textStyle: const TextStyle(fontSize: 10.0),
         ),
         GButton(
           icon: Icons.settings,
           text: 'settings'.tr(context),
-          textStyle: const TextStyle(fontSize: 14.0),
+          textStyle: const TextStyle(fontSize: 10.0),
         ),
       ];
   bottomNavBarTabsChangeIndex(int index) {

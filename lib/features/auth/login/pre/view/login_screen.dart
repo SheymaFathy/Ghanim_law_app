@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
+import 'package:ghanim_law_app/core/constants/app_router.dart';
 import 'package:ghanim_law_app/core/get_it/service_locator.dart';
-import 'package:ghanim_law_app/features/auth/sign_up/pre/view/sign_up_screen.dart';
 import 'package:ghanim_law_app/features/auth/widget/logo.dart';
-import 'package:ghanim_law_app/features/main_pages/pre/view/main_screen.dart';
-
+import 'package:go_router/go_router.dart';
 import '../../../../../core/constants/app_colors.dart';
-
 import '../../../../../core/widget/app_bar.dart';
 import '../../../../../core/widget/custom_button.dart';
-import '../../../forgot_password/pre/view/forget_password_screen.dart';
 import '../../../widget/custom_auth_title.dart';
 import '../../../widget/custom_auth_welcome_text.dart';
 import '../../../widget/custom_text_signup_login.dart';
@@ -71,11 +68,7 @@ class LoginScreen extends StatelessWidget {
                     CustomTextSignUpOrLogIn(
                       texttwo: "4get".tr(context),
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const ForgotPasswordScreen()));
+                        GoRouter.of(context).push(AppRouter.kForgetpassword);
                       },
                       textone: '',
                     ),
@@ -87,11 +80,7 @@ class LoginScreen extends StatelessWidget {
                       textColor: AppColors.grey,
                       text: 'login'.tr(context),
                       onPressed: () {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const MainScreen()),
-                            (Route<dynamic> route) => false);
+                        GoRouter.of(context).push(AppRouter.kHomeView);
                       },
                     ),
                     const SizedBox(
@@ -101,10 +90,7 @@ class LoginScreen extends StatelessWidget {
                         textone: "no_account".tr(context),
                         texttwo: "sign_up_now".tr(context),
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SignUpScreen()));
+                          GoRouter.of(context).push(AppRouter.kSignup);
                         }),
                   ],
                 ),
