@@ -25,6 +25,8 @@ class SignUpCubit extends Cubit<SignUpState> {
   void fetchSignUp(SetSignUpModel data) async {
     if (_formValidate()) {
       final result = await signUpRepo.fetchSignUp(data);
+      emit(state.copyWith(signUpNewAccoutState: AuthRequestState.loading));
+
       result.fold((ifLeft) {
         emit(state.copyWith(
             signUpNewAccoutErorrMessage: ifLeft.erorrMessage,

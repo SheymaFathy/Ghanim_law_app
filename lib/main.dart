@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ghanim_law_app/core/constants/app_colors.dart';
 import 'package:ghanim_law_app/core/dio/dio_helper.dart';
@@ -9,7 +10,6 @@ import 'core/AppLocalizations/app_localizations.dart';
 import 'core/constants/app_router.dart';
 import 'core/get_it/service_locator.dart';
 import 'features/main_pages/pre/pages/settings/pre/view_model/cubit/setting_cubit.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
       child: Builder(builder: (context) {
         final settingCubit = context.watch<SettingCubit>();
         return MaterialApp.router(
+          builder: EasyLoading.init(),
           routerConfig: AppRouter.router,
           locale: settingCubit.state.locale,
           supportedLocales: const [Locale('en'), Locale('ar')],
