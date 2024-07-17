@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ghanim_law_app/core/constants/app_colors.dart';
 import 'package:ghanim_law_app/core/dio/dio_helper.dart';
 import 'package:ghanim_law_app/core/shared_preferences/cache_helper.dart';
+import 'package:ghanim_law_app/features/main_pages/pre/pages/home/pre/view_model/cubit/home_cubit.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/view_model/cubit/main_page_cubit.dart';
 import 'core/AppLocalizations/app_localizations.dart';
 import 'core/constants/app_router.dart';
@@ -19,7 +20,7 @@ void main() async {
   await CacheHelper.init();
   await UserData.init();
   await DioHelper.init();
-  runApp(DevicePreview(builder: (context) => MyApp()));
+  runApp(DevicePreview(builder: (context) => const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -31,9 +32,11 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider.value(value: getIt<SettingCubit>()..getSavedLanguage()),
         BlocProvider.value(value: getIt<MainPageCubit>()),
+        BlocProvider.value(value: getIt<HomeCubit>()..getHomeData()),
       ],
       child: Builder(builder: (context) {
         final settingCubit = context.watch<SettingCubit>();
+        context.watch<HomeCubit>();
         return MaterialApp.router(
           builder: EasyLoading.init(),
           routerConfig: AppRouter.router,

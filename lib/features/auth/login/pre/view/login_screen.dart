@@ -38,7 +38,7 @@ class LoginScreen extends StatelessWidget {
               } else if (state.loginState == AuthRequestState.sucess) {
                 CacheHelper.saveData(
                     key: 'uId', value: state.loginModel!.token!);
-                GoRouter.of(context).push(AppRouter.kLogin);
+                GoRouter.of(context).pushReplacement(AppRouter.kHomeView);
                 loginMaterialBannerWidget(context);
               }
             },

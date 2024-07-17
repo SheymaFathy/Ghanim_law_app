@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
+import '../../../../../../../core/widget/app_bar.dart';
 import '../view_model/cubit/setting_cubit.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -12,9 +13,10 @@ class SettingsPage extends StatelessWidget {
       builder: (context, state) {
         final settingCubit = context.read<SettingCubit>();
         return Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Column(
             children: [
+              myAppBar(context, "settings".tr(context)),
               ExpansionTile(
                 expandedAlignment: Alignment.topCenter,
                 expandedCrossAxisAlignment: CrossAxisAlignment.start,

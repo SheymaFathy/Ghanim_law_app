@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:ghanim_law_app/features/auth/forgot_password/data/repo/forgot_pssword_repo.dart';
 import 'package:ghanim_law_app/features/auth/login/data/repository/login_repo.dart';
 import 'package:ghanim_law_app/features/auth/sign_up/data/repository/sign_up_repo.dart';
+import 'package:ghanim_law_app/features/main_pages/pre/pages/home/data/repo/home_repo.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/view_model/cubit/main_page_cubit.dart';
 
 import '../../features/main_pages/pre/pages/settings/pre/view_model/cubit/setting_cubit.dart';
@@ -17,5 +18,6 @@ class ServiceLocator {
     getIt.registerSingleton<LoginRepo>(LoginRepoImp());
     getIt.registerSingleton<SignUpRepo>(SignUpRepoImp());
     getIt.registerSingleton<ForgotPsswordRepo>(ForgotPsswordRepoImp());
+    getIt.registerSingleton<HomeRepoRepo>(HomeRepoRepoImp());
   }
 }

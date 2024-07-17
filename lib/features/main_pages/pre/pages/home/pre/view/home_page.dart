@@ -23,16 +23,19 @@ class HomePage extends StatelessWidget {
         price: 300.0,
       ),
     ];
-    return Scaffold(
-      appBar: myAppBar(context, "our_services".tr(context)),
-      body: Center(
-        child: ListView.builder(
-          itemCount: services.length,
-          itemBuilder: (context, index) {
-            return ServiceWidget(service: services[index]);
-          },
+    return Column(
+      children: [
+        myAppBar(context, "our_services".tr(context)),
+        Expanded(
+          child: ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: services.length,
+            itemBuilder: (context, index) {
+              return ServiceWidget(service: services[index]);
+            },
+          ),
         ),
-      ),
+      ],
     );
   }
 }

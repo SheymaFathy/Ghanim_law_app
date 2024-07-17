@@ -22,7 +22,7 @@ class MainScreen extends StatelessWidget {
               gap: 8,
               activeColor: AppColors.primeryColor,
               iconSize: 24,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
               duration: const Duration(milliseconds: 800),
               tabBackgroundColor: AppColors.primeryColor.withOpacity(0.1),
               color: Colors.grey,
