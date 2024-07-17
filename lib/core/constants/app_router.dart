@@ -7,7 +7,7 @@ import 'package:ghanim_law_app/features/main_pages/pre/pages/settings/pre/view/s
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/forgot_password/pre/view/success_reset_pass.dart';
-import '../../features/auth/sign_up/pre/view/sign_up_view_body.dart';
+
 import '../../features/main_pages/pre/view/main_screen.dart';
 import '../../features/splash/pre/view/splash_screen.dart';
 
@@ -28,8 +28,8 @@ abstract class AppRouter {
   static final router = GoRouter(
     routes: [
       GoRoute(
-        path: kLogin,
-        builder: (context, state) => const SplashScreen(),
+        path: '/',
+        builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
         path: kSettings,
@@ -41,7 +41,7 @@ abstract class AppRouter {
       ),
       // auth pages
       GoRoute(
-        path: '/',
+        path: kLogin,
         builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(

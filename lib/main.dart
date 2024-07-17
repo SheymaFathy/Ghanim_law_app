@@ -9,12 +9,14 @@ import 'package:ghanim_law_app/features/main_pages/pre/view_model/cubit/main_pag
 import 'core/AppLocalizations/app_localizations.dart';
 import 'core/constants/app_router.dart';
 import 'core/get_it/service_locator.dart';
+import 'core/profile.dart';
 import 'features/main_pages/pre/pages/settings/pre/view_model/cubit/setting_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   ServiceLocator().init();
-  CacheHelper.init();
+  await CacheHelper.init();
+  await UserData.init();
   await DioHelper.init();
   runApp(const MyApp());
 }

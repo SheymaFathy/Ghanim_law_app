@@ -8,36 +8,39 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        BlocBuilder<SettingCubit, SettingState>(
-          builder: (context, state) {
-            final settingCubit = context.read<SettingCubit>();
-            return ExpansionTile(
-              leading: const Icon(Icons.language),
-              title:  Text("language".tr(context)),
-              // subtitle: const Text("You can switch between Arabic and English"),
-              children: [
-                ListTile(
-                  title: Text("eng".tr(context)),
-                  onTap: () {
-                    settingCubit.changeLanguage("en");
-                  },
-                  selected: state.locale.languageCode == "en",
-                ),
-                ListTile(
-                  title:  Text("arb".tr(context)),
-                  onTap: () {
-                    settingCubit.changeLanguage("ar");
-                  },
-                  selected: state.locale.languageCode == "ar",
-                ),
-              ],
-            );
-          },
-        ),
-      ],
+    return BlocBuilder<SettingCubit, SettingState>(
+      builder: (context, state) {
+        final settingCubit = context.read<SettingCubit>();
+        return Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            children: [
+              ExpansionTile(
+                expandedAlignment: Alignment.topCenter,
+                expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                leading: const Icon(Icons.language),
+                title: Text("language".tr(context)),
+                children: [
+                  ListTile(
+                    title: Text("eng".tr(context)),
+                    onTap: () {
+                      settingCubit.changeLanguage("en");
+                    },
+                    selected: state.locale.languageCode == "en",
+                  ),
+                  ListTile(
+                    title: Text("arb".tr(context)),
+                    onTap: () {
+                      settingCubit.changeLanguage("ar");
+                    },
+                    selected: state.locale.languageCode == "ar",
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

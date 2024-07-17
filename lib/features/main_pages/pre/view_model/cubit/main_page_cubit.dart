@@ -14,7 +14,7 @@ part 'main_page_state.dart';
 class MainPageCubit extends Cubit<MainPageState> {
   MainPageCubit() : super(const MainPageState());
   List<Widget> bottomNavBarPages = [
-     HomePage(),
+    HomePage(),
     const MyOrdersPage(),
     const ProfilePage(),
     const SettingsPage()

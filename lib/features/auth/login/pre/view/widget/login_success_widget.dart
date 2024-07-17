@@ -3,12 +3,11 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 
 import '../../../../../../core/widget/material_banner_success.dart';
-import '../../view_model/cubit/sign_up_cubit.dart';
 
-void signUpSuccessWidget(BuildContext context, SignUpState state) {
+void loginMaterialBannerWidget(BuildContext context) {
   EasyLoading.dismiss();
   ScaffoldMessenger.of(context)
     ..hideCurrentMaterialBanner()
-    ..showMaterialBanner(materialBannerSuccess(
-        state.signUpNewAccoutModel!.message!, "sign_up".tr(context)));
+    ..showMaterialBanner(
+        materialBannerSuccess("login".tr(context), "login".tr(context)));
 }

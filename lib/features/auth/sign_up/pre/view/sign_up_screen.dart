@@ -24,7 +24,7 @@ class SignUpScreen extends StatelessWidget {
           child: BlocConsumer<SignUpCubit, SignUpState>(
             listener: (context, state) async {
               if (state.signUpNewAccoutState == AuthRequestState.loading) {
-                signUpLoadingWidget();
+                signUpLoadingWidget(context);
               } else if (state.signUpNewAccoutState == AuthRequestState.erorr) {
                 signUpErorrWidget(context, state);
               } else if (state.signUpNewAccoutState ==

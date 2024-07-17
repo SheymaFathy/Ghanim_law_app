@@ -16,19 +16,22 @@ class MainScreen extends StatelessWidget {
         final mainPageCubit = context.read<MainPageCubit>();
         return Scaffold(
           body: mainPageCubit.bottomNavBarPages[state.selectedNavBarIndex],
-          bottomNavigationBar: GNav(
-            gap: 8,
-            activeColor: AppColors.primeryColor,
-            iconSize: 24,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            duration: const Duration(milliseconds: 800),
-            tabBackgroundColor: AppColors.primeryColor.withOpacity(0.1),
-            color: Colors.grey,
-            tabs: mainPageCubit.bottomNavBarTabs(context),
-            selectedIndex: mainPageCubit.state.selectedNavBarIndex,
-            onTabChange: (index) {
-              mainPageCubit.bottomNavBarTabsChangeIndex(index);
-            },
+          bottomNavigationBar: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: GNav(
+              gap: 8,
+              activeColor: AppColors.primeryColor,
+              iconSize: 24,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              duration: const Duration(milliseconds: 800),
+              tabBackgroundColor: AppColors.primeryColor.withOpacity(0.1),
+              color: Colors.grey,
+              tabs: mainPageCubit.bottomNavBarTabs(context),
+              selectedIndex: mainPageCubit.state.selectedNavBarIndex,
+              onTabChange: (index) {
+                mainPageCubit.bottomNavBarTabsChangeIndex(index);
+              },
+            ),
           ),
         );
       },

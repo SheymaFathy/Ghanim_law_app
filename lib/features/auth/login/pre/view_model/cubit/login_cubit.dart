@@ -22,14 +22,12 @@ class LoginCubit extends Cubit<LoginState> {
 
   void fetchLogin(String email, String password) async {
     if (_formValidate()) {
-      emit(state.copyWith(
-        loginState: AuthRequestState.loading,
-      ));
+      emit(state.copyWith(loginState: AuthRequestState.loading));
       final result = await loginRepo.fetchLogin(email, password);
       result.fold((ifLeft) {
         emit(state.copyWith(
             loginState: AuthRequestState.erorr,
-            loginErorrMessage: ifLeft.erorrMessageModel));
+            loginErorrMessage: ifLeft.erorrMessage));
       }, (ifRight) {
         emit(state.copyWith(
             loginState: AuthRequestState.sucess, loginModel: ifRight));

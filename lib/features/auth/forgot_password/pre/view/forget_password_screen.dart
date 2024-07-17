@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/constants/app_router.dart';
+import 'package:ghanim_law_app/core/enum/enum.dart';
 import 'package:ghanim_law_app/features/auth/forgot_password/pre/view_model/cubit/forgot_password_cubit.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/constants/app_colors.dart';
+import '../../../../../core/get_it/service_locator.dart';
 import '../../../../../core/widget/app_bar.dart';
 import '../../../../../core/widget/custom_button.dart';
+import '../../../../../core/widget/snake_bar_erorr.dart';
 import '../../../widget/custom_auth_title.dart';
 import '../../../widget/custom_auth_welcome_text.dart';
 import '../../../widget/custom_textfield.dart';
@@ -20,48 +24,72 @@ class ForgotPasswordScreen extends StatelessWidget {
     return Scaffold(
         appBar: myAppBar(context, '4getpass'.tr(context)),
         body: BlocProvider(
-          create: (context) => ForgotPasswordCubit(),
+          create: (context) => ForgotPasswordCubit(getIt()),
           child: BlocConsumer<ForgotPasswordCubit, ForgotPasswordState>(
-            listener: (context, state) {},
+            listener: (context, state) {
+              if (state.forgotPasswordState == AuthRequestState.loading) {
+                EasyLoading.show(
+                    status: 'loading...'.tr(context),
+                    maskType: EasyLoadingMaskType.black);
+              } else if (state.forgotPasswordState == AuthRequestState.sucess) {
+                EasyLoading.dismiss();
+                GoRouter.of(context).push(AppRouter.kVerfiyCode);
+              } else if (state.forgotPasswordState == AuthRequestState.erorr) {
+                EasyLoading.dismiss();
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(snackBarErorr(
+                      state.forgotPasswordMessage, "4getpass".tr(context)));
+              }
+            },
             builder: (context, state) {
               final forgotCubit = context.read<ForgotPasswordCubit>();
-
-              return Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-                child: ListView(
-                  children: [
-                    CustomTextTitleAuth(
-                      title: "checkphone".tr(context),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    CustomTextWelcomeAuth(
-                      welcometextbody: "check_text".tr(context),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    CustomAuthTextFormFeild(
-                      hinttext: 'enter_phone'.tr(context),
-                      label: 'phone'.tr(context),
-                      iconData: Icons.phone,
-                      mycontroller: forgotCubit.phoneController,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    CustomBotton(
-                      backgroundColor: AppColors.primeryColor,
-                      textColor: AppColors.grey,
-                      text: 'checkbtn'.tr(context),
-                      onPressed: () {
-                        // here check the email if it ok go to verfiy code page.
-                        GoRouter.of(context).push(AppRouter.kVerfiyCode);
-                      },
-                    ),
-                  ],
+              return Form(
+                key: forgotCubit.formKey,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                  child: ListView(
+                    children: [
+                      CustomTextTitleAuth(
+                        title: "checkphone".tr(context),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      CustomTextWelcomeAuth(
+                        welcometextbody: "check_text".tr(context),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      CustomAuthTextFormFeild(
+                        hinttext: 'enter_phone'.tr(context),
+                        label: 'phone'.tr(context),
+                        iconData: Icons.phone,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Please enter email or phone number";
+                          } else {
+                            return null;
+                          }
+                        },
+                        mycontroller: forgotCubit.phoneController,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      CustomBotton(
+                        backgroundColor: AppColors.primeryColor,
+                        textColor: AppColors.grey,
+                        text: 'checkbtn'.tr(context),
+                        onPressed: () {
+                          forgotCubit.forgotPasswordCheckEmail(
+                              forgotCubit.phoneController.text);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

@@ -6,8 +6,10 @@ class Orders {
   final String myService;
   final String orderState;
 
-
-  Orders({required this.myService, required this.orderState, });
+  Orders({
+    required this.myService,
+    required this.orderState,
+  });
 }
 
 class OrdersWidget extends StatelessWidget {
@@ -21,7 +23,7 @@ class OrdersWidget extends StatelessWidget {
       margin: const EdgeInsets.all(10.0),
       color: AppColors.backgroundColor,
       child: InkWell(
-        onTap: (){
+        onTap: () {
           //    Go to order form or service details
         },
         child: ListTile(

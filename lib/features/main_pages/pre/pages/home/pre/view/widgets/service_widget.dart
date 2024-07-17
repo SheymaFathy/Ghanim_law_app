@@ -7,8 +7,11 @@ class Service {
   final IconData icon;
   final double price;
 
-
-  Service({required this.name, required this.icon, required this.price, });
+  Service({
+    required this.name,
+    required this.icon,
+    required this.price,
+  });
 }
 
 class ServiceWidget extends StatelessWidget {
@@ -22,8 +25,8 @@ class ServiceWidget extends StatelessWidget {
       margin: const EdgeInsets.all(10.0),
       color: AppColors.backgroundColor,
       child: InkWell(
-        onTap: (){
-        //    Go to order form or service details
+        onTap: () {
+          //    Go to order form or service details
         },
         child: ListTile(
           leading: Icon(service.icon, size: 30.0),
