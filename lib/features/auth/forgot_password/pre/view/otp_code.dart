@@ -38,6 +38,7 @@ class OtpCodeScreen extends StatelessWidget {
               } else if (state.forgotPasswordGetCodeState ==
                   AuthRequestState.erorr) {
                 EasyLoading.dismiss();
+                GoRouter.of(context).push(AppRouter.kResetPassword);
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(snackBarErorr(

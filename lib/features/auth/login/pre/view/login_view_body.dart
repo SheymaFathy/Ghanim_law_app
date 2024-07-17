@@ -49,11 +49,25 @@ class LoginViewBody extends StatelessWidget {
               label: 'phone'.tr(context),
               iconData: Icons.phone,
               mycontroller: loginCubit.userNameController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "Please enter your email";
+                } else {
+                  return null;
+                }
+              },
             ),
             CustomAuthTextFormFeild(
               hinttext: 'enter_pass'.tr(context),
               label: 'password'.tr(context),
               iconData: Icons.lock,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "Please enter your password";
+                } else {
+                  return null;
+                }
+              },
               mycontroller: loginCubit.passwordController,
             ),
             CustomTextSignUpOrLogIn(

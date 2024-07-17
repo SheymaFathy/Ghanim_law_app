@@ -17,9 +17,11 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   GlobalKey<FormState> formKey = GlobalKey();
   final ForgotPsswordRepo forgotPsswordRepo;
   static String userNameEnter = '';
+  static String tokenRePassword = '';
   bool _formValidate() => formKey.currentState!.validate();
   forgotPasswordCheckEmail(String userName) async {
     if (_formValidate()) {
+      userNameEnter = '';
       emit(state.copyWith(
         forgotPasswordState: AuthRequestState.loading,
       ));
@@ -57,5 +59,26 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
         forgotPasswordGetCodeModel: ifRight,
       ));
     });
+  }
+
+  fetchRestPassword(String password) async {
+    if (_formValidate()) {
+      emit(state.copyWith(
+        forgotPasswordResetState: AuthRequestState.loading,
+      ));
+      final result =
+          await forgotPsswordRepo.fetchResetPassword(password, tokenRePassword);
+      result.fold((ifLeft) {
+        emit(state.copyWith(
+          forgotPasswordResetState: AuthRequestState.erorr,
+          forgotPasswordResetMessage: ifLeft.erorrMessage,
+        ));
+      }, (ifRight) {
+        emit(state.copyWith(
+          forgotPasswordResetState: AuthRequestState.sucess,
+          forgotPasswordResetModel: ifRight,
+        ));
+      });
+    }
   }
 }

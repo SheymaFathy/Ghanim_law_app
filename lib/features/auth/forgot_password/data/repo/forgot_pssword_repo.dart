@@ -11,6 +11,10 @@ abstract class ForgotPsswordRepo {
       String userName);
   Future<Either<Faliure, ForgotPasswordFirstModel>> fetchGetRestPasswordCode(
       String userName, String code);
+  Future<Either<Faliure, ForgotPasswordFirstModel>> fetchResetPassword(
+    String password,
+    String token,
+  );
 }
 
 class ForgotPsswordRepoImp extends ForgotPsswordRepo {
@@ -37,6 +41,27 @@ class ForgotPsswordRepoImp extends ForgotPsswordRepo {
       final response = await DioHelper.postData(
           url: "/api/password/code",
           data: {'username': userName, "code": code});
+      return Right(ForgotPasswordFirstModel.fromJson(response.data));
+    } on Exception catch (e) {
+      if (e is DioException) {
+        return Left(ServerFaliure.fromDioErorr(e));
+      } else {
+        return Left(ServerFaliure(e.toString()));
+      }
+    }
+  }
+
+  @override
+  Future<Either<Faliure, ForgotPasswordFirstModel>> fetchResetPassword(
+      String password, String token) async {
+    try {
+      final response = await DioHelper.postData(
+          url: "/api/password/reset",
+          data: {
+            'token': token,
+            "password": password,
+            "password_confirmation": password
+          });
       return Right(ForgotPasswordFirstModel.fromJson(response.data));
     } on Exception catch (e) {
       if (e is DioException) {
