@@ -49,5 +49,9 @@
     "contract_review": "Preparing and reviewing a contract",
     "book_preparation": "Preparing and reviewing a book",
     "my-order": "My transactions",
-    "loading...": "loading..."
+    "loading...": "loading...",
+    "username_login": "User Name",
+    "edit_profile": "Profile Update",
+    "confirm": "Confirm"
+
 }

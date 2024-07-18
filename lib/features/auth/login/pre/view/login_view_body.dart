@@ -46,7 +46,7 @@ class LoginViewBody extends StatelessWidget {
             ),
             CustomAuthTextFormFeild(
               hinttext: 'enter_phone'.tr(context),
-              label: 'phone'.tr(context),
+              label: 'username_login'.tr(context),
               iconData: Icons.phone,
               mycontroller: loginCubit.userNameController,
               validator: (value) {

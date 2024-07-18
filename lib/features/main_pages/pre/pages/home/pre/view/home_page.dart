@@ -7,6 +7,8 @@ import 'package:ghanim_law_app/features/main_pages/pre/pages/home/pre/view/widge
 import 'package:ghanim_law_app/features/main_pages/pre/pages/home/pre/view_model/cubit/home_cubit.dart';
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(

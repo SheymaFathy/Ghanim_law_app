@@ -10,7 +10,7 @@ class SetSignUpModel extends Equatable {
   // final String? type;
   // final File? file;
 
-  SetSignUpModel({
+  const SetSignUpModel({
     required this.name,
     required this.email,
     required this.phone,

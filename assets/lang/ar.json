@@ -49,5 +49,8 @@
     "legal_advice": "استشارات قانونية",
     "contract_review": "اعداد ومراجعة عقد",
     "book_preparation": "اعداد ومراجعة كتاب",
-    "my-order": "معاملاتي"
+    "my-order": "معاملاتي",
+    "username_login": "اسم المستخدم",
+    "edit_profile": "تعديل الملف الشخصي",
+    "confirm": "تأكيد"
 }

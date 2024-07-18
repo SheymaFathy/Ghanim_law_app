@@ -47,7 +47,7 @@ class SignUpViewBody extends StatelessWidget {
               validator: (value) {
                 if (value!.length < 4) {
                   return "Name is Short";
-                } else if (value!.isEmpty) {
+                } else if (value.isEmpty) {
                   return "Please Enter your name";
                 } else {
                   return null;

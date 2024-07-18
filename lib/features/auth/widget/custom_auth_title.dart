@@ -9,7 +9,7 @@ class CustomTextTitleAuth extends StatelessWidget {
     return Text(
       textAlign: TextAlign.center,
       title,
-      style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 25),
+      style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 20),
     );
   }
 }

@@ -9,9 +9,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/auth/forgot_password/pre/view/success_reset_pass.dart';
 
+import '../../features/main_pages/pre/pages/profile/pre/view/update_profile.dart';
 import '../../features/main_pages/pre/view/main_screen.dart';
-import '../../features/splash/pre/view/splash_screen.dart';
-
 abstract class AppRouter {
   static const kHomeView = '/homeView';
   static const kSettings = '/settings';
@@ -25,6 +24,7 @@ abstract class AppRouter {
   static const kSeccessresetpass = "/seccessresetpass";
   static const kSeccesssignup = "/seccesssignup";
   static const kOrderform = "/orderform";
+  static const kUpdateProfile = "/updateprofile";
 
   static final router = GoRouter(
     routes: [
@@ -32,12 +32,12 @@ abstract class AppRouter {
         path: '/',
         builder: (context, state) {
           if (UserData.uId != null) {
-            return MainScreen();
+            return const MainScreen();
           } else {
             if (UserData.isGhost != false) {
               return const MainScreen();
             } else {
-              return LoginScreen();
+              return const LoginScreen();
             }
           }
         },
@@ -75,6 +75,12 @@ abstract class AppRouter {
         path: kSeccessresetpass,
         builder: (context, state) => const SuccessResetPass(),
       ),
+    //   profile
+      GoRoute(
+        path: kUpdateProfile,
+        builder: (context , state)=> const UpdateProfile(),
+
+      )
     ],
   );
 }
