@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:ghanim_law_app/core/profile.dart';
 
 class DioHelper {
   static Dio? dio;
@@ -18,6 +19,7 @@ class DioHelper {
     String? token,
   }) async {
     dio!.options.headers = {
+      'Authorization': "Bearer ${UserData.uId}",
       'Accept': 'application/json',
       'Accept-Language': 'ar',
     };
