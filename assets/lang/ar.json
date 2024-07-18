@@ -46,8 +46,8 @@
     "eng": "الانجليزية",
     "arb": "العربية",
     "our_services": "خدماتنا",
-    "legal-consultations": "استشارات قانونية",
-    "preparing-and-reviewing-contract": "اعداد ومراجعة عقد",
-    "preparing-and-reviewing-book": "اعداد ومراجعة كتاب",
+    "legal_advice": "استشارات قانونية",
+    "contract_review": "اعداد ومراجعة عقد",
+    "book_preparation": "اعداد ومراجعة كتاب",
     "my-order": "معاملاتي"
 }

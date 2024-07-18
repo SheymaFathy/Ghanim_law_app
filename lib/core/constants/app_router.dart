@@ -1,3 +1,4 @@
+import 'package:ghanim_law_app/core/profile.dart';
 import 'package:ghanim_law_app/features/auth/forgot_password/pre/view/forget_password_screen.dart';
 import 'package:ghanim_law_app/features/auth/forgot_password/pre/view/otp_code.dart';
 import 'package:ghanim_law_app/features/auth/forgot_password/pre/view/reset_password.dart';
@@ -29,7 +30,17 @@ abstract class AppRouter {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const LoginScreen(),
+        builder: (context, state) {
+          if (UserData.uId != null) {
+            return MainScreen();
+          } else {
+            if (UserData.isGhost != false) {
+              return const MainScreen();
+            } else {
+              return LoginScreen();
+            }
+          }
+        },
       ),
       GoRoute(
         path: kSettings,

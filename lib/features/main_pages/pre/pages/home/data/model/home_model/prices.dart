@@ -1,47 +1,27 @@
 import 'package:equatable/equatable.dart';
 
-import 'book_preparation.dart';
-import 'contract_review.dart';
-import 'legal_advice.dart';
+class PriceModel extends Equatable {
+  final String serviceName;
+  final int price;
+  final String currency;
+  final String formattedPrice;
 
-class Prices extends Equatable {
-  final LegalAdvice? legalAdvice;
-  final ContractReview? contractReview;
-  final BookPreparation? bookPreparation;
-
-  const Prices({
-    this.legalAdvice,
-    this.contractReview,
-    this.bookPreparation,
+  const PriceModel({
+    required this.serviceName,
+    required this.price,
+    required this.currency,
+    required this.formattedPrice,
   });
 
-  factory Prices.fromJson(Map<String, dynamic> json) => Prices(
-        legalAdvice: json['legal_advice'] == null
-            ? null
-            : LegalAdvice.fromJson(
-                json['legal_advice'] as Map<String, dynamic>),
-        contractReview: json['contract_review'] == null
-            ? null
-            : ContractReview.fromJson(
-                json['contract_review'] as Map<String, dynamic>),
-        bookPreparation: json['book_preparation'] == null
-            ? null
-            : BookPreparation.fromJson(
-                json['book_preparation'] as Map<String, dynamic>),
-      );
-
-  Map<String, dynamic> toJson() => {
-        'legal_advice': legalAdvice?.toJson(),
-        'contract_review': contractReview?.toJson(),
-        'book_preparation': bookPreparation?.toJson(),
-      };
+  factory PriceModel.fromJson(Map<String, dynamic> json, String key) {
+    return PriceModel(
+      serviceName: key,
+      price: json['price'] as int,
+      currency: json['currency'] as String,
+      formattedPrice: json['formatted'] as String,
+    );
+  }
 
   @override
-  List<Object?> get props {
-    return [
-      legalAdvice,
-      contractReview,
-      bookPreparation,
-    ];
-  }
+  List<Object?> get props => [serviceName, price, currency, formattedPrice];
 }

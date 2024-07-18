@@ -11,17 +11,19 @@ class HomeModel extends Equatable {
   final Contacts? contacts;
   final Apps? apps;
   final Pages? pages;
-  final Prices? prices;
 
-  const HomeModel({
-    this.app,
-    this.contacts,
-    this.apps,
-    this.pages,
-    this.prices,
-  });
+  final List<PriceModel>? priceModel;
 
-  factory HomeModel.fromJson(Map<String, dynamic> json) => HomeModel(
+  const HomeModel(
+      {this.app, this.contacts, this.apps, this.pages, this.priceModel});
+
+  factory HomeModel.fromJson(Map<String, dynamic> json) {
+    final List<PriceModel> priceList = [];
+    json['prices'].forEach((key, value) {
+      priceList.add(PriceModel.fromJson(value, key));
+    });
+
+    return HomeModel(
         app: json['app'] == null
             ? null
             : App.fromJson(json['app'] as Map<String, dynamic>),
@@ -34,19 +36,16 @@ class HomeModel extends Equatable {
         pages: json['pages'] == null
             ? null
             : Pages.fromJson(json['pages'] as Map<String, dynamic>),
-        prices: json['prices'] == null
-            ? null
-            : Prices.fromJson(json['prices'] as Map<String, dynamic>),
-      );
+        priceModel: priceList);
+  }
 
   Map<String, dynamic> toJson() => {
         'app': app?.toJson(),
         'contacts': contacts?.toJson(),
         'apps': apps?.toJson(),
         'pages': pages?.toJson(),
-        'prices': prices?.toJson(),
       };
 
   @override
-  List<Object?> get props => [app, contacts, apps, pages, prices];
+  List<Object?> get props => [app, contacts, apps, pages];
 }

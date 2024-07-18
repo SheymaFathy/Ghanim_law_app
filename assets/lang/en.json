@@ -45,9 +45,9 @@
     "eng": "English",
     "arb": "Arabic",
     "our_services": "Our Services",
-    "legal-consultations": "Legal Consultations",
-    "preparing-and-reviewing-contract": "Preparing and reviewing a contract",
-    "preparing-and-reviewing-book": "Preparing and reviewing a book",
+    "legal_advice": "Legal Consultations",
+    "contract_review": "Preparing and reviewing a contract",
+    "book_preparation": "Preparing and reviewing a book",
     "my-order": "My transactions",
     "loading...": "loading..."
 }
