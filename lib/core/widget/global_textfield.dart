@@ -10,21 +10,24 @@ class GlobalTextfield extends StatelessWidget {
   final bool? obbscureText;
   final void Function()? onTapSuffix;
   final String? Function(String?)? validator;
+  final String? Function(String?)? onChanged;
   const GlobalTextfield(
       {super.key,
-        required this.hinttext,
-        required this.label,
-        required this.iconData,
-        this.mycontroller,
-        this.obbscureText,
-        this.onTapSuffix,
-        this.validator});
+      required this.hinttext,
+      required this.label,
+      required this.iconData,
+      this.mycontroller,
+      this.obbscureText,
+      this.onTapSuffix,
+      this.onChanged,
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: TextFormField(
+        onChanged: onChanged,
         validator: validator,
         controller: mycontroller,
         obscureText: obbscureText ?? false,
@@ -33,7 +36,7 @@ class GlobalTextfield extends StatelessWidget {
           hintStyle: const TextStyle(fontSize: 14, color: AppColors.grey),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           contentPadding:
-          const EdgeInsets.symmetric(vertical: 5, horizontal: 35),
+              const EdgeInsets.symmetric(vertical: 5, horizontal: 35),
           label: Container(
               margin: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
@@ -42,10 +45,10 @@ class GlobalTextfield extends StatelessWidget {
               )),
           suffixIcon: onTapSuffix != null
               ? IconButton(
-              onPressed: onTapSuffix,
-              icon: obbscureText!
-                  ? const Icon(Icons.lock)
-                  : const Icon(Icons.remove_red_eye))
+                  onPressed: onTapSuffix,
+                  icon: obbscureText!
+                      ? const Icon(Icons.lock)
+                      : const Icon(Icons.remove_red_eye))
               : Icon(iconData),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         ),

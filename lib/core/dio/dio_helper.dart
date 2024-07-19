@@ -34,6 +34,7 @@ class DioHelper {
       Map<String, dynamic>? qurey,
       Map<String, dynamic>? data}) async {
     dio!.options.headers = {
+      'Authorization': "Bearer ${UserData.uId}",
       'Accept': 'application/json',
       'Accept-Language': lang,
     };

@@ -52,6 +52,8 @@
     "loading...": "loading...",
     "username_login": "User Name",
     "edit_profile": "Profile Update",
-    "confirm": "Confirm"
-
+    "confirm": "Confirm",
+    "feedback": "feedback",
+    "feedback_title": "Send us Some feedbacks!",
+    "feedback_filed": "Do you have a suggestion or found some errors? Let us know "
 }
