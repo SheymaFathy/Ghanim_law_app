@@ -18,7 +18,7 @@ class UpdateProfile extends StatelessWidget {
           padding: const EdgeInsets.all(15.0),
           child: ListView(
             children:  [
-              const CustomTextTitleAuth(title: 'تعديل الملف الشخصي'),
+              CustomTextTitleAuth(title: 'edit_profile'.tr(context)),
               const SizedBox(height: 20,),
               GlobalTextfield(hinttext: "enter_name".tr(context), label: "name".tr(context), iconData: Icons.person,),
               const SizedBox(height: 20,),
