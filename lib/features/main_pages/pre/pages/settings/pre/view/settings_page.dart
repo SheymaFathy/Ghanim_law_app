@@ -4,11 +4,8 @@ import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/constants/app_router.dart';
 
 import 'package:go_router/go_router.dart';
+import '../../../../../../../core/profile.dart';
 import '../../../../../../../core/widget/app_bar.dart';
-<<<<<<< HEAD
-
-=======
->>>>>>> 13a79628c8c5b67d0575033eb1fa7fac4f2d8af0
 import '../view_model/cubit/setting_cubit.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -31,11 +28,9 @@ class SettingsPage extends StatelessWidget {
           child: Column(
             children: [
               myAppBar(context, "settings".tr(context)),
-<<<<<<< HEAD
-=======
               ListTile(
                 leading: const Icon(Icons.feedback_outlined),
-                title:  Text("feedback".tr(context)),
+                title: Text("feedback".tr(context)),
                 trailing: UserData.lang == "ar"
                     ? const Icon(Icons.arrow_back_ios, size: 16)
                     : const Icon(Icons.arrow_forward_ios, size: 16),
@@ -45,7 +40,7 @@ class SettingsPage extends StatelessWidget {
               ),
               ListTile(
                 leading: const Icon(Icons.info_outline),
-                title:  Text("about".tr(context)),
+                title: Text("about".tr(context)),
                 trailing: UserData.lang == "ar"
                     ? const Icon(Icons.arrow_back_ios, size: 16)
                     : const Icon(Icons.arrow_forward_ios, size: 16),
@@ -53,7 +48,6 @@ class SettingsPage extends StatelessWidget {
                   GoRouter.of(context).push(AppRouter.kFeedback);
                 },
               ),
->>>>>>> 13a79628c8c5b67d0575033eb1fa7fac4f2d8af0
               ExpansionTile(
                 expandedAlignment: Alignment.topCenter,
                 expandedCrossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +75,7 @@ class SettingsPage extends StatelessWidget {
                 title: const Text("Send Feedback"),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                 onTap: () {
-                  GoRouter.of(context).push(AppRouter.kFeedBack);
+                  GoRouter.of(context).push(AppRouter.kFeedback);
                 },
               ),
               ListTile(
@@ -89,7 +83,7 @@ class SettingsPage extends StatelessWidget {
                 title: const Text("about"),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                 onTap: () {
-                  GoRouter.of(context).push(AppRouter.kFeedBack);
+                  GoRouter.of(context).push(AppRouter.kFeedback);
                 },
               ),
             ],
