@@ -38,8 +38,6 @@ class MyApp extends StatelessWidget {
       ],
       child: Builder(builder: (context) {
         final settingCubit = context.watch<SettingCubit>();
-        context.watch<HomeCubit>();
-        context.watch<ProfileCubit>();
         return MaterialApp.router(
           builder: EasyLoading.init(),
           routerConfig: AppRouter.router,

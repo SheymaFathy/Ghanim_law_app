@@ -4,6 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 
 import 'package:ghanim_law_app/core/enum/enum.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../../../core/widget/app_bar.dart';
 
@@ -32,6 +33,7 @@ class UpdateProfile extends StatelessWidget {
               ..hideCurrentMaterialBanner()
               ..showMaterialBanner(materialBannerSuccess(
                   "Update Profile Sccessfuly", "profile".tr(context)));
+            GoRouter.of(context).pop();
           } else if (state.profileUpdateRequestState ==
               AuthRequestState.erorr) {
             EasyLoading.dismiss();

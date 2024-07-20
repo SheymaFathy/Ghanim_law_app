@@ -4,7 +4,7 @@ import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/constants/app_router.dart';
 
 import 'package:go_router/go_router.dart';
-import '../../../../../../../core/profile.dart';
+
 import '../../../../../../../core/widget/app_bar.dart';
 
 import '../view_model/cubit/setting_cubit.dart';
@@ -15,15 +15,7 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SettingCubit, SettingState>(
-      buildWhen: (previous, current) {
-        if (previous.locale.languageCode != current.locale.languageCode) {
-          return true;
-        } else {
-          return false;
-        }
-      },
       builder: (context, state) {
-        print(state.locale.languageCode == "en");
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Column(
@@ -32,9 +24,7 @@ class SettingsPage extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.feedback_outlined),
                 title: Text("feedback".tr(context)),
-                trailing: UserData.lang == "ar"
-                    ? const Icon(Icons.arrow_back_ios, size: 16)
-                    : const Icon(Icons.arrow_forward_ios, size: 16),
+                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                 onTap: () {
                   GoRouter.of(context).push(AppRouter.kFeedback);
                 },
@@ -42,9 +32,7 @@ class SettingsPage extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.info_outline),
                 title: Text("about".tr(context)),
-                trailing: UserData.lang == "ar"
-                    ? const Icon(Icons.arrow_back_ios, size: 16)
-                    : const Icon(Icons.arrow_forward_ios, size: 16),
+                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                 onTap: () {
                   GoRouter.of(context).push(AppRouter.kFeedback);
                 },
@@ -70,22 +58,6 @@ class SettingsPage extends StatelessWidget {
                     selected: state.locale.languageCode == "ar",
                   ),
                 ],
-              ),
-              ListTile(
-                leading: const Icon(Icons.feedback_outlined),
-                title: const Text("Send Feedback"),
-                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                onTap: () {
-                  GoRouter.of(context).push(AppRouter.kFeedback);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.info_outline),
-                title: const Text("about"),
-                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                onTap: () {
-                  GoRouter.of(context).push(AppRouter.kFeedback);
-                },
               ),
             ],
           ),

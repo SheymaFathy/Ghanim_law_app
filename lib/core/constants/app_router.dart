@@ -1,4 +1,5 @@
 import 'package:ghanim_law_app/core/profile.dart';
+import 'package:ghanim_law_app/core/required_login_screen.dart';
 import 'package:ghanim_law_app/features/auth/forgot_password/pre/view/forget_password_screen.dart';
 import 'package:ghanim_law_app/features/auth/forgot_password/pre/view/otp_code.dart';
 import 'package:ghanim_law_app/features/auth/forgot_password/pre/view/reset_password.dart';
@@ -7,12 +8,14 @@ import 'package:ghanim_law_app/features/auth/sign_up/pre/view/sign_up_screen.dar
 import 'package:ghanim_law_app/features/main_pages/pre/pages/feedback/pre/view/feed_back_screen.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/order_form/pre/view/order_form.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/settings/pre/view/settings_page.dart';
+import 'package:ghanim_law_app/features/splash/pre/view/splash_screen.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/forgot_password/pre/view/success_reset_pass.dart';
 
 import '../../features/main_pages/pre/pages/profile/pre/view/update_profile.dart';
 import '../../features/main_pages/pre/view/main_screen.dart';
+
 abstract class AppRouter {
   static const kHomeView = '/homeView';
   static const kSettings = '/settings';
@@ -32,19 +35,14 @@ abstract class AppRouter {
   static final router = GoRouter(
     routes: [
       GoRoute(
-        path: '/',
-        builder: (context, state) {
-          if (UserData.uId != null) {
-            return const MainScreen();
-          } else {
-            if (UserData.isGhost != false) {
+          path: '/',
+          builder: (context, state) {
+            if (UserData.lang != null) {
               return const MainScreen();
             } else {
-              return const LoginScreen();
+              return SplashScreen();
             }
-          }
-        },
-      ),
+          }),
       GoRoute(
         path: kSettings,
         builder: (context, state) => const SettingsPage(),
@@ -78,21 +76,19 @@ abstract class AppRouter {
         path: kSeccessresetpass,
         builder: (context, state) => const SuccessResetPass(),
       ),
-    //   profile
+      //   profile
       GoRoute(
-        path: kUpdateProfile,
-        builder: (context , state)=> const UpdateProfile()
-
-      ),
+          path: kUpdateProfile,
+          builder: (context, state) => const UpdateProfile()),
       GoRoute(
-          path: kFeedback,
-          builder: (context , state)=> const FeedBackScreen()
-
-      ),
+          path: kFeedback, builder: (context, state) => const FeedBackScreen()),
       GoRoute(
-        path: kOrderForm,
-        builder: (context , state)=> const OrderForm()
-      ),
+          path: kOrderForm,
+          builder: (context, state) {
+            return checkUserMethod()
+                ? const OrderForm()
+                : RequiredLoginScreen(isAppBar: true);
+          }),
     ],
   );
 }

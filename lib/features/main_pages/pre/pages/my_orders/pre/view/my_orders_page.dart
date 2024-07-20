@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/my_orders/pre/view/widgets/my_order_widget.dart';
+import '../../../../../../../core/required_login_screen.dart';
 import '../../../../../../../core/widget/app_bar.dart';
 
 class MyOrdersPage extends StatelessWidget {
@@ -19,15 +20,16 @@ class MyOrdersPage extends StatelessWidget {
           myService: 'legal-consultations'.tr(context), orderState: 'Download'),
     ];
     return Scaffold(
-      appBar: myAppBar(context, "my-order".tr(context)),
-      body: Center(
-        child: ListView.builder(
-          itemCount: myorders.length,
-          itemBuilder: (context, index) {
-            return OrdersWidget(orders: myorders[index]);
-          },
-        ),
-      ),
-    );
+        appBar: myAppBar(context, "my-order".tr(context)),
+        body: checkUserMethod()
+            ? Center(
+                child: ListView.builder(
+                  itemCount: myorders.length,
+                  itemBuilder: (context, index) {
+                    return OrdersWidget(orders: myorders[index]);
+                  },
+                ),
+              )
+            : const RequiredLoginScreen());
   }
 }
