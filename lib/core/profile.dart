@@ -4,11 +4,12 @@ class UserData {
   static String? uId;
   static String? lang;
   static bool isGhost = false;
-  static init() {
-    uId = CacheHelper.getSaveData(key: "uId");
-    lang = CacheHelper.getSaveData(key: "LOCALE");
-    if (CacheHelper.getSaveData(key: "ghost") != null) {
-      isGhost = CacheHelper.getSaveData(key: "ghost");
+  static init() async {
+    uId = await CacheHelper.getSaveData(key: "uId");
+    lang = await CacheHelper.getSaveData(key: "LOCALE");
+
+    if (await CacheHelper.getSaveData(key: "ghost") != null) {
+      isGhost = await CacheHelper.getSaveData(key: "ghost");
     }
   }
 }
