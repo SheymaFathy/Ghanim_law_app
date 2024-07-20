@@ -32,6 +32,7 @@ class UpdateProfileViewBodyWidget extends StatelessWidget {
               iconData: Icons.person,
               onChanged: (value) {
                 profileCubit.checkValuesFormFiled(state.profileModel!);
+                return null;
               },
               validator: (value) {
                 if (value!.isEmpty) {
@@ -47,6 +48,7 @@ class UpdateProfileViewBodyWidget extends StatelessWidget {
             GlobalTextfield(
               onChanged: (value) {
                 profileCubit.checkValuesFormFiled(state.profileModel!);
+                return null;
               },
               mycontroller: profileCubit.phoneController,
               hinttext: "enter_phone".tr(context),
@@ -66,6 +68,7 @@ class UpdateProfileViewBodyWidget extends StatelessWidget {
             GlobalTextfield(
               onChanged: (value) {
                 profileCubit.checkValuesFormFiled(state.profileModel!);
+                return null;
               },
               mycontroller: profileCubit.emailController,
               hinttext: "enter_email".tr(context),

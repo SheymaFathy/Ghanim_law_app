@@ -4,15 +4,15 @@ import 'package:ghanim_law_app/features/auth/forgot_password/pre/view/otp_code.d
 import 'package:ghanim_law_app/features/auth/forgot_password/pre/view/reset_password.dart';
 import 'package:ghanim_law_app/features/auth/login/pre/view/login_screen.dart';
 import 'package:ghanim_law_app/features/auth/sign_up/pre/view/sign_up_screen.dart';
+import 'package:ghanim_law_app/features/main_pages/pre/pages/feedback/pre/view/feed_back_screen.dart';
+import 'package:ghanim_law_app/features/main_pages/pre/pages/order_form/pre/view/order_form.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/settings/pre/view/settings_page.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/forgot_password/pre/view/success_reset_pass.dart';
 
-import '../../features/main_pages/pre/pages/feedback/pre/view/feed_back_screen.dart';
 import '../../features/main_pages/pre/pages/profile/pre/view/update_profile.dart';
 import '../../features/main_pages/pre/view/main_screen.dart';
-
 abstract class AppRouter {
   static const kHomeView = '/homeView';
   static const kSettings = '/settings';
@@ -25,9 +25,9 @@ abstract class AppRouter {
   static const kResetPassword = "/resetpassword";
   static const kSeccessresetpass = "/seccessresetpass";
   static const kSeccesssignup = "/seccesssignup";
-  static const kOrderform = "/orderform";
   static const kUpdateProfile = "/updateprofile";
-  static const kFeedBack = '/feedBack';
+  static const kFeedback = "/feedback";
+  static const kOrderForm = "/orderform";
 
   static final router = GoRouter(
     routes: [
@@ -48,10 +48,6 @@ abstract class AppRouter {
       GoRoute(
         path: kSettings,
         builder: (context, state) => const SettingsPage(),
-      ),
-      GoRoute(
-        path: kFeedBack,
-        builder: (context, state) => const FeedBackScreen(),
       ),
       GoRoute(
         path: kHomeView,
@@ -82,11 +78,21 @@ abstract class AppRouter {
         path: kSeccessresetpass,
         builder: (context, state) => const SuccessResetPass(),
       ),
-      //   profile
+    //   profile
       GoRoute(
         path: kUpdateProfile,
-        builder: (context, state) => const UpdateProfile(),
-      )
+        builder: (context , state)=> const UpdateProfile()
+
+      ),
+      GoRoute(
+          path: kFeedback,
+          builder: (context , state)=> const FeedBackScreen()
+
+      ),
+      GoRoute(
+        path: kOrderForm,
+        builder: (context , state)=> const OrderForm()
+      ),
     ],
   );
 }

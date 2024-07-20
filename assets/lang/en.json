@@ -53,7 +53,13 @@
     "username_login": "User Name",
     "edit_profile": "Profile Update",
     "confirm": "Confirm",
-    "feedback": "feedback",
+    "feedback": "Feedback",
     "feedback_title": "Send us Some feedbacks!",
-    "feedback_filed": "Do you have a suggestion or found some errors? Let us know "
+    "feedback_filed": "Do you have a suggestion or found some errors? Let us know ",
+    "about": "About Us",
+    "submit-consultation":"Submit Consultation",
+    "send_pic": "Send Picture",
+    "send_file": "Send File",
+    "Send_voice": "Send Voice"
+
 }
