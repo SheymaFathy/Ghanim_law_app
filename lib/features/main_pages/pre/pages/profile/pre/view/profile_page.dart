@@ -28,6 +28,6 @@ class ProfilePage extends StatelessWidget {
                   }
                 },
               )
-            : RequiredLoginScreen());
+            : const RequiredLoginScreen());
   }
 }

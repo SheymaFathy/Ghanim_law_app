@@ -38,7 +38,6 @@ class ProfileRepoImp extends ProfileRepo {
 
       return Right(ProfileModel.fromJson(response.data));
     } on Exception catch (e) {
-      print(e);
       if (e is DioException) {
         return Left(ServerFaliure.fromDioErorr(e));
       } else {

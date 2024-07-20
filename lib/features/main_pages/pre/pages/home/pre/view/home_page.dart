@@ -6,8 +6,6 @@ import 'package:ghanim_law_app/core/widget/app_bar.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/home/pre/view/widgets/service_build_item_widget.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/home/pre/view_model/cubit/home_cubit.dart';
 
-import '../../../profile/pre/view_model/cubit/profile_cubit.dart';
-
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 

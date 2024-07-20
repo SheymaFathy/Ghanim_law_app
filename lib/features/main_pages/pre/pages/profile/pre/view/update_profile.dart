@@ -8,8 +8,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../../../core/widget/app_bar.dart';
 
-import '../../../../../../../core/widget/material_banner_success.dart';
-import '../../../../../../../core/widget/snake_bar_erorr.dart';
+import '../../../../../../../core/widget/custom_snackbar_widget.dart';
 import '../view_model/cubit/profile_cubit.dart';
 import 'widgets/update_profile_view_body_widget.dart';
 
@@ -30,17 +29,18 @@ class UpdateProfile extends StatelessWidget {
               AuthRequestState.sucess) {
             EasyLoading.dismiss();
             ScaffoldMessenger.of(context)
-              ..hideCurrentMaterialBanner()
-              ..showMaterialBanner(materialBannerSuccess(
-                  "Update Profile Sccessfuly", "profile".tr(context)));
+              ..hideCurrentSnackBar()
+              ..showSnackBar(customSnackBarWidget(
+                  "update_profile_success".tr(context), Colors.grey[800]!));
+
             GoRouter.of(context).pop();
           } else if (state.profileUpdateRequestState ==
               AuthRequestState.erorr) {
             EasyLoading.dismiss();
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
-              ..showSnackBar(snackBarErorr(
-                  state.profileUpdatErorreMessage, "profile".tr(context)));
+              ..showSnackBar(customSnackBarWidget(
+                  state.profileUpdatErorreMessage, Colors.red));
           }
         },
         builder: (context, state) {

@@ -11,7 +11,7 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/get_it/service_locator.dart';
 import '../../../../../core/widget/app_bar.dart';
 import '../../../../../core/widget/custom_button.dart';
-import '../../../../../core/widget/snake_bar_erorr.dart';
+import '../../../../../core/widget/custom_snackbar_widget.dart';
 import '../../../widget/custom_auth_title.dart';
 import '../../../widget/custom_auth_welcome_text.dart';
 import '../../../widget/custom_textfield.dart';
@@ -38,8 +38,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                 EasyLoading.dismiss();
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
-                  ..showSnackBar(snackBarErorr(
-                      state.forgotPasswordMessage, "4getpass".tr(context)));
+                  ..showSnackBar(customSnackBarWidget(
+                      state.forgotPasswordMessage, Colors.red));
               }
             },
             builder: (context, state) {

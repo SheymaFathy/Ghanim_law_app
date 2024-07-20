@@ -57,8 +57,11 @@
     "feedback_title": "ارسل لنا بعض ردود الفعل!",
     "feedback_filed": "هل لديك اقتراح أو وجدت بعض الأخطاء؟ اسمحوا لنا أن نعرف .",
     "about": "من نحن ؟",
-    "submit-consultation":"ارسال استشارة",
+    "submit-consultation": "ارسال استشارة",
     "send_pic": "ارسال صورة",
     "send_file": "ارسال ملف",
-    "Send_voice": "ارسال رسالة صوتية"
+    "Send_voice": "ارسال رسالة صوتية",
+    "reset_password_success": "تم استعادة كلمة المرور بنجاح",
+    "login_sccess": "تم تسجيل الدخول بنجاح",
+    "update_profile_success": "تم تحديث معلومات الملف الشخصي بنجاح"
 }

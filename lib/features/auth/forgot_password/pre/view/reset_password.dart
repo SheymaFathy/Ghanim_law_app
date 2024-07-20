@@ -11,7 +11,7 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/enum/enum.dart';
 import '../../../../../core/get_it/service_locator.dart';
 import '../../../../../core/widget/custom_button.dart';
-import '../../../../../core/widget/snake_bar_erorr.dart';
+import '../../../../../core/widget/custom_snackbar_widget.dart';
 import '../../../widget/custom_auth_title.dart';
 import '../../../widget/custom_textfield.dart';
 
@@ -33,14 +33,18 @@ class ResetPasswordScreen extends StatelessWidget {
               } else if (state.forgotPasswordResetState ==
                   AuthRequestState.sucess) {
                 EasyLoading.dismiss();
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(customSnackBarWidget(
+                      "reset_password_success".tr(context), Colors.grey[800]!));
                 GoRouter.of(context).pushReplacement(AppRouter.kLogin);
               } else if (state.forgotPasswordResetState ==
                   AuthRequestState.erorr) {
                 EasyLoading.dismiss();
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
-                  ..showSnackBar(snackBarErorr(state.forgotPasswordResetMessage,
-                      "4getpass".tr(context)));
+                  ..showSnackBar(customSnackBarWidget(
+                      state.forgotPasswordResetMessage, Colors.red));
               }
             },
             builder: (context, state) {

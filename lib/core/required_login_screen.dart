@@ -6,8 +6,7 @@ import 'package:ghanim_law_app/core/widget/custom_button.dart';
 import 'package:go_router/go_router.dart';
 
 class RequiredLoginScreen extends StatelessWidget {
-  const RequiredLoginScreen({Key? key, this.isAppBar = false})
-      : super(key: key);
+  const RequiredLoginScreen({super.key, this.isAppBar = false});
   final bool isAppBar;
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class RequiredLoginScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text("تحتاج الي تسجيل الدخول للولوج الي هذه الصفحة"),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               CustomBotton(

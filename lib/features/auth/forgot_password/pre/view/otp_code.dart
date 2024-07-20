@@ -11,7 +11,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/enum/enum.dart';
 import '../../../../../core/get_it/service_locator.dart';
-import '../../../../../core/widget/snake_bar_erorr.dart';
+import '../../../../../core/widget/custom_snackbar_widget.dart';
 import '../../../widget/custom_auth_title.dart';
 import '../../../widget/custom_auth_welcome_text.dart';
 
@@ -41,9 +41,8 @@ class OtpCodeScreen extends StatelessWidget {
                 GoRouter.of(context).push(AppRouter.kResetPassword);
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
-                  ..showSnackBar(snackBarErorr(
-                      state.forgotPasswordGetCodeMessage,
-                      "4getpass".tr(context)));
+                  ..showSnackBar(customSnackBarWidget(
+                      state.forgotPasswordGetCodeMessage, Colors.red));
               }
             },
             builder: (context, state) {

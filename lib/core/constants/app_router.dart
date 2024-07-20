@@ -40,7 +40,7 @@ abstract class AppRouter {
             if (UserData.lang != null) {
               return const MainScreen();
             } else {
-              return SplashScreen();
+              return const SplashScreen();
             }
           }),
       GoRoute(
@@ -87,7 +87,7 @@ abstract class AppRouter {
           builder: (context, state) {
             return checkUserMethod()
                 ? const OrderForm()
-                : RequiredLoginScreen(isAppBar: true);
+                : const RequiredLoginScreen(isAppBar: true);
           }),
     ],
   );

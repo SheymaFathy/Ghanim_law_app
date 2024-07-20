@@ -110,7 +110,6 @@ class SignUpViewBody extends StatelessWidget {
               textColor: AppColors.grey,
               text: 'sign_up_now'.tr(context),
               onPressed: () {
-                print(signUpCubit.nameController.text);
                 signUpCubit.fetchSignUp(SetSignUpModel(
                     name: signUpCubit.nameController.text,
                     email: signUpCubit.emailController.text,

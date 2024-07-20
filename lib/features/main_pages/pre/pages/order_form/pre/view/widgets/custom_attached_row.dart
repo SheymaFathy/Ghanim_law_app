@@ -7,7 +7,10 @@ class CustomAttachedFile extends StatelessWidget {
   final IconData iconData;
   final void Function() ontab;
   const CustomAttachedFile({
-    super.key, required this.text, required this.iconData, required this.ontab,
+    super.key,
+    required this.text,
+    required this.iconData,
+    required this.ontab,
   });
 
   @override
@@ -19,12 +22,12 @@ class CustomAttachedFile extends StatelessWidget {
           border: Border.all(color: AppColors.primeryColor),
           borderRadius: BorderRadius.circular(10),
         ),
-        padding: EdgeInsets.symmetric(horizontal: 25),
+        padding: const EdgeInsets.symmetric(horizontal: 25),
         child: Row(
-          mainAxisAlignment:MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(text),
-            IconButton(onPressed: (){}, icon: Icon(iconData)),
+            IconButton(onPressed: () {}, icon: Icon(iconData)),
           ],
         ),
       ),
