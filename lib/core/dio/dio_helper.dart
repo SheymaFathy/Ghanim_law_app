@@ -3,7 +3,7 @@ import 'package:ghanim_law_app/core/profile.dart';
 
 class DioHelper {
   static Dio? dio;
-  static String? lang = UserData.lang;
+
   static init() async {
     dio = Dio(
       BaseOptions(
@@ -21,7 +21,7 @@ class DioHelper {
     dio!.options.headers = {
       'Authorization': "Bearer ${UserData.uId}",
       'Accept': 'application/json',
-      'Accept-Language': lang,
+      'Accept-Language': UserData.lang,
     };
     return await dio?.get(
       url,
@@ -36,7 +36,7 @@ class DioHelper {
     dio!.options.headers = {
       'Authorization': "Bearer ${UserData.uId}",
       'Accept': 'application/json',
-      'Accept-Language': lang,
+      'Accept-Language': UserData.lang,
     };
 
     return dio!.post(url, queryParameters: qurey, data: data);
@@ -48,7 +48,7 @@ class DioHelper {
   }) async {
     dio!.options.headers = {
       'Accept': 'application/json',
-      'Accept-Language': lang,
+      'Accept-Language': UserData.lang,
     };
     return dio!.delete(url, queryParameters: qurey);
   }
@@ -59,7 +59,7 @@ class DioHelper {
       Map<String, dynamic>? data}) async {
     dio!.options.headers = {
       'Accept': 'application/json',
-      'Accept-Language': lang,
+      'Accept-Language': UserData.lang,
     };
 
     return dio!.put(url, queryParameters: qurey, data: data);

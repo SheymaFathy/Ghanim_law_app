@@ -28,7 +28,7 @@ class RequiredLoginScreen extends StatelessWidget {
                   textColor: Colors.white,
                   text: "تسجيل الدخول",
                   onPressed: () {
-                    GoRouter.of(context).push(AppRouter.kLogin);
+                    GoRouter.of(context).go(AppRouter.kLogin);
                   })
             ],
           ),

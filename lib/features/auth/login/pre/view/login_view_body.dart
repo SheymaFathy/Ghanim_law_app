@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
+import 'package:ghanim_law_app/core/profile.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/constants/app_colors.dart';
@@ -92,6 +93,13 @@ class LoginViewBody extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
+            CustomBotton(
+                backgroundColor: Colors.grey,
+                textColor: Colors.black,
+                text: "دخول ك زائر",
+                onPressed: () {
+                  GoRouter.of(context).replace(AppRouter.kHomeView);
+                }),
             CustomTextSignUpOrLogIn(
                 textone: "no_account".tr(context),
                 texttwo: "sign_up_now".tr(context),

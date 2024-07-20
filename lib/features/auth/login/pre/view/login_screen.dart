@@ -5,6 +5,7 @@ import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 
 import 'package:ghanim_law_app/core/enum/enum.dart';
 import 'package:ghanim_law_app/core/get_it/service_locator.dart';
+import 'package:ghanim_law_app/core/profile.dart';
 import 'package:ghanim_law_app/core/shared_preferences/cache_helper.dart';
 import 'package:go_router/go_router.dart';
 
@@ -38,6 +39,7 @@ class LoginScreen extends StatelessWidget {
               } else if (state.loginState == AuthRequestState.sucess) {
                 CacheHelper.saveData(
                     key: 'uId', value: state.loginModel!.token!);
+                UserData.init();
                 GoRouter.of(context).pushReplacement(AppRouter.kHomeView);
                 loginMaterialBannerWidget(context);
               }

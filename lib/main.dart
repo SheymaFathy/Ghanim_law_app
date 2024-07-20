@@ -6,9 +6,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ghanim_law_app/core/constants/app_colors.dart';
 import 'package:ghanim_law_app/core/dio/dio_helper.dart';
 import 'package:ghanim_law_app/core/shared_preferences/cache_helper.dart';
-import 'package:ghanim_law_app/features/main_pages/pre/pages/home/pre/view_model/cubit/home_cubit.dart';
-import 'package:ghanim_law_app/features/main_pages/pre/pages/profile/pre/view_model/cubit/profile_cubit.dart';
-import 'package:ghanim_law_app/features/main_pages/pre/view_model/cubit/main_page_cubit.dart';
 import 'core/AppLocalizations/app_localizations.dart';
 import 'core/constants/app_router.dart';
 import 'core/get_it/service_locator.dart';
@@ -29,13 +26,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider.value(value: getIt<SettingCubit>()..getSavedLanguage()),
-        BlocProvider.value(value: getIt<MainPageCubit>()),
-        BlocProvider.value(value: getIt<ProfileCubit>()..fetchProfileData()),
-        BlocProvider.value(value: getIt<HomeCubit>()..getHomeData()),
-      ],
+    return BlocProvider.value(
+      value: getIt<SettingCubit>()..getSavedLanguage(),
       child: Builder(builder: (context) {
         final settingCubit = context.watch<SettingCubit>();
         return MaterialApp.router(

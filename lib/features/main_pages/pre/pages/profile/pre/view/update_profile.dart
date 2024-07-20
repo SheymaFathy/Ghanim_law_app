@@ -6,6 +6,7 @@ import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/enum/enum.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../../../core/get_it/service_locator.dart';
 import '../../../../../../../core/widget/app_bar.dart';
 
 import '../../../../../../../core/widget/custom_snackbar_widget.dart';
@@ -19,43 +20,46 @@ class UpdateProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: myAppBar(context, 'edit_profile'.tr(context)),
-      body: BlocConsumer<ProfileCubit, ProfileState>(
-        listener: (context, state) {
-          if (state.profileUpdateRequestState == AuthRequestState.loading) {
-            EasyLoading.show(
-                status: 'loading...'.tr(context),
-                maskType: EasyLoadingMaskType.black);
-          } else if (state.profileUpdateRequestState ==
-              AuthRequestState.sucess) {
-            EasyLoading.dismiss();
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(customSnackBarWidget(
-                  "update_profile_success".tr(context), Colors.grey[800]!));
+      body: BlocProvider.value(
+        value: getIt<ProfileCubit>(),
+        child: BlocConsumer<ProfileCubit, ProfileState>(
+          listener: (context, state) {
+            if (state.profileUpdateRequestState == AuthRequestState.loading) {
+              EasyLoading.show(
+                  status: 'loading...'.tr(context),
+                  maskType: EasyLoadingMaskType.black);
+            } else if (state.profileUpdateRequestState ==
+                AuthRequestState.sucess) {
+              EasyLoading.dismiss();
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(customSnackBarWidget(
+                    "update_profile_success".tr(context), Colors.grey[800]!));
 
-            GoRouter.of(context).pop();
-          } else if (state.profileUpdateRequestState ==
-              AuthRequestState.erorr) {
-            EasyLoading.dismiss();
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(customSnackBarWidget(
-                  state.profileUpdatErorreMessage, Colors.red));
-          }
-        },
-        builder: (context, state) {
-          final profileCubit = context.read<ProfileCubit>();
-          switch (state.profileRequestState) {
-            case RequestState.loading:
-              return const Center(child: CircularProgressIndicator());
-            case RequestState.sucess:
-              profileCubit.initUpdatePrfileData(state.profileModel!);
-              return UpdateProfileViewBodyWidget(
-                  profileCubit: profileCubit, state: state);
-            case RequestState.erorr:
-              return Center(child: Text(state.profileErorrMessage));
-          }
-        },
+              GoRouter.of(context).pop();
+            } else if (state.profileUpdateRequestState ==
+                AuthRequestState.erorr) {
+              EasyLoading.dismiss();
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(customSnackBarWidget(
+                    state.profileUpdatErorreMessage, Colors.red));
+            }
+          },
+          builder: (context, state) {
+            final profileCubit = context.read<ProfileCubit>();
+            switch (state.profileRequestState) {
+              case RequestState.loading:
+                return const Center(child: CircularProgressIndicator());
+              case RequestState.sucess:
+                profileCubit.initUpdatePrfileData(state.profileModel!);
+                return UpdateProfileViewBodyWidget(
+                    profileCubit: profileCubit, state: state);
+              case RequestState.erorr:
+                return Center(child: Text(state.profileErorrMessage));
+            }
+          },
+        ),
       ),
     );
   }
