@@ -67,7 +67,7 @@ class ChangeLanguageColumn extends StatelessWidget {
               text: 'arabic'.tr(context),
               onPressed: () {
                 context.read<SettingCubit>().changeLanguage("ar");
-                GoRouter.of(context).push(AppRouter.kHomeView);
+                GoRouter.of(context).go(AppRouter.kHomeView);
               },
             ),
             const SizedBox(
@@ -79,7 +79,7 @@ class ChangeLanguageColumn extends StatelessWidget {
               text: 'english'.tr(context),
               onPressed: () {
                 context.read<SettingCubit>().changeLanguage("en");
-                GoRouter.of(context).push(AppRouter.kHomeView);
+                GoRouter.of(context).go(AppRouter.kHomeView);
               },
             ),
           ],

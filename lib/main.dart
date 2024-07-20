@@ -18,7 +18,7 @@ void main() async {
   await CacheHelper.init();
   await UserData.init();
   await DioHelper.init();
-  runApp(DevicePreview(builder: (context) => const MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
