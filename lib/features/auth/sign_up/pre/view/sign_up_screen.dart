@@ -9,7 +9,6 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/get_it/service_locator.dart';
 import '../../../../../core/widget/app_bar.dart';
 
-import '../../../login/pre/view_model/cubit/login_cubit.dart';
 import 'sign_up_view_body.dart';
 import 'widget/sign_up_erorr.dart';
 import 'widget/sign_up_loading.dart';
@@ -32,11 +31,12 @@ class SignUpScreen extends StatelessWidget {
                 signUpErorrWidget(context, state);
               } else if (state.signUpNewAccoutState ==
                   AuthRequestState.sucess) {
-                globalEmail = context.read<SignUpCubit>().emailController.text;
-                globalPassword =
-                    context.read<SignUpCubit>().passwordController.text;
+                final signUpCubit = context.read<SignUpCubit>();
 
-                GoRouter.of(context).go(AppRouter.kLogin);
+                GoRouter.of(context).go(AppRouter.kLogin, extra: {
+                  "email": signUpCubit.emailController.text,
+                  "password": signUpCubit.passwordController.text
+                });
                 signUpSuccessWidget(context, state);
               }
             },

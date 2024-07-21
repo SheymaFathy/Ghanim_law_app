@@ -12,7 +12,6 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/constants/app_router.dart';
 import '../../../../../core/widget/app_bar.dart';
 
-import '../../../sign_up/pre/view/sign_up_screen.dart';
 import '../view_model/cubit/login_cubit.dart';
 import 'login_view_body.dart';
 import 'widget/login_erorr_widget.dart';
@@ -20,8 +19,9 @@ import 'widget/login_loading_widget.dart';
 import 'widget/login_success_widget.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
-
+  const LoginScreen({super.key, this.email, this.password});
+  final String? email;
+  final String? password;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +47,12 @@ class LoginScreen extends StatelessWidget {
             },
             builder: (context, state) {
               final loginCubit = context.read<LoginCubit>();
-
+              print(email);
+              if (email != null) {
+                print(email);
+                loginCubit.userNameController.text = email!;
+                loginCubit.passwordController.text = password!;
+              }
               return LoginViewBody(loginCubit: loginCubit);
             },
           ),

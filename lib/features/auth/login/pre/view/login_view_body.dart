@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
-import 'package:ghanim_law_app/core/profile.dart';
-import 'package:ghanim_law_app/features/auth/sign_up/pre/view/sign_up_screen.dart';
+
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/constants/app_colors.dart';

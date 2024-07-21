@@ -55,9 +55,18 @@ abstract class AppRouter {
       ),
       // auth pages
       GoRoute(
-        path: kLogin,
-        builder: (context, state) => const LoginScreen(),
-      ),
+          path: kLogin,
+          builder: (context, state) {
+            if (state.extra != null) {
+              Map<String, String>? args = state.extra as Map<String, String>?;
+              return LoginScreen(
+                email: args!['email'],
+                password: args['password'],
+              );
+            } else {
+              return const LoginScreen();
+            }
+          }),
       GoRoute(
         path: kSignup,
         builder: (context, state) => const SignUpScreen(),
