@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghanim_law_app/core/profile.dart';
+import 'package:ghanim_law_app/features/main_pages/pre/pages/order_form/pre/view_model/cubit/add_order_cubit.dart';
 
 import 'package:ghanim_law_app/features/main_pages/pre/view_model/cubit/main_page_cubit.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -17,6 +18,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => getIt<AddOrderCubit>()),
         BlocProvider.value(
             value: getIt<MainPageCubit>()..bottomNavBarTabsChangeIndex(0)),
         BlocProvider.value(value: getIt<HomeCubit>()..getHomeData()),

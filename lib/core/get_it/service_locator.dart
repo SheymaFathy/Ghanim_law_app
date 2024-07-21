@@ -9,6 +9,7 @@ import 'package:ghanim_law_app/features/main_pages/pre/pages/profile/data/repo/p
 import 'package:ghanim_law_app/features/main_pages/pre/pages/profile/pre/view_model/cubit/profile_cubit.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/view_model/cubit/main_page_cubit.dart';
 
+import '../../features/main_pages/pre/pages/order_form/pre/view_model/cubit/add_order_cubit.dart';
 import '../../features/main_pages/pre/pages/settings/pre/view_model/cubit/setting_cubit.dart';
 import '../AppLocalizations/app_localizations.dart';
 
@@ -20,6 +21,8 @@ class ServiceLocator {
     getIt.registerLazySingleton(() => SettingCubit(getIt()));
     getIt.registerLazySingleton(() => HomeCubit(getIt()));
     getIt.registerLazySingleton(() => MainPageCubit());
+    getIt.registerLazySingleton(() => AddOrderCubit());
+
     getIt.registerLazySingleton(() => ProfileCubit(getIt()));
     getIt.registerSingleton<LoginRepo>(LoginRepoImp());
     getIt.registerSingleton<SignUpRepo>(SignUpRepoImp());
