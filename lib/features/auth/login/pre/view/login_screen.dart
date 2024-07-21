@@ -47,9 +47,7 @@ class LoginScreen extends StatelessWidget {
             },
             builder: (context, state) {
               final loginCubit = context.read<LoginCubit>();
-              print(email);
               if (email != null) {
-                print(email);
                 loginCubit.userNameController.text = email!;
                 loginCubit.passwordController.text = password!;
               }

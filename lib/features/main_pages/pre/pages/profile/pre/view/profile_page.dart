@@ -31,7 +31,7 @@ class ProfilePage extends StatelessWidget {
                           UserData.init();
                         });
                       },
-                      icon: Icon(Icons.logout))
+                      icon: const Icon(Icons.logout))
                   : null),
           body: checkUserMethod()
               ? BlocBuilder<ProfileCubit, ProfileState>(

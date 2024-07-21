@@ -28,10 +28,14 @@ dependencies:
   flutter_easyloading: any
   device_preview: any
   multiple_images_picker: ^1.0.1
+  image_picker: ^0.8.4+4
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+
 flutter:
 
   uses-material-design: true
