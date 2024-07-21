@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/constants/app_colors.dart';
 import 'package:ghanim_law_app/core/widget/app_bar.dart';
@@ -19,17 +21,115 @@ class OrderForm extends StatefulWidget {
 class _OrderFormState extends State<OrderForm> {
   final ImagePicker _picker = ImagePicker();
   List<XFile>? _imageFiles;
+  List<PlatformFile>? _pickedFiles;
+  List<String> _audioFiles = [];
+  FlutterSoundRecorder _recorder = FlutterSoundRecorder();
+  FlutterSoundPlayer _player = FlutterSoundPlayer();
+  bool _isRecording = false;
+  String? _audioPath;
 
-  void _attachFile(BuildContext context) {}
+  @override
+  void initState() {
+    super.initState();
+    _initRecorder();
+  }
 
-  void _recordVoice(BuildContext context) {}
+  Future<void> _initRecorder() async {
+    await _recorder.openRecorder();
+    await _player.openPlayer();
+  }
+
+  Future<void> _recordVoice(BuildContext context) async {
+    if (_isRecording) {
+      await _recorder.stopRecorder();
+      setState(() {
+        _isRecording = false;
+      });
+    } else {
+      _audioPath = 'audio_${DateTime.now().millisecondsSinceEpoch}.aac';
+      await _recorder.startRecorder(
+        toFile: _audioPath,
+        codec: Codec.aacADTS,
+      );
+      setState(() {
+        _isRecording = true;
+      });
+    }
+  }
+
+  void _showRecordDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              title: const Text('تسجيل الصوت'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      await _recordVoice(context);
+                      setState(() {});
+                    },
+                    child: Text(_isRecording ? 'إيقاف التسجيل' : 'بدء التسجيل'),
+                  ),
+                  if (_audioPath != null)
+                    ElevatedButton(
+                      onPressed: () async {
+                        await _player.startPlayer(
+                          fromURI: _audioPath,
+                          codec: Codec.aacADTS,
+                        );
+                      },
+                      child: const Text('سماع التسجيل'),
+                    ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('إلغاء'),
+                ),
+                TextButton(
+                  onPressed: _audioPath != null
+                      ? () {
+                    setState(() {
+                      _audioFiles.add(_audioPath!);
+                    });
+                    Navigator.of(context).pop();
+                  }
+                      : null,
+                  child: const Text('تأكيد'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _attachFile(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: true,
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'doc', 'mp3', 'docx', 'xls', 'wav'],
+    );
+    if (result != null) {
+      openFiles(result.files);
+    }
+  }
 
   Future<void> _pickImagesFromGallery() async {
     try {
       final List<XFile>? selectedImages = await _picker.pickMultiImage();
       if (selectedImages != null) {
         setState(() {
-          _imageFiles = selectedImages;
+          _imageFiles = (_imageFiles ?? [])..addAll(selectedImages);
         });
       }
     } catch (e) {
@@ -55,21 +155,21 @@ class _OrderFormState extends State<OrderForm> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('اختر مصدر الصورة'),
+          title: const Text('اختر مصدر الصورة'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 ListTile(
-                  leading: Icon(Icons.photo_library),
-                  title: Text('معرض الصور'),
+                  leading: const Icon(Icons.photo_library),
+                  title: const Text('معرض الصور'),
                   onTap: () {
                     Navigator.of(context).pop();
                     _pickImagesFromGallery();
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.camera_alt),
-                  title: Text('كاميرا'),
+                  leading: const Icon(Icons.camera_alt),
+                  title: const Text('كاميرا'),
                   onTap: () {
                     Navigator.of(context).pop();
                     _takePictureWithCamera();
@@ -83,26 +183,32 @@ class _OrderFormState extends State<OrderForm> {
     );
   }
 
-  void _showImageOptions(int index) {
+  void _showFileOptions(int index, bool isImage, bool isAudio) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('خيارات الصورة'),
-          content: Text('هل تريد حذف هذه الصورة؟'),
+          title: Text('خيارات ${isImage ? 'الصورة' : (isAudio ? 'الصوت' : 'الملف')}'),
+          content: Text('هل تريد حذف هذا ${isImage ? 'الصورة' : (isAudio ? 'الصوت' : 'الملف')}؟'),
           actions: <Widget>[
             TextButton(
-              child: Text('إلغاء'),
+              child: const Text('إلغاء'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('حذف'),
+              child: const Text('حذف'),
               onPressed: () {
                 Navigator.of(context).pop();
                 setState(() {
-                  _imageFiles!.removeAt(index);
+                  if (isImage) {
+                    _imageFiles!.removeAt(index);
+                  } else if (isAudio) {
+                    _audioFiles.removeAt(index);
+                  } else {
+                    _pickedFiles!.removeAt(index);
+                  }
                 });
               },
             ),
@@ -110,6 +216,19 @@ class _OrderFormState extends State<OrderForm> {
         );
       },
     );
+  }
+
+  void openFiles(List<PlatformFile> files) {
+    setState(() {
+      _pickedFiles = (_pickedFiles ?? [])..addAll(files);
+    });
+  }
+
+  @override
+  void dispose() {
+    _recorder.closeRecorder();
+    _player.closePlayer();
+    super.dispose();
   }
 
   @override
@@ -141,7 +260,7 @@ class _OrderFormState extends State<OrderForm> {
             CustomAttachedFile(
               text: 'Send_voice'.tr(context),
               iconData: Icons.mic,
-              ontab: () => _recordVoice(context),
+              ontab: () => _showRecordDialog(context),
             ),
             const SizedBox(
               height: 15,
@@ -160,8 +279,8 @@ class _OrderFormState extends State<OrderForm> {
                   child: Row(
                     children: [
                       SizedBox(
-                        width: 50,
-                        height: 50,
+                        width: 30,
+                        height: 30,
                         child: Image.file(
                           File(image.path),
                           fit: BoxFit.cover,
@@ -172,8 +291,59 @@ class _OrderFormState extends State<OrderForm> {
                         child: Text(image.name),
                       ),
                       IconButton(
-                        icon: Icon(Icons.delete, color: Colors.red),
-                        onPressed: () => _showImageOptions(index),
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () => _showFileOptions(index, true, false),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            if (_pickedFiles != null && _pickedFiles!.isNotEmpty)
+              ..._pickedFiles!.asMap().entries.map((entry) {
+                int index = entry.key;
+                PlatformFile file = entry.value;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.insert_drive_file, color: Colors.grey),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(file.name),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () => _showFileOptions(index, false, false),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            if (_audioFiles.isNotEmpty)
+              ..._audioFiles.asMap().entries.map((entry) {
+                int index = entry.key;
+                String audioPath = entry.value;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.audiotrack, color: Colors.grey),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(audioPath.split('/').last),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.play_arrow, color: Colors.blue),
+                        onPressed: () async {
+                          await _player.startPlayer(
+                            fromURI: audioPath,
+                            codec: Codec.aacADTS,
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () => _showFileOptions(index, false, true),
                       ),
                     ],
                   ),
