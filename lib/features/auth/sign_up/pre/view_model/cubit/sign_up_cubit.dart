@@ -21,6 +21,12 @@ class SignUpCubit extends Cubit<SignUpState> {
   }
 
   bool _formValidate() => formKey.currentState!.validate();
+  clearFiled() {
+    nameController.clear();
+    emailController.clear();
+    passwordController.clear();
+    phoneController.clear();
+  }
 
   void fetchSignUp(SetSignUpModel data) async {
     if (_formValidate()) {
