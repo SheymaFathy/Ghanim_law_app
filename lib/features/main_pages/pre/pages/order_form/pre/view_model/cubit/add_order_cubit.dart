@@ -1,14 +1,11 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
-
 import '../../../../../../../../core/enum/enum.dart';
-
 part 'add_order_state.dart';
 
 class AddOrderCubit extends Cubit<AddOrderState> {
@@ -79,8 +76,8 @@ class AddOrderCubit extends Cubit<AddOrderState> {
   }
 // Files Controllers
 
-// Audio Controllers
-  final AudioPlayer audioPlayer = AudioPlayer();
+// Records Controllers
+
   final AudioRecorder recorder = AudioRecorder();
   List<String>? recordsList;
   bool isRecording = false;
@@ -120,35 +117,5 @@ class AddOrderCubit extends Cubit<AddOrderState> {
     emit(state.copyWith(records: recordsList));
   }
 
-  Future<void> initRecording(String path) async {
-    await audioPlayer.setFilePath(path);
-    emit(state.copyWith(
-        totalDuration: audioPlayer.duration ?? const Duration(seconds: 0),
-        playAudioState: RequestState.sucess));
-    audioPlayer.positionStream.listen((position) {
-      emit(state.copyWith(currentPosition: position));
-      if (state.currentPosition!.inMilliseconds ==
-          state.totalDuration!.inMilliseconds) {
-        emit(state.copyWith(isPlaying: false));
-      }
-    });
-  }
-
-  Future<void> playRecording(String path) async {
-    initRecording(path);
-    audioPlayer.play();
-    emit(state.copyWith(isPlaying: true));
-  }
-
-  Future<void> seekRecording(Duration dur) async {
-    audioPlayer.seek(dur);
-
-    emit(state.copyWith(currentPosition: dur));
-  }
-
-  Future<void> pauseRecording() async {
-    audioPlayer.pause();
-    emit(state.copyWith(isPlaying: false));
-  }
-// Audio Controllers  @override
+// Records Controllers
 }

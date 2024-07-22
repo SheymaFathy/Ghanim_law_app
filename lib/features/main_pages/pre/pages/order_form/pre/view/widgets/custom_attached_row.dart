@@ -11,7 +11,7 @@ class CustomAttachedFile extends StatelessWidget {
       {super.key,
       required this.text,
       required this.iconData,
-      required this.ontab,
+      this.ontab,
       this.onPressedIcon});
 
   @override

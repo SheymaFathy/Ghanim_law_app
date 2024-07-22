@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
-import 'package:ghanim_law_app/core/get_it/service_locator.dart';
-import 'package:ghanim_law_app/features/main_pages/pre/pages/order_form/pre/view_model/cubit/add_order_cubit.dart';
 
-void showDeleteFileDialog(int index, String fileType, BuildContext orderCtx) {
+import '../../../../../../../../../core/get_it/service_locator.dart';
+import '../../../view_model/cubit/add_order_cubit.dart';
+
+void showDeletePhotoDialog(int index, String fileType, BuildContext orderCtx) {
   showDialog(
     context: orderCtx,
     builder: (BuildContext context) {
@@ -13,8 +14,8 @@ void showDeleteFileDialog(int index, String fileType, BuildContext orderCtx) {
         child: BlocBuilder<AddOrderCubit, AddOrderState>(
           builder: (context, state) {
             return AlertDialog(
-              title: Text('delete_file_title'.tr(context)),
-              content: Text('delete_file_content'.tr(context)),
+              title: Text('delete_pic_title'.tr(context)),
+              content: Text('delete_pic_content'.tr(context)),
               actions: <Widget>[
                 TextButton(
                   child: Text('cancel'.tr(context)),
