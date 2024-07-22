@@ -43,3 +43,42 @@ attachPictureWidget(BuildContext orderCtx) {
     },
   );
 }
+
+attachVoiceWidget(BuildContext orderCtx) {
+  return showDialog(
+    useRootNavigator: false,
+    barrierDismissible: false,
+    context: orderCtx,
+    builder: (BuildContext context) {
+      return BlocProvider.value(
+        value: AddOrderCubit(),
+        child: BlocBuilder<AddOrderCubit, AddOrderState>(
+          builder: (context, state) {
+            return AlertDialog(
+                title: const Text('voice'),
+                content: Row(
+                  children: [
+                    IconButton(
+                        onPressed: state.isRecording
+                            ? context.read<AddOrderCubit>().stopRecording
+                            : context.read<AddOrderCubit>().startRecording,
+                        icon: Icon(
+                            color: state.isRecording ? Colors.red : Colors.blue,
+                            state.isRecording ? Icons.mic_off : Icons.mic)),
+                    Spacer(),
+                    ElevatedButton(
+                        onPressed: () {
+                          BlocProvider.of<AddOrderCubit>(orderCtx)
+                              .saveRecordInList(context
+                                  .read<AddOrderCubit>()
+                                  .fileRecordPath!);
+                        },
+                        child: Text("save"))
+                  ],
+                ));
+          },
+        ),
+      );
+    },
+  );
+}

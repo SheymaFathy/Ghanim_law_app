@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter_sound/flutter_sound.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/constants/app_colors.dart';
 import 'package:ghanim_law_app/core/widget/app_bar.dart';
@@ -17,111 +16,8 @@ import '../view_model/cubit/add_order_cubit.dart';
 import 'widgets/files/show_file_options_dialog.dart';
 import 'widgets/image/attach_picture_widget.dart';
 
-class OrderForm extends StatefulWidget {
+class OrderForm extends StatelessWidget {
   const OrderForm({super.key});
-
-  @override
-  _OrderFormState createState() => _OrderFormState();
-}
-
-class _OrderFormState extends State<OrderForm> {
-  final List<String> _audioFiles = [];
-  final FlutterSoundRecorder _recorder = FlutterSoundRecorder();
-  final FlutterSoundPlayer _player = FlutterSoundPlayer();
-  bool _isRecording = false;
-  String? _audioPath;
-
-  @override
-  void initState() {
-    super.initState();
-    _initRecorder();
-  }
-
-  Future<void> _initRecorder() async {
-    await _recorder.openRecorder();
-    await _player.openPlayer();
-  }
-
-  Future<void> _recordVoice(BuildContext context) async {
-    if (_isRecording) {
-      await _recorder.stopRecorder();
-      setState(() {
-        _isRecording = false;
-      });
-    } else {
-      _audioPath = 'audio_${DateTime.now().millisecondsSinceEpoch}.acc';
-      await _recorder.startRecorder(
-        toFile: _audioPath,
-        codec: Codec.aacADTS,
-      );
-      setState(() {
-        _isRecording = true;
-      });
-    }
-  }
-
-  void _showRecordDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return AlertDialog(
-              title: Text('record_voice'.tr(context)),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ElevatedButton(
-                    onPressed: () async {
-                      await _recordVoice(context);
-                      setState(() {});
-                    },
-                    child: Text(_isRecording ? 'stop_record'.tr(context) : 'start_record'.tr(context)),
-                  ),
-                  if (_audioPath != null)
-                    ElevatedButton(
-                      onPressed: () async {
-                        await _player.startPlayer(
-                          fromURI: _audioPath,
-                          codec: Codec.aacADTS,
-                        );
-                      },
-                      child:  Text('listening'.tr(context)),
-                    ),
-                ],
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child:  Text('cancel'.tr(context)),
-                ),
-                TextButton(
-                  onPressed: _audioPath != null
-                      ? () {
-                          setState(() {
-                            _audioFiles.add(_audioPath!);
-                          });
-                          Navigator.of(context).pop();
-                        }
-                      : null,
-                  child:  Text('confirm'.tr(context)),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-
-  @override
-  void dispose() {
-    _recorder.closeRecorder();
-    _player.closePlayer();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +32,7 @@ class _OrderFormState extends State<OrderForm> {
               padding: const EdgeInsets.all(15.0),
               child: ListView(
                 children: [
-                   CustomTextTitleAuth(
+                  CustomTextTitleAuth(
                     title: 'how_can_hel؟'.tr(context),
                   ),
                   const SizedBox(
@@ -157,7 +53,9 @@ class _OrderFormState extends State<OrderForm> {
                   CustomAttachedFile(
                     text: 'Send_voice'.tr(context),
                     iconData: Icons.mic,
-                    ontab: () => _showRecordDialog(context),
+                    ontab: () {
+                      attachVoiceWidget(context);
+                    },
                   ),
                   const SizedBox(
                     height: 15,
@@ -198,7 +96,41 @@ class _OrderFormState extends State<OrderForm> {
                           ],
                         ),
                       );
-                    }).toList(),
+                    }),
+                  if (addOrderCubit.recordsList != null &&
+                      addOrderCubit.recordsList!.isNotEmpty)
+                    ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: addOrderCubit.recordsList!.length,
+                        itemBuilder: (context, index) {
+                          print(state.records!);
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 30,
+                                  height: 30,
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child:
+                                      Text(addOrderCubit.recordsList![index]),
+                                ),
+                                IconButton(
+                                    icon: const Icon(Icons.delete,
+                                        color: Colors.red),
+                                    onPressed: () {
+                                      showDeletePhotoDialog(
+                                        index,
+                                        "image",
+                                        context,
+                                      );
+                                    }),
+                              ],
+                            ),
+                          );
+                        }),
                   if (state.pickedFiles != null &&
                       state.pickedFiles!.isNotEmpty)
                     ...state.pickedFiles!.asMap().entries.map((entry) {
@@ -226,41 +158,6 @@ class _OrderFormState extends State<OrderForm> {
                         ),
                       );
                     }),
-                  if (_audioFiles.isNotEmpty)
-                    ..._audioFiles.asMap().entries.map((entry) {
-                      int index = entry.key;
-                      String audioPath = entry.value;
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.audiotrack, color: Colors.grey),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Text(audioPath.split('/').last),
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.play_arrow,
-                                  color: Colors.blue),
-                              onPressed: () async {
-                                await _player.startPlayer(
-                                  fromURI: audioPath,
-                                  codec: Codec.aacADTS,
-                                );
-                              },
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.delete, color: Colors.red),
-                              onPressed: () => showDeleteAudioDialog(
-                                index,
-                                "audio",
-                                context,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
                   const SizedBox(
                     height: 15,
                   ),

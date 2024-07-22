@@ -1,13 +1,16 @@
 import 'package:bloc/bloc.dart';
-
+import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:record/record.dart';
 
 part 'add_order_state.dart';
 
 class AddOrderCubit extends Cubit<AddOrderState> {
-  AddOrderCubit() : super(AddOrderState());
+  AddOrderCubit() : super(const AddOrderState());
 
 // gloabal Method
   void deleteFiles(int index, String fileType) {
@@ -27,14 +30,15 @@ class AddOrderCubit extends Cubit<AddOrderState> {
   List<XFile>? imageFiles;
   Future<void> pickImagesFromGallery() async {
     try {
-      final List<XFile>? selectedImages = await picker.pickMultiImage();
-      if (selectedImages != null && selectedImages.isNotEmpty) {
+      final List<XFile> selectedImages = await picker.pickMultiImage();
+      if (selectedImages.isNotEmpty) {
         imageFiles = (imageFiles ?? [])..addAll(selectedImages);
         emit(state.copyWith(imageFiles: imageFiles));
       }
     } catch (e) {
-      print("Error picking images: $e");
-      // Handle error state
+      if (kDebugMode) {
+        print("Error picking images: $e");
+      }
     }
   }
 
@@ -71,4 +75,57 @@ class AddOrderCubit extends Cubit<AddOrderState> {
     }
   }
 // Files Controllers
+
+// Audio Controllers
+  final AudioPlayer audioPlayer = AudioPlayer();
+  final AudioRecorder recorder = AudioRecorder();
+  List<String>? recordsList;
+  bool isRecording = false;
+  String? fileRecordPath;
+
+  Future<void> startRecording() async {
+    final bool isPermissionGranted = await recorder.hasPermission();
+    if (!isPermissionGranted) {
+      return;
+    }
+    final directory = await getApplicationDocumentsDirectory();
+    String fileName = "recording_${DateTime.now().millisecondsSinceEpoch}.m4a";
+    fileRecordPath = "${directory.path}/$fileName";
+    const config = RecordConfig(
+      // Specify the format, encoder, sample rate, etc., as needed
+      encoder: AudioEncoder.aacLc, // For example, using AAC codec
+      sampleRate: 44100, // Sample rate
+      bitRate: 128000, // Bit rate
+    );
+    await recorder.start(config, path: fileRecordPath!);
+
+    isRecording = true;
+    emit(state.copyWith(isRecording: isRecording));
+  }
+
+  Future<void> stopRecording() async {
+    await recorder.stop();
+    isRecording = false;
+    emit(state.copyWith(isRecording: isRecording));
+  }
+
+  Future<void> saveRecordInList(String path) async {
+    print(fileRecordPath != null);
+    recordsList = (recordsList ?? [])..add(path);
+    emit(state.copyWith(records: recordsList));
+  }
+
+  Future<void> playRecording(int index) async {
+    if (fileRecordPath != null) {
+      await audioPlayer.setFilePath(recordsList![index]);
+      audioPlayer.play();
+      emit(state.copyWith(
+          totalDuration: audioPlayer.duration ?? const Duration(seconds: 0)));
+      audioPlayer.positionStream.listen((position) {
+        emit(state.copyWith(currentPosition: position));
+      });
+    }
+  }
+
+// Audio Controllers  @override
 }
