@@ -11,7 +11,7 @@ import 'package:ghanim_law_app/features/main_pages/pre/pages/settings/pre/view/s
 import 'package:ghanim_law_app/features/splash/pre/view/splash_screen.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/auth/about_us/pre/view/about_us_screen.dart';
+import '../../features/about_us/pre/view/about_us_screen.dart';
 import '../../features/auth/forgot_password/pre/view/success_reset_pass.dart';
 
 import '../../features/main_pages/pre/pages/profile/pre/view/update_profile.dart';
