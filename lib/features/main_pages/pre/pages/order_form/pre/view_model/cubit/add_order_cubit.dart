@@ -7,6 +7,8 @@ import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 
+import '../../../../../../../../core/enum/enum.dart';
+
 part 'add_order_state.dart';
 
 class AddOrderCubit extends Cubit<AddOrderState> {
@@ -17,8 +19,9 @@ class AddOrderCubit extends Cubit<AddOrderState> {
     if (fileType == 'image') {
       imageFiles!.removeAt(index);
       emit(state.copyWith(imageFiles: imageFiles));
-    } else if (fileType == 'audoi') {
-      //  addorderCubit.audioFiles.removeAt(index);
+    } else if (fileType == 'audio') {
+      recordsList!.removeAt(index);
+      emit(state.copyWith(records: recordsList));
     } else {
       pickedFiles!.removeAt(index);
       emit(state.copyWith(pickedFiles: pickedFiles));
@@ -87,45 +90,65 @@ class AddOrderCubit extends Cubit<AddOrderState> {
     final bool isPermissionGranted = await recorder.hasPermission();
     if (!isPermissionGranted) {
       return;
-    }
-    final directory = await getApplicationDocumentsDirectory();
-    String fileName = "recording_${DateTime.now().millisecondsSinceEpoch}.m4a";
-    fileRecordPath = "${directory.path}/$fileName";
-    const config = RecordConfig(
-      // Specify the format, encoder, sample rate, etc., as needed
-      encoder: AudioEncoder.aacLc, // For example, using AAC codec
-      sampleRate: 44100, // Sample rate
-      bitRate: 128000, // Bit rate
-    );
-    await recorder.start(config, path: fileRecordPath!);
+    } else {
+      final directory = await getApplicationDocumentsDirectory();
+      String fileName =
+          "recording_${DateTime.now().millisecondsSinceEpoch}.m4a";
+      fileRecordPath = "${directory.path}/$fileName";
+      const config = RecordConfig(
+        encoder: AudioEncoder.aacLc,
+        sampleRate: 44100,
+        bitRate: 128000,
+      );
+      await recorder.start(config, path: fileRecordPath!);
 
-    isRecording = true;
-    emit(state.copyWith(isRecording: isRecording));
+      isRecording = true;
+      emit(state.copyWith(isRecording: isRecording));
+    }
   }
 
   Future<void> stopRecording() async {
-    await recorder.stop();
+    await recorder.stop().then((onValue) {
+      saveRecordInList(onValue!);
+    });
     isRecording = false;
     emit(state.copyWith(isRecording: isRecording));
   }
 
   Future<void> saveRecordInList(String path) async {
-    print(fileRecordPath != null);
     recordsList = (recordsList ?? [])..add(path);
     emit(state.copyWith(records: recordsList));
   }
 
-  Future<void> playRecording(int index) async {
-    if (fileRecordPath != null) {
-      await audioPlayer.setFilePath(recordsList![index]);
-      audioPlayer.play();
-      emit(state.copyWith(
-          totalDuration: audioPlayer.duration ?? const Duration(seconds: 0)));
-      audioPlayer.positionStream.listen((position) {
-        emit(state.copyWith(currentPosition: position));
-      });
-    }
+  Future<void> initRecording(String path) async {
+    await audioPlayer.setFilePath(path);
+    emit(state.copyWith(
+        totalDuration: audioPlayer.duration ?? const Duration(seconds: 0),
+        playAudioState: RequestState.sucess));
+    audioPlayer.positionStream.listen((position) {
+      emit(state.copyWith(currentPosition: position));
+      if (state.currentPosition!.inMilliseconds ==
+          state.totalDuration!.inMilliseconds) {
+        emit(state.copyWith(isPlaying: false));
+      }
+    });
   }
 
+  Future<void> playRecording(String path) async {
+    initRecording(path);
+    audioPlayer.play();
+    emit(state.copyWith(isPlaying: true));
+  }
+
+  Future<void> seekRecording(Duration dur) async {
+    audioPlayer.seek(dur);
+
+    emit(state.copyWith(currentPosition: dur));
+  }
+
+  Future<void> pauseRecording() async {
+    audioPlayer.pause();
+    emit(state.copyWith(isPlaying: false));
+  }
 // Audio Controllers  @override
 }

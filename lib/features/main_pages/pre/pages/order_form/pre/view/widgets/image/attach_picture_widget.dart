@@ -1,5 +1,8 @@
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ghanim_law_app/core/enum/enum.dart';
+import 'package:ghanim_law_app/features/main_pages/pre/pages/order_form/pre/view/order_form.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/order_form/pre/view_model/cubit/add_order_cubit.dart';
 
 attachPictureWidget(BuildContext orderCtx) {
@@ -44,41 +47,60 @@ attachPictureWidget(BuildContext orderCtx) {
   );
 }
 
-attachVoiceWidget(BuildContext orderCtx) {
+attachVoiceWidget(BuildContext orderCtx, String path) {
   return showDialog(
-    useRootNavigator: false,
-    barrierDismissible: false,
     context: orderCtx,
     builder: (BuildContext context) {
       return BlocProvider.value(
-        value: AddOrderCubit(),
+        value: AddOrderCubit()..initRecording(path),
         child: BlocBuilder<AddOrderCubit, AddOrderState>(
           builder: (context, state) {
             return AlertDialog(
-                title: const Text('voice'),
-                content: Row(
-                  children: [
-                    IconButton(
-                        onPressed: state.isRecording
-                            ? context.read<AddOrderCubit>().stopRecording
-                            : context.read<AddOrderCubit>().startRecording,
-                        icon: Icon(
-                            color: state.isRecording ? Colors.red : Colors.blue,
-                            state.isRecording ? Icons.mic_off : Icons.mic)),
-                    Spacer(),
-                    ElevatedButton(
-                        onPressed: () {
-                          BlocProvider.of<AddOrderCubit>(orderCtx)
-                              .saveRecordInList(context
-                                  .read<AddOrderCubit>()
-                                  .fileRecordPath!);
-                        },
-                        child: Text("save"))
-                  ],
-                ));
+                content: SingleChildScrollView(
+                    child: ProgressAudioBar(
+              path: path,
+            )));
           },
         ),
       );
     },
   );
+}
+
+class ProgressAudioBar extends StatelessWidget {
+  const ProgressAudioBar({super.key, required this.path});
+  final String path;
+  @override
+  Widget build(BuildContext context) {
+    final addorderCubit = context.watch<AddOrderCubit>();
+    switch (addorderCubit.state.playAudioState) {
+      case RequestState.loading:
+        return Center(child: CircularProgressIndicator());
+      case RequestState.sucess:
+        return ListBody(
+          children: [
+            ProgressBar(
+              progress: addorderCubit.state.currentPosition!,
+              total: addorderCubit.state.totalDuration!,
+              onSeek: (duration) {
+                addorderCubit.seekRecording(duration);
+              },
+            ),
+            IconButton(
+                onPressed: () {
+                  if (addorderCubit.state.isPlaying) {
+                    addorderCubit.pauseRecording();
+                  } else {
+                    addorderCubit.playRecording(path);
+                  }
+                },
+                icon: addorderCubit.state.isPlaying
+                    ? const Icon(Icons.pause)
+                    : const Icon(Icons.play_arrow))
+          ],
+        );
+      case RequestState.erorr:
+        return Text("");
+    }
+  }
 }

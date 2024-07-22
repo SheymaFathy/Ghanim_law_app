@@ -4,14 +4,15 @@ import '../../../../../../../../core/constants/app_colors.dart';
 
 class CustomAttachedFile extends StatelessWidget {
   final String text;
-  final IconData iconData;
-  final void Function() ontab;
-  const CustomAttachedFile({
-    super.key,
-    required this.text,
-    required this.iconData,
-    required this.ontab,
-  });
+  final Icon iconData;
+  final void Function()? ontab;
+  final void Function()? onPressedIcon;
+  const CustomAttachedFile(
+      {super.key,
+      required this.text,
+      required this.iconData,
+      required this.ontab,
+      this.onPressedIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class CustomAttachedFile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(text),
-            IconButton(onPressed: () {}, icon: Icon(iconData)),
+            IconButton(onPressed: onPressedIcon, icon: iconData),
           ],
         ),
       ),
