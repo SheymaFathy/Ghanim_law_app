@@ -9,6 +9,7 @@ class AddOrderState {
   AddOrderState copyWith({
     List<XFile>? imageFiles,
     List<PlatformFile>? pickedFiles,
+    List<String>? audioFiles ,
   }) {
     return AddOrderState(
       imageFiles: imageFiles ?? this.imageFiles,
@@ -16,3 +17,4 @@ class AddOrderState {
     );
   }
 }
+

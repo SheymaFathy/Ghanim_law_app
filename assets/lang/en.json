@@ -63,5 +63,20 @@
     "Send_voice": "Send Voice",
     "reset_password_success": "Rest Password Successfully",
     "login_sccess": "Login successfully",
-    "update_profile_success": "تم تحديث الملف الشخصي بنجاح"
+    "update_profile_success": "Profile update success",
+    "how_can_help": "Tell us how we can help you ?",
+    "options": "Options",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "delete_file_title": "Delete file",
+    "delete_file_content": "Do you want to delete this file?",
+    "delete_pic_title": "Delete image",
+    "delete_pic_content": "Do you want to delete this image?",
+    "delete_audio_title": "Delete audio",
+    "delete_audio_content": "Do you want to delete the audio file?",
+    "record_voice": "Recording",
+    "stop_record": "Stop record",
+    "start_record": "Start record",
+    "listening": "Listen to the recording"
+
 }

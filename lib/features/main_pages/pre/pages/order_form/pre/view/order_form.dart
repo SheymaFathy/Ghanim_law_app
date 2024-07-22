@@ -25,9 +25,9 @@ class OrderForm extends StatefulWidget {
 }
 
 class _OrderFormState extends State<OrderForm> {
-  List<String> _audioFiles = [];
-  FlutterSoundRecorder _recorder = FlutterSoundRecorder();
-  FlutterSoundPlayer _player = FlutterSoundPlayer();
+  final List<String> _audioFiles = [];
+  final FlutterSoundRecorder _recorder = FlutterSoundRecorder();
+  final FlutterSoundPlayer _player = FlutterSoundPlayer();
   bool _isRecording = false;
   String? _audioPath;
 
@@ -49,7 +49,7 @@ class _OrderFormState extends State<OrderForm> {
         _isRecording = false;
       });
     } else {
-      _audioPath = 'audio_${DateTime.now().millisecondsSinceEpoch}.aac';
+      _audioPath = 'audio_${DateTime.now().millisecondsSinceEpoch}.acc';
       await _recorder.startRecorder(
         toFile: _audioPath,
         codec: Codec.aacADTS,
@@ -67,7 +67,7 @@ class _OrderFormState extends State<OrderForm> {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
-              title: const Text('تسجيل الصوت'),
+              title: Text('record_voice'.tr(context)),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -76,7 +76,7 @@ class _OrderFormState extends State<OrderForm> {
                       await _recordVoice(context);
                       setState(() {});
                     },
-                    child: Text(_isRecording ? 'إيقاف التسجيل' : 'بدء التسجيل'),
+                    child: Text(_isRecording ? 'stop_record'.tr(context) : 'start_record'.tr(context)),
                   ),
                   if (_audioPath != null)
                     ElevatedButton(
@@ -86,7 +86,7 @@ class _OrderFormState extends State<OrderForm> {
                           codec: Codec.aacADTS,
                         );
                       },
-                      child: const Text('سماع التسجيل'),
+                      child:  Text('listening'.tr(context)),
                     ),
                 ],
               ),
@@ -95,7 +95,7 @@ class _OrderFormState extends State<OrderForm> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text('إلغاء'),
+                  child:  Text('cancel'.tr(context)),
                 ),
                 TextButton(
                   onPressed: _audioPath != null
@@ -106,7 +106,7 @@ class _OrderFormState extends State<OrderForm> {
                           Navigator.of(context).pop();
                         }
                       : null,
-                  child: const Text('تأكيد'),
+                  child:  Text('confirm'.tr(context)),
                 ),
               ],
             );
@@ -136,8 +136,8 @@ class _OrderFormState extends State<OrderForm> {
               padding: const EdgeInsets.all(15.0),
               child: ListView(
                 children: [
-                  const CustomTextTitleAuth(
-                    title: 'اخبرنا كيف نساعدك؟',
+                   CustomTextTitleAuth(
+                    title: 'how_can_hel؟'.tr(context),
                   ),
                   const SizedBox(
                     height: 20,
@@ -189,7 +189,7 @@ class _OrderFormState extends State<OrderForm> {
                             ),
                             IconButton(
                               icon: const Icon(Icons.delete, color: Colors.red),
-                              onPressed: () => showFileOptionsDialog(
+                              onPressed: () => showDeletePhotoDialog(
                                 index,
                                 "image",
                                 context,
@@ -216,7 +216,7 @@ class _OrderFormState extends State<OrderForm> {
                             ),
                             IconButton(
                               icon: const Icon(Icons.delete, color: Colors.red),
-                              onPressed: () => showFileOptionsDialog(
+                              onPressed: () => showDeleteFileDialog(
                                 index,
                                 "file",
                                 context,
@@ -251,7 +251,7 @@ class _OrderFormState extends State<OrderForm> {
                             ),
                             IconButton(
                               icon: const Icon(Icons.delete, color: Colors.red),
-                              onPressed: () => showFileOptionsDialog(
+                              onPressed: () => showDeleteAudioDialog(
                                 index,
                                 "audio",
                                 context,
