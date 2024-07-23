@@ -10,13 +10,14 @@ class MyOrdersPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Orders> myorders = [
       Orders(
-          myService: 'legal-consultations'.tr(context),
+          myService: 'legal_advice',
           orderState: 'Under revision'),
       Orders(
-          myService: 'preparing-and-reviewing-contract'.tr(context),
+          myService: 'contract_review',
           orderState: 'Under revision'),
       Orders(
-          myService: 'legal-consultations'.tr(context), orderState: 'Download'),
+          myService: 'book_preparation',
+          orderState: 'Download'),
     ];
     return Scaffold(
         appBar: myAppBar(context, "my-order".tr(context)),
@@ -25,7 +26,10 @@ class MyOrdersPage extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: myorders.length,
                   itemBuilder: (context, index) {
-                    return OrdersWidget(orders: myorders[index]);
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: OrdersWidget(orders: myorders[index],),
+                    );
                   },
                 ),
               )

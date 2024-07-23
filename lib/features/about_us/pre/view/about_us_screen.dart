@@ -36,15 +36,23 @@ class AboutUsScreen extends StatelessWidget {
                     height: 100,
                     decoration: BoxDecoration(
                       border: Border.all(color: AppColors.lightGrey),
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5), // grey shadow with opacity
                             spreadRadius: 1,
                             blurRadius: 3,
-                            offset: Offset(0, 2), // changes position of shadow
+                            offset: const Offset(0, 2), // changes position of shadow
                           ),
                         ],
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.white,
+                            Colors.grey.shade200, // very light grey
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomCenter,
+                        ),
                       color: AppColors.backgroundColor
                     ),
                     child: const Text(
