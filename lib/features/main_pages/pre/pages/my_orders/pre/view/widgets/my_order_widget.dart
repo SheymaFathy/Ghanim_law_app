@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../../../../../core/constants/app_router.dart';
 class Orders {
   final String myService;
   final String orderState;
@@ -19,7 +22,7 @@ class OrdersWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // GoRouter.of(context).push(AppRouter.kOrderForm);
+        GoRouter.of(context).push(AppRouter.korderdetails);
       },
       child: Container(
         height: 70,

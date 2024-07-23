@@ -53,10 +53,10 @@
     "username_login": "User Name",
     "edit_profile": "Profile Update",
     "confirm": "Confirm",
-    "feedback": "Feedback",
+    "feedback": "Complaints and suggestions",
     "feedback_title": "Send us Some feedbacks!",
     "feedback_filed": "Do you have a suggestion or found some errors? Let us know ",
-    "about": "About Us",
+    "about": "Contact Us",
     "submit-consultation": "Submit Consultation",
     "send_pic": "Send Picture",
     "send_file": "Send File",
@@ -81,6 +81,7 @@
     "keep_in_touch": "Keep in Touch",
     "follow_us": "Follow us on social media",
     "contact_us": "Contact Us",
-    "policy": "Privacy Policy"
+    "policy": "Privacy Policy",
+    "order_details": "Consultation details"
 
 }

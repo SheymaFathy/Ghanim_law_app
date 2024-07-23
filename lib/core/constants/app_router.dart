@@ -6,6 +6,7 @@ import 'package:ghanim_law_app/features/auth/forgot_password/pre/view/reset_pass
 import 'package:ghanim_law_app/features/auth/login/pre/view/login_screen.dart';
 import 'package:ghanim_law_app/features/auth/sign_up/pre/view/sign_up_screen.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/feedback/pre/view/feed_back_screen.dart';
+import 'package:ghanim_law_app/features/main_pages/pre/pages/my_orders/pre/view/my_order_details.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/order_form/pre/view/order_form.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/privacy_policy/pre/view/privacy_policy_page.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/settings/pre/view/settings_page.dart';
@@ -35,6 +36,7 @@ abstract class AppRouter {
   static const kOrderForm = "/orderform";
   static const kAboutUs = '/aboutUs';
   static const kpolicy = '/policy';
+  static const korderdetails = '/orderdetails';
 
   static final router = GoRouter(
     routes: [
@@ -103,8 +105,8 @@ abstract class AppRouter {
                 ? const OrderForm()
                 : const RequiredLoginScreen(isAppBar: true);
           }),
-      GoRoute(path: kpolicy,
-      builder: (context, state)=> const PrivacyPolicyPage())
+      GoRoute(path: kpolicy, builder: (context, state)=> const PrivacyPolicyPage()),
+      GoRoute(path: korderdetails, builder: (context, state)=>  MyOrderDetails()),
     ],
   );
 }

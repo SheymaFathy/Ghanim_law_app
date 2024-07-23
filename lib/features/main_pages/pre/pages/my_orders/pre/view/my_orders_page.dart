@@ -27,7 +27,7 @@ class MyOrdersPage extends StatelessWidget {
                   itemCount: myorders.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
                       child: OrdersWidget(orders: myorders[index],),
                     );
                   },

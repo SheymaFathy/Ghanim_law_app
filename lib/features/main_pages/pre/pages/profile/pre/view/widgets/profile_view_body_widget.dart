@@ -13,7 +13,7 @@ class ProfileViewBodyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final prfileData = state.profileModel!.data;
     return Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: const EdgeInsets.all(5.0),
       child: Column(children: [
         CircleAvatar(
           backgroundColor: AppColors.backgroundColor,
