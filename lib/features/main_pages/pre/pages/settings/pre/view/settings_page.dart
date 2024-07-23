@@ -64,6 +64,14 @@ class SettingsPage extends StatelessWidget {
                   ),
                 ],
               ),
+              ListTile(
+                leading: const Icon(Icons.info_outline),
+                title: Text("policy".tr(context)),
+                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                onTap: () {
+                  GoRouter.of(context).push(AppRouter.kpolicy);
+                },
+              ),
             ],
           ),
         );
