@@ -77,6 +77,9 @@
     "record_voice": "Recording",
     "stop_record": "Stop record",
     "start_record": "Start record",
-    "listening": "Listen to the recording"
+    "listening": "Listen to the recording",
+    "keep_in_touch": "Keep in Touch",
+    "follow_us": "Follow us on social media",
+    "contact_us": "Contact Us"
 
 }

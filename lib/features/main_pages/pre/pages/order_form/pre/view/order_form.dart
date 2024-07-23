@@ -32,10 +32,19 @@ class OrderForm extends StatelessWidget {
               padding: const EdgeInsets.all(15.0),
               child: ListView(
                 children: [
-                  CustomTextTitleAuth(title: 'how_can_hel؟'.tr(context)),
+                  CustomTextTitleAuth(title: 'how_can_help'.tr(context)),
                   const SizedBox(height: 20),
                   GlobalTextfield(
-                      maxline: 10, hinttext: "submit-consultation".tr(context)),
+                    hinttext: 'name'.tr(context),
+                  ),
+                  GlobalTextfield(
+                    hinttext: 'email'.tr(context),
+                  ),
+                  GlobalTextfield(
+                    hinttext: 'phone'.tr(context),
+                  ),
+                  GlobalTextfield(
+                      maxline: 5, hinttext: "submit-consultation".tr(context)),
                   CustomAttachedFile(
                       text: 'send_file'.tr(context),
                       iconData: const Icon(Icons.file_present_sharp),

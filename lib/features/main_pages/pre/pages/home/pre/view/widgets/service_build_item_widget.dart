@@ -19,7 +19,9 @@ class ServiceBuildItemWidget extends StatelessWidget {
       margin: const EdgeInsets.all(10.0),
       color: AppColors.backgroundColor,
       child: InkWell(
-        onTap: () {GoRouter.of(context).push(AppRouter.kOrderForm);},
+        onTap: () {
+          GoRouter.of(context).push(AppRouter.kOrderForm);
+        },
         child: ListTile(
           leading: ServiceIconBuildItem(
             serviceName: priceModel.serviceName,

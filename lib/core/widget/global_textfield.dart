@@ -29,7 +29,7 @@ class GlobalTextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.only(bottom: 10),
       child: TextFormField(
         maxLines: maxline,
         onChanged: onChanged,
@@ -40,14 +40,17 @@ class GlobalTextfield extends StatelessWidget {
           hintText: hinttext,
           hintStyle: const TextStyle(fontSize: 14, color: AppColors.grey),
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 35),
-          label: label != null ? Text(label!, style: const TextStyle(fontSize: 15)) : null,
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+          label: label != null
+              ? Text(label!, style: const TextStyle(fontSize: 15))
+              : null,
           suffixIcon: onTapSuffix != null
               ? IconButton(
-              onPressed: onTapSuffix,
-              icon: obbscureText ?? false
-                  ? const Icon(Icons.lock)
-                  : const Icon(Icons.remove_red_eye))
+                  onPressed: onTapSuffix,
+                  icon: obbscureText ?? false
+                      ? const Icon(Icons.lock)
+                      : const Icon(Icons.remove_red_eye))
               : Icon(iconData), // Potential issue here
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         ),

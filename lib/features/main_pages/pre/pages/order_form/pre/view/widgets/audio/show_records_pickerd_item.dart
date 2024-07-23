@@ -33,7 +33,7 @@ class ShowRecordsPickerdItem extends StatelessWidget {
                     const Spacer(),
                     if (!state.isRecording)
                       IconButton(
-                        icon: Icon(Icons.play_arrow),
+                        icon: const Icon(Icons.play_arrow),
                         onPressed: () {
                           showAudioPlayerDialog(context, state.records![index]);
                         },

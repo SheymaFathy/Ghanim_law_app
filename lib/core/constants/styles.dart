@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:ghanim_law_app/core/constants/app_colors.dart';
 
 abstract class Styles {
   static const textStyle18 =
@@ -13,4 +14,6 @@ abstract class Styles {
       TextStyle(fontSize: 16, fontWeight: FontWeight.w500);
   static const textStyle30 = TextStyle(
       fontSize: 30, fontWeight: FontWeight.normal, fontFamily: "Cairo");
+  static const textStyle11 = TextStyle(
+      fontSize:11, fontWeight: FontWeight.normal,color: AppColors.grey);
 }
