@@ -48,7 +48,7 @@ class ProfileViewBodyWidget extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 2,
                 blurRadius: 5,
-                offset: Offset(0, 3),
+                offset: const Offset(0, 3),
               ),
             ],
           ),
@@ -61,24 +61,24 @@ class ProfileViewBodyWidget extends StatelessWidget {
           ),
         ),
 
-  Container(
-    margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-    decoration: BoxDecoration(
-      gradient: LinearGradient(
-        colors: [Colors.grey[200]!, Colors.white],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomCenter,
-      ),
-      borderRadius: BorderRadius.circular(10.0),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.5),
-          spreadRadius: 2,
-          blurRadius: 5,
-          offset: Offset(0, 3),
-        ),
-      ],
-    ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.grey[200]!, Colors.white],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomCenter,
+            ),
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
           child: ListTile(
             leading: Icon(Icons.phone, color: Colors.blueGrey[900]),
             title: Text(

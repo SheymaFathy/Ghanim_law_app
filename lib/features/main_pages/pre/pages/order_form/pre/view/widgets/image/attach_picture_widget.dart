@@ -3,12 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:ghanim_law_app/features/main_pages/pre/pages/order_form/pre/view_model/cubit/add_order_cubit.dart';
 
+import '../../../../../../../../../core/get_it/service_locator.dart';
+
 attachPictureWidget(BuildContext orderCtx) {
   return showDialog(
     context: orderCtx,
     builder: (BuildContext context) {
       return BlocProvider.value(
-        value: AddOrderCubit(),
+        value: getIt<AddOrderCubit>(),
         child: BlocBuilder<AddOrderCubit, AddOrderState>(
           builder: (context, state) {
             return AlertDialog(

@@ -15,5 +15,5 @@ abstract class Styles {
   static const textStyle30 = TextStyle(
       fontSize: 30, fontWeight: FontWeight.normal, fontFamily: "Cairo");
   static const textStyle11 = TextStyle(
-      fontSize:11, fontWeight: FontWeight.normal,color: AppColors.grey);
+      fontSize: 11, fontWeight: FontWeight.normal, color: AppColors.grey);
 }

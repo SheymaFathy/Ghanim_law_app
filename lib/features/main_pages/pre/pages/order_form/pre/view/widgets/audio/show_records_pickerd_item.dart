@@ -15,7 +15,7 @@ class ShowRecordsPickerdItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
         shrinkWrap: true,
-        itemCount: addOrderCubit.state.records!.length,
+        itemCount: 1,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -35,7 +35,7 @@ class ShowRecordsPickerdItem extends StatelessWidget {
                       IconButton(
                         icon: const Icon(Icons.play_arrow),
                         onPressed: () {
-                          showAudioPlayerDialog(context, state.records![index]);
+                          showAudioPlayerDialog(context, state.records!.path);
                         },
                       ),
                     IconButton(

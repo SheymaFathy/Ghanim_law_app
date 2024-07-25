@@ -17,10 +17,12 @@ class CustomServiceContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        GoRouter.of(context).push(AppRouter.kOrderForm);
+        GoRouter.of(context).push(AppRouter.kOrderForm,
+            extra: {"type": priceModel.serviceName});
       },
       child: Container(
         height: 70,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -44,9 +46,11 @@ class CustomServiceContainer extends StatelessWidget {
             ServiceIconBuildItem(
               serviceName: priceModel.serviceName,
             ),
+            const Spacer(),
             Text(
               priceModel.serviceName.tr(context),
             ),
+            const Spacer(),
             Text(priceModel.formattedPrice),
           ],
         ),
