@@ -69,7 +69,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                         iconData: Icons.phone,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return "Please enter email or phone number";
+                            return "enter_phone".tr(context);
                           } else {
                             return null;
                           }

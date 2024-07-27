@@ -87,5 +87,8 @@
     "Address": "Address",
     "Recording audio...": "Recording audio...",
     "status": "Status",
-    "order_sccess": "The transaction was added successfully"
+    "order_sccess": "The transaction was added successfully",
+    "you_need_login": "You need to login to access this page",
+    "The password and re-password do not match": "The password and re-password do not match",
+    "Login as guest": "Login as guest"
 }

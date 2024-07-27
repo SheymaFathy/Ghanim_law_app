@@ -87,5 +87,8 @@
     "Recording audio...": "تسجيل الصوت...",
     "status": "الحالة",
     "details": "التفاصيل",
-    "order_sccess": "تم اضافة المعاملة بنجاح"
+    "order_sccess": "تم اضافة المعاملة بنجاح",
+    "you_need_login": "تحتاج الي تسجيل الدخول للولوج الي هذه الصفحة",
+    "The password and re-password do not match": "كلمة المرور وإعادة كلمة المرور ليست متطابقة",
+    "Login as guest": " دخول كزائر"
 }

@@ -7,10 +7,12 @@ class MyOrderDescriptionTextWidget extends StatelessWidget {
   final String description;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: Directionality(
-          textDirection: isRTL(description), child: Text(description)),
+    return Directionality(
+      textDirection: isRTL(description),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 5),
+        child: Text(description),
+      ),
     );
   }
 }
