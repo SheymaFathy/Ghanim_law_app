@@ -72,7 +72,7 @@ class ResetPasswordScreen extends StatelessWidget {
                         mycontroller: forgotCubit.passwordController,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return "please enter password";
+                            return "write_new_password".tr(context);
                           } else if (value !=
                               forgotCubit.rePasswordController.text) {
                             return "password and repassword is not equal";
@@ -86,7 +86,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       CustomAuthTextFormFeild(
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return "please enter re password";
+                            return "write_new_password".tr(context);
                           } else if (value !=
                               forgotCubit.passwordController.text) {
                             return "password and repassword is not equal";

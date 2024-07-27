@@ -52,19 +52,21 @@ class LoginViewBody extends StatelessWidget {
               mycontroller: loginCubit.userNameController,
               validator: (value) {
                 if (value!.isEmpty) {
-                  return "Please enter your email";
+                  return "enter_phone".tr(context);
                 } else {
                   return null;
                 }
               },
             ),
             CustomAuthTextFormFeild(
+              onTapSuffix: loginCubit.toggleObscure,
               hinttext: 'enter_pass'.tr(context),
               label: 'password'.tr(context),
               iconData: Icons.lock,
+              obbscureText: loginCubit.state.isObscure,
               validator: (value) {
                 if (value!.isEmpty) {
-                  return "Please enter your password";
+                  return "enter_pass".tr(context);
                 } else {
                   return null;
                 }
@@ -96,7 +98,7 @@ class LoginViewBody extends StatelessWidget {
             CustomBotton(
                 backgroundColor: Colors.grey,
                 textColor: Colors.black,
-                text: "دخول ك زائر",
+                text: "Login as guest".tr(context),
                 onPressed: () {
                   GoRouter.of(context).replace(AppRouter.kHomeView);
                 }),
