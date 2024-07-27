@@ -82,6 +82,10 @@
     "follow_us": "Follow us on social media",
     "contact_us": "Contact Us",
     "policy": "Privacy Policy",
-    "order_details": "Consultation details"
-
+    "order_details": "Consultation details",
+    "details": "details",
+    "Address": "Address",
+    "Recording audio...": "Recording audio...",
+    "status": "Status",
+    "order_sccess": "The transaction was added successfully"
 }

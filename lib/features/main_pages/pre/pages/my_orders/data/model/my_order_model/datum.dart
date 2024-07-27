@@ -8,7 +8,7 @@ class Datum extends Equatable {
   final String? name;
   final String? email;
   final String? phone;
-  final dynamic description;
+  final String? description;
   final String? type;
   final String? status;
   final dynamic rejectReason;
@@ -39,7 +39,7 @@ class Datum extends Equatable {
         name: json['name'] as String?,
         email: json['email'] as String?,
         phone: json['phone'] as String?,
-        description: json['description'] as dynamic,
+        description: json['description'] as String?,
         type: json['type'] as String?,
         status: json['status'] as String?,
         rejectReason: json['reject_reason'] as dynamic,

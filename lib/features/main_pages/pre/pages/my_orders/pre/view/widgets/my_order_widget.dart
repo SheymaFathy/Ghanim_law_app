@@ -3,30 +3,24 @@ import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../../../../core/constants/app_router.dart';
-class Orders {
-  final String myService;
-  final String orderState;
-
-  Orders({
-    required this.myService,
-    required this.orderState,
-  });
-}
+import '../../../data/model/my_order_model/datum.dart';
 
 class OrdersWidget extends StatelessWidget {
-  final Orders orders;
-
-  const OrdersWidget({super.key, required this.orders});
+  final Datum orders;
+  final int index;
+  const OrdersWidget({super.key, required this.orders, required this.index});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        GoRouter.of(context).push(AppRouter.korderdetails);
+        GoRouter.of(context)
+            .push(AppRouter.korderdetails, extra: {"id": orders.id});
       },
       child: Container(
         height: 70,
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.grey[200]!, Colors.white],
@@ -47,9 +41,10 @@ class OrdersWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
-             orders.myService.tr(context),
+              orders.type!.tr(context),
             ),
-            Text(orders.orderState),
+            const Spacer(),
+            Text(orders.status!),
           ],
         ),
       ),

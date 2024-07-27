@@ -5,9 +5,15 @@ import 'package:ghanim_law_app/features/auth/sign_up/data/repository/sign_up_rep
 import 'package:ghanim_law_app/features/main_pages/pre/pages/feedback/data/repo/fedback_repo.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/home/data/repo/home_repo.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/home/pre/view_model/cubit/home_cubit.dart';
+import 'package:ghanim_law_app/features/main_pages/pre/pages/my_orders/data/repo/my_order_repo.dart';
+import 'package:ghanim_law_app/features/main_pages/pre/pages/my_orders/pre/view_model/cubit/my_order_cubit.dart';
+import 'package:ghanim_law_app/features/main_pages/pre/pages/order_form/data/repo/add_order_repo.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/profile/data/repo/profile_repo.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/profile/pre/view_model/cubit/profile_cubit.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/view_model/cubit/main_page_cubit.dart';
+import 'package:ghanim_law_app/features/order_details/data/repo/my_order_details_repo.dart';
+
+import 'package:ghanim_law_app/features/order_details/pre/view_model/cubit/my_order_details_cubit.dart';
 
 import '../../features/main_pages/pre/pages/order_form/pre/view_model/cubit/add_order_cubit.dart';
 import '../../features/main_pages/pre/pages/settings/pre/view_model/cubit/setting_cubit.dart';
@@ -21,8 +27,14 @@ class ServiceLocator {
     getIt.registerLazySingleton(() => SettingCubit(getIt()));
     getIt.registerLazySingleton(() => HomeCubit(getIt()));
     getIt.registerLazySingleton(() => MainPageCubit());
-    getIt.registerLazySingleton(() => AddOrderCubit());
+    getIt.registerLazySingleton(() => AddOrderCubit(getIt()));
     getIt.registerLazySingleton(() => ProfileCubit(getIt()));
+    getIt.registerLazySingleton(() => MyOrderCubit(getIt()));
+    getIt.registerLazySingleton(() => MyOrderDetailsCubit(getIt()));
+    getIt.registerSingleton<MyOrderDetailsRepo>(MyOrderDetailsRepoImp());
+
+    getIt.registerSingleton<AddOrderRepo>(AddOrderRepoImp());
+    getIt.registerSingleton<MyOrderRepo>(MyOrderRepoImp());
     getIt.registerSingleton<LoginRepo>(LoginRepoImp());
     getIt.registerSingleton<SignUpRepo>(SignUpRepoImp());
     getIt.registerSingleton<ForgotPsswordRepo>(ForgotPsswordRepoImp());

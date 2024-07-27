@@ -37,6 +37,7 @@ dependencies:
   just_audio: any
   audio_video_progress_bar: any
   url_launcher: ^6.3.0
+  file_downloader_flutter: ^0.0.5
 
 dev_dependencies:
   flutter_test:

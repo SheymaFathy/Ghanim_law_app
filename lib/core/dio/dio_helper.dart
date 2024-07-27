@@ -30,9 +30,7 @@ class DioHelper {
   }
 
   static Future<Response> postData(
-      {required String url,
-      Map<String, dynamic>? qurey,
-      Map<String, dynamic>? data}) async {
+      {required String url, Map<String, dynamic>? qurey, data}) async {
     dio!.options.headers = {
       'Authorization': "Bearer ${UserData.uId}",
       'Accept': 'application/json',

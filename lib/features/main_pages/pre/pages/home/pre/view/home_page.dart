@@ -27,9 +27,10 @@ class HomePage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: CustomServiceContainer(priceModel: state.homeModel!.priceModel![index],),
+                    child: CustomServiceContainer(
+                      priceModel: state.homeModel!.priceModel![index],
+                    ),
                   );
-
 
                   // return ServiceBuildItemWidget(
                   //     priceModel: state.homeModel!.priceModel![index]);

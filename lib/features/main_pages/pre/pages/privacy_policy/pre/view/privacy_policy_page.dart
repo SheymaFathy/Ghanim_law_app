@@ -15,26 +15,18 @@ class PrivacyPolicyPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'policy'.tr(context),
-              style:Styles.textStyle18
-            ),
+            Text('policy'.tr(context), style: Styles.textStyle18),
             const SizedBox(height: 16.0),
-            const Text(
-              'تم التحديث بتاريخ 24 / 07 /2024',
-                style:Styles.textStyle14
-            ),
+            const Text('تم التحديث بتاريخ 24 / 07 /2024',
+                style: Styles.textStyle14),
             const SizedBox(height: 16.0),
             Divider(color: Colors.grey[400]),
             const SizedBox(height: 16.0),
-            const Text(
-              'المقدمة',
-           style:Styles.textStyle18
-            ),
+            const Text('المقدمة', style: Styles.textStyle18),
             const SizedBox(height: 8.0),
             const Text(
               'Welcome to our application. We value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and disclose your information.',
-             style: Styles.textStyle14,
+              style: Styles.textStyle14,
             ),
             const SizedBox(height: 16.0),
             const Text(

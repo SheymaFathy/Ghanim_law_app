@@ -1,23 +1,63 @@
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:ghanim_law_app/features/main_pages/pre/pages/order_form/data/model/add_order_model.dart';
+import 'package:ghanim_law_app/features/main_pages/pre/pages/order_form/data/model/add_order_result_model/add_order_result_model.dart';
+import 'package:ghanim_law_app/features/main_pages/pre/pages/order_form/data/repo/add_order_repo.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import '../../../../../../../../core/enum/enum.dart';
+
 part 'add_order_state.dart';
 
 class AddOrderCubit extends Cubit<AddOrderState> {
-  AddOrderCubit() : super(const AddOrderState());
+  AddOrderCubit(this.addOrderRepo) : super(const AddOrderState());
+  final AddOrderRepo addOrderRepo;
+  // gloabal Method
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController detailsController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey();
 
-// gloabal Method
+  bool validateFormKey() => formKey.currentState!.validate();
+  fetchAddOrder(String orderType) async {
+    if (validateFormKey()) {
+      emit(state.copyWith(addOrderState: AuthRequestState.loading));
+      final response = await addOrderRepo.fetchAddOrder(AddOrderModel(
+          name: nameController.text,
+          email: emailController.text,
+          phone: phoneController.text,
+          description: detailsController.text,
+          image: imageFiles,
+          typeOrder: orderType,
+          voice: recordsList,
+          docs: pickedFiles));
+      response.fold((ifLeft) {
+        emit(
+          state.copyWith(
+              addOrderState: AuthRequestState.erorr,
+              erorrMessage: ifLeft.erorrMessage),
+        );
+      }, (ifRight) {
+        emit(
+          state.copyWith(
+              addOrderState: AuthRequestState.sucess,
+              addOrderResultModel: ifRight),
+        );
+      });
+    }
+  }
+
   void deleteFiles(int index, String fileType) {
     if (fileType == 'image') {
       imageFiles!.removeAt(index);
       emit(state.copyWith(imageFiles: imageFiles));
     } else if (fileType == 'audio') {
-      recordsList!.removeAt(index);
+      recordsList = null;
       emit(state.copyWith(records: recordsList));
     } else {
       pickedFiles!.removeAt(index);
@@ -25,6 +65,7 @@ class AddOrderCubit extends Cubit<AddOrderState> {
     }
   }
 
+// gloabal Method
   // Images Controllers
   final ImagePicker picker = ImagePicker();
   List<XFile>? imageFiles;
@@ -79,7 +120,7 @@ class AddOrderCubit extends Cubit<AddOrderState> {
 // Records Controllers
 
   final AudioRecorder recorder = AudioRecorder();
-  List<String>? recordsList;
+  XFile? recordsList;
   bool isRecording = false;
   String? fileRecordPath;
 
@@ -90,7 +131,7 @@ class AddOrderCubit extends Cubit<AddOrderState> {
     } else {
       final directory = await getApplicationDocumentsDirectory();
       String fileName =
-          "recording_${DateTime.now().millisecondsSinceEpoch}.m4a";
+          "recording_${DateTime.now().millisecondsSinceEpoch}.aac";
       fileRecordPath = "${directory.path}/$fileName";
       const config = RecordConfig(
         encoder: AudioEncoder.aacLc,
@@ -113,7 +154,7 @@ class AddOrderCubit extends Cubit<AddOrderState> {
   }
 
   Future<void> saveRecordInList(String path) async {
-    recordsList = (recordsList ?? [])..add(path);
+    recordsList = XFile(path);
     emit(state.copyWith(records: recordsList));
   }
 

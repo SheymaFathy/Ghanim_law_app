@@ -4,17 +4,18 @@ import '../../../../../core/constants/app_colors.dart';
 
 class CustomAboutUsContainer extends StatelessWidget {
   final String title;
-  final IconData?  iconData;
+  final IconData? iconData;
   const CustomAboutUsContainer({
-    super.key, required this.title, this.iconData,
+    super.key,
+    required this.title,
+    this.iconData,
   });
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-      margin: const EdgeInsets.symmetric(vertical:5),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 5),
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-
       decoration: BoxDecoration(
           border: Border.all(color: AppColors.lightGrey),
           borderRadius: BorderRadius.circular(10),
@@ -34,8 +35,7 @@ class CustomAboutUsContainer extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomCenter,
           ),
-          color: AppColors.backgroundColor
-      ),
+          color: AppColors.backgroundColor),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
