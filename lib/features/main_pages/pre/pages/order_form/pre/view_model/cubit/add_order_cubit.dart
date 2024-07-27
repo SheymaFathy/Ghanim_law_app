@@ -2,14 +2,14 @@ import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:ghanim_law_app/features/main_pages/pre/pages/order_form/data/model/add_order_model.dart';
-import 'package:ghanim_law_app/features/main_pages/pre/pages/order_form/data/model/add_order_result_model/add_order_result_model.dart';
-import 'package:ghanim_law_app/features/main_pages/pre/pages/order_form/data/repo/add_order_repo.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import '../../../../../../../../core/enum/enum.dart';
+import '../../../data/model/add_order_model.dart';
+import '../../../data/model/add_order_result_model/add_order_result_model.dart';
+import '../../../data/repo/add_order_repo.dart';
 
 part 'add_order_state.dart';
 
@@ -22,6 +22,19 @@ class AddOrderCubit extends Cubit<AddOrderState> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
+  clearFiled() {
+    if (detailsController.text.isNotEmpty) {
+      detailsController.clear();
+    }
+    imageFiles = null;
+    recordsList = null;
+
+    pickedFiles = null;
+    emit(state.copyWith(
+        imageFiles: imageFiles,
+        records: recordsList,
+        pickedFiles: pickedFiles));
+  }
 
   bool validateFormKey() => formKey.currentState!.validate();
   fetchAddOrder(String orderType) async {
