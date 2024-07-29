@@ -27,6 +27,7 @@ class AddOrderRepoImp extends AddOrderRepo {
       // Upload Images Files
       if (order.image != null) {
         for (var file in order.image!) {
+          // ignore: avoid_print
           print(file.name);
           formData.files.add(MapEntry('images[]',
               await MultipartFile.fromFile(file.path, filename: file.name)));
