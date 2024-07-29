@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
+import 'package:ghanim_law_app/core/responsive_text/app_style.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/home/pre/view/widgets/service_icon_build_item_widget.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../../../../core/constants/app_router.dart';
@@ -47,11 +48,23 @@ class CustomServiceContainer extends StatelessWidget {
               serviceName: priceModel.serviceName,
             ),
             const Spacer(),
-            Text(
-              priceModel.serviceName.tr(context),
+            SizedBox(
+              width: MediaQuery.sizeOf(context).width / 2,
+              child: Center(
+                child: Text(
+                  textAlign: TextAlign.center,
+                  priceModel.serviceName.tr(context),
+                  style: TextStyle(
+                      fontSize: getResponsiveFontSize(context, fontSize: 16)),
+                ),
+              ),
             ),
             const Spacer(),
-            Text(priceModel.formattedPrice),
+            Text(
+              priceModel.formattedPrice,
+              style: TextStyle(
+                  fontSize: getResponsiveFontSize(context, fontSize: 14)),
+            ),
           ],
         ),
       ),
