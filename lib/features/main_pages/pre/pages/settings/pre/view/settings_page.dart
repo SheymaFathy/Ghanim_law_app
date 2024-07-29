@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/constants/app_router.dart';
+import 'package:ghanim_law_app/core/get_it/service_locator.dart';
 import 'package:ghanim_law_app/core/profile.dart';
 import 'package:ghanim_law_app/core/required_login_screen.dart';
+import 'package:ghanim_law_app/features/main_pages/pre/pages/home/pre/view_model/cubit/home_cubit.dart';
 
 import 'package:go_router/go_router.dart';
 
@@ -48,17 +50,21 @@ class SettingsPage extends StatelessWidget {
                 children: [
                   ListTile(
                     title: Text("eng".tr(context)),
-                    onTap: () {
+                    onTap: () async {
                       context.read<SettingCubit>().changeLanguage("en");
-                      UserData.init();
+                      await UserData.initLang();
+
+                      getIt<HomeCubit>().getHomeData();
                     },
                     selected: state.locale.languageCode == "en",
                   ),
                   ListTile(
                     title: Text("arb".tr(context)),
-                    onTap: () {
+                    onTap: () async {
                       context.read<SettingCubit>().changeLanguage("ar");
-                      UserData.init();
+                      await UserData.initLang();
+
+                      getIt<HomeCubit>().getHomeData();
                     },
                     selected: state.locale.languageCode == "ar",
                   ),
@@ -66,7 +72,7 @@ class SettingsPage extends StatelessWidget {
               ),
               ListTile(
                 leading: const Icon(Icons.info_outline),
-                title: Text("policy".tr(context)),
+                title: Text("terms_and_privcy".tr(context)),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                 onTap: () {
                   GoRouter.of(context).push(AppRouter.kpolicy);

@@ -126,12 +126,16 @@ class AddOrderCubit extends Cubit<AddOrderState> {
 
   void attachFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      allowMultiple: true,
       type: FileType.custom,
-      allowedExtensions: ['pdf', 'doc', 'docx', 'xls'],
+      allowedExtensions: ['pdf', 'doc', 'docx'],
     );
-    if (result != null) {
+    if (result != null &&
+        (result.files[0].extension == 'pdf' ||
+            result.files[0].extension == 'doc' ||
+            result.files[0].extension == 'docx')) {
       openFiles(result.files);
+    } else {
+      emit(state.copyWith(validateFileExtensions: false));
     }
   }
 // Files Controllers

@@ -14,6 +14,7 @@ class MyOrderCubit extends Cubit<MyOrderState> {
     response.fold((ifLeft) {
       emit(state.copyWith(
           myOrdersState: RequestState.erorr,
+          erorrStatusCode: ifLeft.statusCode ?? 0,
           erorrMessage: ifLeft.erorrMessage));
     }, (ifRight) {
       emit(state.copyWith(

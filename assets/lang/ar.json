@@ -81,7 +81,7 @@
     "keep_in_touch": "أبقى على تواصل معنا",
     "follow_us": "تابعنا على وسائل التواصل الإجتماعي",
     "contact_us": "تواصل معنا",
-    "policy": "سياسة الاستخدام",
+    "terms_and_privcy": "سياسة الاستخدام والخصوصية",
     "order_details": "تفاصيل المعاملة",
     "Address": "العنوان",
     "Recording audio...": "تسجيل الصوت...",
@@ -90,5 +90,12 @@
     "order_sccess": "تم اضافة المعاملة بنجاح",
     "you_need_login": "تحتاج الي تسجيل الدخول للولوج الي هذه الصفحة",
     "The password and re-password do not match": "كلمة المرور وإعادة كلمة المرور ليست متطابقة",
-    "Login as guest": " دخول كزائر"
+    "Login as guest": " دخول كزائر",
+    "select_source_image": "اختر مصدر الصورة",
+    "galary": "الاستوديو",
+    "camera": "الكاميرا",
+    "content": "المحتوي",
+    "privacy": "الخصوصية",
+    "terms": "سياسية الاستخدام",
+    "this_files_Not_Validate": "هذه الامتدادات غير مسموح بها يمكنك رفع ملفات من نوع [ pdf و doc و docx ]"
 }

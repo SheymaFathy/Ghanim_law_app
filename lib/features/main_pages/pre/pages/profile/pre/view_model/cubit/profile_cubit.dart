@@ -74,7 +74,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     result.fold((ifLeft) {
       emit(state.copyWith(
           profileRequestState: RequestState.erorr,
-          profileErorrMessage: ifLeft.erorrMessage));
+          profileErorrMessage: ifLeft.erorrMessage,
+          profileErorrStatusCode: ifLeft.statusCode ?? 0));
     }, (ifRight) {
       emit(state.copyWith(
           profileRequestState: RequestState.sucess, profileModel: ifRight));

@@ -62,7 +62,7 @@ class AddOrderRepoImp extends AddOrderRepo {
       if (e is DioException) {
         return Left(ServerFaliure.fromDioErorr(e));
       } else {
-        return Left(ServerFaliure(e.toString()));
+        return Left(ServerFaliure(erorrMessage: e.toString()));
       }
     }
   }

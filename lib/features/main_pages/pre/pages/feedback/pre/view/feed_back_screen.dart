@@ -10,6 +10,7 @@ import 'package:ghanim_law_app/core/widget/global_textfield.dart';
 import 'package:ghanim_law_app/features/auth/widget/logo.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/feedback/pre/view_model/cubit/feedback_cubit.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/profile/pre/view_model/cubit/profile_cubit.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../../../core/get_it/service_locator.dart';
 import '../../../../../../../core/widget/custom_snackbar_widget.dart';
@@ -37,6 +38,7 @@ class FeedBackScreen extends StatelessWidget {
                   ..hideCurrentSnackBar()
                   ..showSnackBar(customSnackBarWidget(
                       state.feedBackMessage, Colors.grey[800]!));
+                GoRouter.of(context).pop();
               } else if (state.feedbackRequestState == RequestState.erorr) {
                 EasyLoading.dismiss();
                 ScaffoldMessenger.of(context)

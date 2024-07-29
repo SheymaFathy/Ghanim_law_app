@@ -40,6 +40,7 @@ class RequiredLoginScreen extends StatelessWidget {
 }
 
 bool checkUserMethod() {
+  UserData.init();
   if (UserData.uId != null) {
     return true;
   } else {

@@ -6,6 +6,7 @@ import 'package:ghanim_law_app/core/get_it/service_locator.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/my_orders/pre/view/widgets/my_order_widget.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/my_orders/pre/view_model/cubit/my_order_cubit.dart';
 import '../../../../../../../core/required_login_screen.dart';
+import '../../../../../../../core/shared_preferences/cache_helper.dart';
 import '../../../../../../../core/widget/app_bar.dart';
 
 class MyOrdersPage extends StatelessWidget {
@@ -29,7 +30,15 @@ class MyOrderViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: getIt<MyOrderCubit>()..fetchOrdersData(),
-      child: BlocBuilder<MyOrderCubit, MyOrderState>(
+      child: BlocConsumer<MyOrderCubit, MyOrderState>(
+        listener: (context, state) {
+          if (state.myOrdersState == RequestState.erorr) {
+            if (state.erorrStatusCode != null && state.erorrStatusCode == 401) {
+              CacheHelper.clearData(key: 'uId');
+              checkUserMethod();
+            }
+          }
+        },
         builder: (context, state) {
           switch (state.myOrdersState) {
             case RequestState.loading:

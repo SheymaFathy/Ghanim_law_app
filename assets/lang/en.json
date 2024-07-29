@@ -81,7 +81,7 @@
     "keep_in_touch": "Keep in Touch",
     "follow_us": "Follow us on social media",
     "contact_us": "Contact Us",
-    "policy": "Privacy Policy",
+    "terms_and_privcy": "Terms of use and privacy policy",
     "order_details": "Consultation details",
     "details": "details",
     "Address": "Address",
@@ -90,5 +90,12 @@
     "order_sccess": "The transaction was added successfully",
     "you_need_login": "You need to login to access this page",
     "The password and re-password do not match": "The password and re-password do not match",
-    "Login as guest": "Login as guest"
+    "Login as guest": "Login as guest",
+    "select_source_image": "Select Source Image",
+    "galary": "Galary",
+    "camera": "Camera",
+    "content": "Content",
+    "privacy": "Privacy Policy",
+    "terms": "Terms",
+    "this_files_Not_Validate": "These extensions are not allowed. You can upload files of type [pdf, doc, docx]."
 }

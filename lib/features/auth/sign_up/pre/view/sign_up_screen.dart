@@ -48,6 +48,3 @@ class SignUpScreen extends StatelessWidget {
         ));
   }
 }
-
-String? globalEmail;
-String? globalPassword;

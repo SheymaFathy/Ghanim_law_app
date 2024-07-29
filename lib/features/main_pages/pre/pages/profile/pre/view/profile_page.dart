@@ -34,7 +34,16 @@ class ProfilePage extends StatelessWidget {
                       icon: const Icon(Icons.logout))
                   : null),
           body: checkUserMethod()
-              ? BlocBuilder<ProfileCubit, ProfileState>(
+              ? BlocConsumer<ProfileCubit, ProfileState>(
+                  listener: (context, state) {
+                    if (state.profileRequestState == RequestState.erorr) {
+                      if (state.profileErorrStatusCode != null &&
+                          state.profileErorrStatusCode == 401) {
+                        CacheHelper.clearData(key: 'uId');
+                        checkUserMethod();
+                      }
+                    }
+                  },
                   builder: (context, state) {
                     switch (state.profileRequestState) {
                       case RequestState.loading:

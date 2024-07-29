@@ -2,6 +2,7 @@
 
 class ServerException implements Exception {
   final String erorrMessageModel;
-
-  const ServerException({required this.erorrMessageModel});
+  final int statusCode;
+  const ServerException(
+      {required this.erorrMessageModel, required this.statusCode});
 }

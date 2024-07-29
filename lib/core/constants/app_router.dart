@@ -8,7 +8,7 @@ import 'package:ghanim_law_app/features/auth/sign_up/pre/view/sign_up_screen.dar
 import 'package:ghanim_law_app/features/main_pages/pre/pages/feedback/pre/view/feed_back_screen.dart';
 import 'package:ghanim_law_app/features/order_details/pre/view/my_order_details.dart';
 import 'package:ghanim_law_app/features/order_form/pre/view/order_form.dart';
-import 'package:ghanim_law_app/features/main_pages/pre/pages/privacy_policy/pre/view/privacy_policy_page.dart';
+import 'package:ghanim_law_app/features/privacy_policy/pre/view/privacy_policy_page.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/settings/pre/view/settings_page.dart';
 import 'package:ghanim_law_app/features/splash/pre/view/splash_screen.dart';
 import 'package:go_router/go_router.dart';

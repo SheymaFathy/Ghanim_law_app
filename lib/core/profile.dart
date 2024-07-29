@@ -12,4 +12,8 @@ class UserData {
       isGhost = await CacheHelper.getSaveData(key: "ghost");
     }
   }
+
+  static initLang() async {
+    lang = await CacheHelper.getSaveData(key: "LOCALE");
+  }
 }
