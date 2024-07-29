@@ -5,9 +5,10 @@ import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import '../../../../../../core/get_it/service_locator.dart';
 import '../../../view_model/cubit/add_order_cubit.dart';
 
-void showDeletePhotoDialog(int index, String fileType, BuildContext orderCtx) {
+void showDeletePhotoDialog(
+    int index, String fileType, BuildContext oldContext) {
   showDialog(
-    context: orderCtx,
+    context: oldContext,
     builder: (BuildContext context) {
       return BlocProvider.value(
         value: getIt<AddOrderCubit>(),
@@ -26,9 +27,9 @@ void showDeletePhotoDialog(int index, String fileType, BuildContext orderCtx) {
                 TextButton(
                   child: Text('delete'.tr(context)),
                   onPressed: () {
-                    Navigator.of(context).pop();
-                    BlocProvider.of<AddOrderCubit>(orderCtx)
+                    BlocProvider.of<AddOrderCubit>(context)
                         .deleteFiles(index, fileType);
+                    Navigator.of(context).pop();
                   },
                 ),
               ],

@@ -16,13 +16,24 @@ class AddOrderRepoImp extends AddOrderRepo {
       AddOrderModel order) async {
     try {
       FormData formData = FormData();
+      // Upload Doc Files
       if (order.docs != null) {
         for (var file in order.docs!) {
           formData.files.add(MapEntry('documents[]',
               await MultipartFile.fromFile(file.path!, filename: file.name)));
         }
       }
-
+      // Upload Doc Files
+      // Upload Images Files
+      if (order.image != null) {
+        for (var file in order.image!) {
+          print(file.name);
+          formData.files.add(MapEntry('images[]',
+              await MultipartFile.fromFile(file.path, filename: file.name)));
+        }
+      }
+      // Upload Images Files
+      // Upload Voice File
       if (order.voice != null) {
         formData.files.add(MapEntry(
             'voice',
@@ -30,17 +41,22 @@ class AddOrderRepoImp extends AddOrderRepo {
                 filename: order.voice!.name,
                 contentType: DioMediaType.parse("audio/aac"))));
       }
+      // Upload Voice File
+      // Upload description
       if (order.description != null) {
         formData.fields.add(MapEntry("description", order.description!));
       }
+      // Upload description
 
+      // Upload Person Information
       formData.fields.add(MapEntry("name", order.name!));
       formData.fields.add(MapEntry("email", order.email!));
       formData.fields.add(MapEntry("phone", order.phone!));
       formData.fields.add(MapEntry("type", order.typeOrder!));
-
+      // Upload Person Information
       final response =
           await DioHelper.postData(url: "/api/orders", data: formData);
+
       return Right(AddOrderResultModel.fromJson(response.data));
     } on Exception catch (e) {
       if (e is DioException) {

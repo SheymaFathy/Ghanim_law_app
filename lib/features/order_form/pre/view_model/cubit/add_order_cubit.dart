@@ -26,10 +26,16 @@ class AddOrderCubit extends Cubit<AddOrderState> {
     if (detailsController.text.isNotEmpty) {
       detailsController.clear();
     }
-    imageFiles = null;
-    recordsList = null;
+    if (imageFiles != null) {
+      imageFiles!.clear();
+    }
+    if (recordsList != null) {
+      recordsList = null;
+    }
+    if (pickedFiles != null) {
+      pickedFiles!.clear();
+    }
 
-    pickedFiles = null;
     emit(state.copyWith(
         imageFiles: imageFiles,
         records: recordsList,
@@ -122,7 +128,7 @@ class AddOrderCubit extends Cubit<AddOrderState> {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
       type: FileType.custom,
-      allowedExtensions: ['pdf', 'doc', 'mp3', 'docx', 'xls', 'wav'],
+      allowedExtensions: ['pdf', 'doc', 'docx', 'xls'],
     );
     if (result != null) {
       openFiles(result.files);
@@ -144,10 +150,10 @@ class AddOrderCubit extends Cubit<AddOrderState> {
     } else {
       final directory = await getApplicationDocumentsDirectory();
       String fileName =
-          "recording_${DateTime.now().millisecondsSinceEpoch}.aac";
+          "recording_${DateTime.now().millisecondsSinceEpoch}.wav";
       fileRecordPath = "${directory.path}/$fileName";
       const config = RecordConfig(
-        encoder: AudioEncoder.aacLc,
+        encoder: AudioEncoder.wav,
         sampleRate: 44100,
         bitRate: 128000,
       );

@@ -39,7 +39,6 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   }
 
   Future<void> playRecording(String path) async {
-    initRecording(path);
     audioPlayer.play();
     emit(state.copyWith(isPlaying: true));
   }
@@ -51,7 +50,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
         audioPlayer: audioPlayer,
         currentPosition: dur,
         isSeeking: true,
-        isPlaying: true));
+        isPlaying: state.isPlaying ? true : false));
   }
 
   Future<void> pauseRecording() async {

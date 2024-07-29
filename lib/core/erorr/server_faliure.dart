@@ -40,13 +40,14 @@ class ServerFaliure extends Faliure {
   }
   factory ServerFaliure.fromResponse(int stutusCode, dynamic response) {
     if (stutusCode == 400 || stutusCode == 401 || stutusCode == 403) {
-      return ServerFaliure(response.toString());
+      return ServerFaliure('Unauthenticated');
     } else if (stutusCode == 404) {
       return ServerFaliure("Your Request Not Found, Please try later!");
     } else if (stutusCode == 500) {
       return ServerFaliure("Internal Server Erorr, Please try later!");
     } else if (stutusCode == 422) {
       final Map<String, dynamic> decode = jsonDecode(response.toString());
+      print(decode['message']);
       return ServerFaliure(decode['message']);
     } else {
       return ServerFaliure("Opps There Was am Erorr");
