@@ -30,22 +30,22 @@ class MainPageCubit extends Cubit<MainPageState> {
             : "Rubik");
     return [
       SalomonBottomBarItem(
-        icon: Icon(Icons.home),
+        icon: const Icon(Icons.home),
         title: Text(
           'home'.tr(context),
           style: textStyle,
         ),
       ),
       SalomonBottomBarItem(
-        icon: Icon(Icons.list_alt),
+        icon: const Icon(Icons.list_alt),
         title: Text('my-order'.tr(context), style: textStyle),
       ),
       SalomonBottomBarItem(
-        icon: Icon(Icons.person),
+        icon: const Icon(Icons.person),
         title: Text('profile'.tr(context), style: textStyle),
       ),
       SalomonBottomBarItem(
-        icon: Icon(Icons.settings),
+        icon: const Icon(Icons.settings),
         title: Text(
           'settings'.tr(context),
           style: textStyle,
