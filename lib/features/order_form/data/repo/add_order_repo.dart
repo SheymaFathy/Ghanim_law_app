@@ -57,7 +57,7 @@ class AddOrderRepoImp extends AddOrderRepo {
       // Upload Person Information
       final response =
           await DioHelper.postData(url: "/api/orders", data: formData);
-
+      print(response.data);
       return Right(AddOrderResultModel.fromJson(response.data));
     } on Exception catch (e) {
       if (e is DioException) {

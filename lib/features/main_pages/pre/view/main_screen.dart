@@ -28,6 +28,7 @@ class MainScreen extends StatelessWidget {
           return Scaffold(
             body: mainPageCubit.bottomNavBarPages[state.selectedNavBarIndex],
             bottomNavigationBar: SalomonBottomBar(
+              selectedItemColor: Colors.black,
               // gap: 8,
               // activeColor: AppColors.primeryColor,
               // iconSize: 24,
