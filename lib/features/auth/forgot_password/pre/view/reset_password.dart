@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/enum/enum.dart';
 import '../../../../../core/get_it/service_locator.dart';
+import '../../../../../core/method/handler_errorr_message_text.dart';
 import '../../../../../core/widget/custom_button.dart';
 import '../../../../../core/widget/custom_snackbar_widget.dart';
 import '../../../widget/custom_auth_title.dart';
@@ -44,7 +45,8 @@ class ResetPasswordScreen extends StatelessWidget {
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(customSnackBarWidget(
-                      state.forgotPasswordResetMessage, Colors.red));
+                      erorrMessage(state.forgotPasswordResetMessage, context),
+                      Colors.red));
               }
             },
             builder: (context, state) {

@@ -97,5 +97,16 @@
     "content": "المحتوي",
     "privacy": "الخصوصية",
     "terms": "سياسية الاستخدام",
-    "this_files_Not_Validate": "هذه الامتدادات غير مسموح بها يمكنك رفع ملفات من نوع [ pdf و doc و docx ]"
+    "this_files_Not_Validate": "هذه الامتدادات غير مسموح بها يمكنك رفع ملفات من نوع [ pdf و doc و docx ]",
+    "Connection Timeout With Api Server": "انتهت مهلة الاتصال بخادم API",
+    "Send Timeout With Api Server": "انتهت مهلة الإرسال باستخدام خادم API",
+    "Receive Timeout With Api Server": "انتهت مهلة الاستلام مع خادم API",
+    "Request to Api Server Was Canceld": "تم إلغاء طلب الاتصال بخادم API",
+    "No InterNet Connection": "لا يوجد اتصال بالإنترنت",
+    "Unexpected Erorr, Plase ty again!": "خطأ غير متوقع، يرجى المحاولة مرة أخرى!",
+    "Opps There Was am Erorr": "كان هناك خطأ",
+    "Your Request Not Found, Please try later!": "لم يتم العثور على طلبك، يرجى المحاولة لاحقًا!",
+    "Internal Server Erorr, Please try later!": "حدث خطأ داخلي في الخادم، يرجى المحاولة لاحقًا!",
+    "Reload": "أعد التحميل",
+    "Ooops": "عفواً"
 }

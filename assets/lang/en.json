@@ -97,5 +97,16 @@
     "content": "Content",
     "privacy": "Privacy Policy",
     "terms": "Terms",
-    "this_files_Not_Validate": "These extensions are not allowed. You can upload files of type [pdf, doc, docx]."
+    "this_files_Not_Validate": "These extensions are not allowed. You can upload files of type [pdf, doc, docx].",
+    "Connection Timeout With Api Server": "Connection Timeout With Api Server",
+    "Send Timeout With Api Server": "Timeout Send With Api Server",
+    "Receive Timeout With Api Server": "Timeout Receive With Api Server",
+    "Request to Api Server Was Canceld": "Request Connection to Api Server Was Canceled",
+    "No InterNet Connection": "No InterNet Connection",
+    "Unexpected Erorr, Plase ty again!": "Unexpected Error, Please try again!",
+    "Opps There Was am Erorr": "There Was an Error",
+    "Your Request Not Found, Please try later!": "Your Request Not Found, Please try later!",
+    "Internal Server Erorr, Please try later!": "Internal Server Erorr, Please try later!",
+    "Reload": "Reload",
+    "Ooops": "Ooops"
 }

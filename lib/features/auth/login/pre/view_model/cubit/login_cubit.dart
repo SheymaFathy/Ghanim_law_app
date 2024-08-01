@@ -15,7 +15,8 @@ class LoginCubit extends Cubit<LoginState> {
   GlobalKey<FormState> formKey = GlobalKey();
   final LoginRepo loginRepo;
   toggleObscure() {
-    emit(state.copyWith(isObscure: !state.isObscure));
+    emit(state.copyWith(
+        isObscure: !state.isObscure, loginState: AuthRequestState.loading));
   }
 
   bool _formValidate() => formKey.currentState!.validate();

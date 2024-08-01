@@ -25,115 +25,118 @@ class AboutUsScreen extends StatelessWidget {
           child: BlocBuilder<HomeCubit, HomeState>(
             builder: (context, state) {
               final contactUsModel = state.homeModel!;
-              return Column(
-                children: [
-                  // App Logo
-                  Image.asset(AppImageAsset.logo),
-                  const SizedBox(height: 15),
-                  Text('keep_in_touch'.tr(context),
-                      style: Styles.textStyle18, textAlign: TextAlign.center),
-                  const SizedBox(height: 10),
-                  CustomAboutUsContainer(
-                    title: contactUsModel.contacts!.phone!,
-                    iconData: Icons.phone,
-                  ),
-                  CustomAboutUsContainer(
-                    title: contactUsModel.contacts!.phone2!,
-                    iconData: Icons.phone,
-                  ),
-                  CustomAboutUsContainer(
-                    title: contactUsModel.contacts!.email!,
-                    iconData: Icons.email_outlined,
-                  ),
-                  CustomAboutUsContainer(
-                    title: contactUsModel.contacts!.email2!,
-                    iconData: Icons.email_outlined,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 15),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 10),
-                    height: 100,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.lightGrey),
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey
-                                .withOpacity(0.5), // grey shadow with opacity
-                            spreadRadius: 1,
-                            blurRadius: 3,
-                            offset: const Offset(
-                                0, 2), // changes position of shadow
-                          ),
-                        ],
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.white,
-                            Colors.grey.shade200, // very light grey
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    // App Logo
+                    Image.asset(AppImageAsset.logo),
+                    const SizedBox(height: 15),
+                    Text('keep_in_touch'.tr(context),
+                        style: Styles.textStyle18, textAlign: TextAlign.center),
+                    const SizedBox(height: 10),
+                    CustomAboutUsContainer(
+                      title: contactUsModel.contacts!.phone!,
+                      iconData: Icons.phone,
+                    ),
+                    CustomAboutUsContainer(
+                      title: contactUsModel.contacts!.phone2!,
+                      iconData: Icons.phone,
+                    ),
+                    CustomAboutUsContainer(
+                      title: contactUsModel.contacts!.email!,
+                      iconData: Icons.email_outlined,
+                    ),
+                    CustomAboutUsContainer(
+                      title: contactUsModel.contacts!.email2!,
+                      iconData: Icons.email_outlined,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.symmetric(vertical: 15),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 10),
+                      height: 100,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: AppColors.lightGrey),
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey
+                                  .withOpacity(0.5), // grey shadow with opacity
+                              spreadRadius: 1,
+                              blurRadius: 3,
+                              offset: const Offset(
+                                  0, 2), // changes position of shadow
+                            ),
                           ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomCenter,
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.white,
+                              Colors.grey.shade200, // very light grey
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomCenter,
+                          ),
+                          color: AppColors.backgroundColor),
+                      child: Text(
+                          overflow: TextOverflow.fade,
+                          textAlign: TextAlign.justify,
+                          '${"Address".tr(context)}: ${contactUsModel.contacts!.address!}'),
+                    ),
+                    //     const Spacer(),
+                    Text('follow_us'.tr(context),
+                        style: Styles.textStyle16
+                            .copyWith(fontWeight: FontWeight.w600),
+                        textAlign: TextAlign.center),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: const CustomPngImageWidget(
+                            imagePath: "assets/images/facebook.png",
+                          ),
+                          onPressed: () => launchUrl(
+                              Uri.parse(contactUsModel.contacts!.facebook!)),
                         ),
-                        color: AppColors.backgroundColor),
-                    child: Text(
-                        overflow: TextOverflow.fade,
-                        textAlign: TextAlign.justify,
-                        '${"Address".tr(context)}: ${contactUsModel.contacts!.address!}'),
-                  ),
-                  const Spacer(),
-                  Text('follow_us'.tr(context),
-                      style: Styles.textStyle16
-                          .copyWith(fontWeight: FontWeight.w600),
-                      textAlign: TextAlign.center),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: const CustomPngImageWidget(
-                          imagePath: "assets/images/facebook.png",
+                        IconButton(
+                          icon: const CustomPngImageWidget(
+                            imagePath: "assets/images/twitter.png",
+                          ),
+                          onPressed: () => launchUrl(
+                              Uri.parse(contactUsModel.contacts!.twitter!)),
                         ),
-                        onPressed: () => launchUrl(
-                            Uri.parse(contactUsModel.contacts!.facebook!)),
-                      ),
-                      IconButton(
-                        icon: const CustomPngImageWidget(
-                          imagePath: "assets/images/twitter.png",
+                        IconButton(
+                          icon: const CustomPngImageWidget(
+                            imagePath: "assets/images/snapchat.png",
+                          ),
+                          onPressed: () => launchUrl(
+                              Uri.parse(contactUsModel.contacts!.snapchat!)),
                         ),
-                        onPressed: () => launchUrl(
-                            Uri.parse(contactUsModel.contacts!.twitter!)),
-                      ),
-                      IconButton(
-                        icon: const CustomPngImageWidget(
-                          imagePath: "assets/images/snapchat.png",
+                        IconButton(
+                          icon: const CustomPngImageWidget(
+                            imagePath: "assets/images/insta.png",
+                          ),
+                          onPressed: () => launchUrl(
+                              Uri.parse(contactUsModel.contacts!.instagram!)),
                         ),
-                        onPressed: () => launchUrl(
-                            Uri.parse(contactUsModel.contacts!.snapchat!)),
-                      ),
-                      IconButton(
-                        icon: const CustomPngImageWidget(
-                          imagePath: "assets/images/insta.png",
-                        ),
-                        onPressed: () => launchUrl(
-                            Uri.parse(contactUsModel.contacts!.instagram!)),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 15),
-                  Text(
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.clip,
-                    'title'.tr(context),
-                    style: Styles.textStyle14,
-                  ),
-                  Text(
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.clip,
-                    contactUsModel.app!.copyright!,
-                    style: Styles.textStyle11,
-                  ),
-                ],
+                      ],
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.clip,
+                      'title'.tr(context),
+                      style: Styles.textStyle14,
+                    ),
+                    Text(
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.clip,
+                      contactUsModel.app!.copyright!,
+                      style: Styles.textStyle11,
+                    ),
+                  ],
+                ),
               );
             },
           ),

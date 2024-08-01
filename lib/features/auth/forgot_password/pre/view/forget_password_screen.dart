@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/get_it/service_locator.dart';
+import '../../../../../core/method/handler_errorr_message_text.dart';
 import '../../../../../core/widget/app_bar.dart';
 import '../../../../../core/widget/custom_button.dart';
 import '../../../../../core/widget/custom_snackbar_widget.dart';
@@ -39,7 +40,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(customSnackBarWidget(
-                      state.forgotPasswordMessage, Colors.red));
+                      erorrMessage(state.forgotPasswordMessage, context),
+                      Colors.red));
               }
             },
             builder: (context, state) {

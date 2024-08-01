@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/enum/enum.dart';
+
 import 'package:ghanim_law_app/core/widget/app_bar.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/home/pre/view/widgets/custom_service_container.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/home/pre/view_model/cubit/home_cubit.dart';
+
+import '../../../../../../../core/widget/custom_erorr_page._widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -15,6 +18,7 @@ class HomePage extends StatelessWidget {
       appBar: myAppBar(context, "our_services".tr(context)),
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
+          print("errrr".tr(context) == "");
           switch (state.homeDataState) {
             case RequestState.loading:
               return const Center(
@@ -31,13 +35,15 @@ class HomePage extends StatelessWidget {
                       priceModel: state.homeModel!.priceModel![index],
                     ),
                   );
-
-                  // return ServiceBuildItemWidget(
-                  //     priceModel: state.homeModel!.priceModel![index]);
                 },
               );
             case RequestState.erorr:
-              return Text(state.errorMessage);
+              return CustomErorrPageWidget(
+                onTap: () {
+                  context.read<HomeCubit>().getHomeData();
+                },
+                errorMessage: state.errorMessage,
+              );
           }
         },
       ),

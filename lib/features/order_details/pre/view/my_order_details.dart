@@ -8,6 +8,7 @@ import 'package:ghanim_law_app/features/order_details/pre/view_model/cubit/my_or
 
 import '../../../../core/get_it/service_locator.dart';
 
+import '../../../../core/widget/custom_erorr_page._widget.dart';
 import 'widgets/my_order_details_view_body.dart';
 
 class MyOrderDetails extends StatelessWidget {
@@ -31,7 +32,14 @@ class MyOrderDetails extends StatelessWidget {
               case RequestState.sucess:
                 return MyOrderDetailsViewBody(state: state);
               case RequestState.erorr:
-                return Text(state.erorrMessage);
+                return CustomErorrPageWidget(
+                  onTap: () {
+                    context
+                        .read<MyOrderDetailsCubit>()
+                        .fetchOrderDetailsById(id);
+                  },
+                  errorMessage: state.erorrMessage,
+                );
             }
           },
         ),

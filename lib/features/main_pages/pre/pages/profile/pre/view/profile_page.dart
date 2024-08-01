@@ -12,6 +12,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../../../core/get_it/service_locator.dart';
 import '../../../../../../../core/required_login_screen.dart';
+import '../../../../../../../core/widget/custom_erorr_page._widget.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -51,7 +52,12 @@ class ProfilePage extends StatelessWidget {
                       case RequestState.sucess:
                         return ProfileViewBodyWidget(state: state);
                       case RequestState.erorr:
-                        return Center(child: Text(state.profileErorrMessage));
+                        return CustomErorrPageWidget(
+                          onTap: () {
+                            context.read<ProfileCubit>().fetchProfileData();
+                          },
+                          errorMessage: state.profileErorrMessage,
+                        );
                     }
                   },
                 )

@@ -8,6 +8,7 @@ import 'package:ghanim_law_app/features/main_pages/pre/pages/my_orders/pre/view_
 import '../../../../../../../core/required_login_screen.dart';
 import '../../../../../../../core/shared_preferences/cache_helper.dart';
 import '../../../../../../../core/widget/app_bar.dart';
+import '../../../../../../../core/widget/custom_erorr_page._widget.dart';
 
 class MyOrdersPage extends StatelessWidget {
   const MyOrdersPage({super.key});
@@ -63,7 +64,12 @@ class MyOrderViewBody extends StatelessWidget {
                 ),
               );
             case RequestState.erorr:
-              return Center(child: Text(state.erorrMessage));
+              return CustomErorrPageWidget(
+                onTap: () {
+                  context.read<MyOrderCubit>().fetchOrdersData();
+                },
+                errorMessage: state.erorrMessage,
+              );
           }
         },
       ),

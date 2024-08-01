@@ -17,7 +17,9 @@ class SignUpCubit extends Cubit<SignUpState> {
   GlobalKey<FormState> formKey = GlobalKey();
   final SignUpRepo signUpRepo;
   toggleObscure() {
-    emit(state.copyWith(isObscure: !state.isObscure));
+    emit(state.copyWith(
+        isObscure: !state.isObscure,
+        signUpNewAccoutState: AuthRequestState.loading));
   }
 
   bool _formValidate() => formKey.currentState!.validate();

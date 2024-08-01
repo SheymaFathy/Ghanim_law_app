@@ -13,6 +13,7 @@ import 'package:ghanim_law_app/features/main_pages/pre/pages/profile/pre/view_mo
 import 'package:go_router/go_router.dart';
 
 import '../../../../../../../core/get_it/service_locator.dart';
+import '../../../../../../../core/method/handler_errorr_message_text.dart';
 import '../../../../../../../core/widget/custom_snackbar_widget.dart';
 
 class FeedBackScreen extends StatelessWidget {
@@ -43,8 +44,9 @@ class FeedBackScreen extends StatelessWidget {
                 EasyLoading.dismiss();
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
-                  ..showSnackBar(
-                      customSnackBarWidget(state.feedBackMessage, Colors.red));
+                  ..showSnackBar(customSnackBarWidget(
+                      erorrMessage(state.feedBackMessage, context),
+                      Colors.red));
               }
             }, builder: (context, state) {
               final feedBackCubit = context.read<FeedbackCubit>();
