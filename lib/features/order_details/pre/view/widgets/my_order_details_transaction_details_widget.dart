@@ -27,9 +27,15 @@ class MyOrdersDetailsTransactionDetailsWidget extends StatelessWidget {
             state.myOrderDetailsModel!.data!.voice != '')
           BuildListViewFilesItem(
               fileName: state.myOrderDetailsModel!.data!.voice!, isVoice: true),
-        if (state.myOrderDetailsModel!.data!.image != null)
-          BuildListViewFilesItem(
-              fileName: state.myOrderDetailsModel!.data!.image!, isImage: true)
+        if (state.myOrderDetailsModel!.data!.images != null)
+          ListView.builder(
+              itemCount: state.myOrderDetailsModel!.data!.images!.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return BuildListViewFilesItem(
+                    fileName: state.myOrderDetailsModel!.data!.images![index],
+                    isImage: true);
+              })
       ],
     );
   }

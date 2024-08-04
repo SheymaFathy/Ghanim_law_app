@@ -2,21 +2,24 @@ import 'package:equatable/equatable.dart';
 
 import 'paid.dart';
 import 'price.dart';
+import 'status.dart';
+import 'type.dart';
 
 class Datum extends Equatable {
   final int? id;
   final String? name;
   final String? email;
   final String? phone;
-  final String? description;
-  final String? type;
-  final String? status;
+  final dynamic description;
+  final Type? type;
+  final Status? status;
   final dynamic rejectReason;
   final Price? price;
   final Paid? paid;
   final String? voice;
   final String? pdf;
   final List<dynamic>? documents;
+  final List? images;
 
   const Datum({
     this.id,
@@ -32,6 +35,7 @@ class Datum extends Equatable {
     this.voice,
     this.pdf,
     this.documents,
+    this.images,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -39,9 +43,13 @@ class Datum extends Equatable {
         name: json['name'] as String?,
         email: json['email'] as String?,
         phone: json['phone'] as String?,
-        description: json['description'] as String?,
-        type: json['type'] as String?,
-        status: json['status'] as String?,
+        description: json['description'] as dynamic,
+        type: json['type'] == null
+            ? null
+            : Type.fromJson(json['type'] as Map<String, dynamic>),
+        status: json['status'] == null
+            ? null
+            : Status.fromJson(json['status'] as Map<String, dynamic>),
         rejectReason: json['reject_reason'] as dynamic,
         price: json['price'] == null
             ? null
@@ -52,6 +60,7 @@ class Datum extends Equatable {
         voice: json['voice'] as String?,
         pdf: json['pdf'] as String?,
         documents: json['documents'] as List<dynamic>?,
+        images: json['images'] as List,
       );
 
   Map<String, dynamic> toJson() => {
@@ -60,14 +69,15 @@ class Datum extends Equatable {
         'email': email,
         'phone': phone,
         'description': description,
-        'type': type,
-        'status': status,
+        'type': type?.toJson(),
+        'status': status?.toJson(),
         'reject_reason': rejectReason,
         'price': price?.toJson(),
         'paid': paid?.toJson(),
         'voice': voice,
         'pdf': pdf,
         'documents': documents,
+        'images': images,
       };
 
   @override
@@ -86,6 +96,7 @@ class Datum extends Equatable {
       voice,
       pdf,
       documents,
+      images,
     ];
   }
 }

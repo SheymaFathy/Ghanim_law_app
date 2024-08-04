@@ -42,6 +42,14 @@ class SettingsPage extends StatelessWidget {
                   GoRouter.of(context).push(AppRouter.kAboutUs);
                 },
               ),
+              ListTile(
+                leading: const Icon(Icons.info_outline),
+                title: Text("terms_and_privcy".tr(context)),
+                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                onTap: () {
+                  GoRouter.of(context).push(AppRouter.kpolicy);
+                },
+              ),
               ExpansionTile(
                 expandedAlignment: Alignment.topCenter,
                 expandedCrossAxisAlignment: CrossAxisAlignment.start,
@@ -69,14 +77,6 @@ class SettingsPage extends StatelessWidget {
                     selected: state.locale.languageCode == "ar",
                   ),
                 ],
-              ),
-              ListTile(
-                leading: const Icon(Icons.info_outline),
-                title: Text("terms_and_privcy".tr(context)),
-                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                onTap: () {
-                  GoRouter.of(context).push(AppRouter.kpolicy);
-                },
               ),
             ],
           ),

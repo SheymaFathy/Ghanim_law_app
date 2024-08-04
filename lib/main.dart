@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
             }
             return supportedLocales.first;
           },
-          title: 'Flutter Demo',
+          title: "Ghanim Law Firm",
           theme: ThemeData(
             fontFamily: settingCubit.state.locale.languageCode == 'ar'
                 ? "Cairo"

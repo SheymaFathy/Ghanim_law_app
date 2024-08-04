@@ -17,13 +17,13 @@ class MyOrderPersonDetailsWidget extends StatelessWidget {
     return Column(
       children: [
         Center(
-          child: Text(state.myOrderDetailsModel!.data!.type!.tr(context),
+          child: Text(state.myOrderDetailsModel!.data!.type!.label!,
               style: Styles.textStyle18),
         ),
         const SizedBox(height: 10),
         ListTile(
           leading: Text("status".tr(context), style: Styles.textStyle14),
-          trailing: Text(state.myOrderDetailsModel!.data!.status!,
+          trailing: Text(state.myOrderDetailsModel!.data!.status!.label!,
               style: Styles.textStyle14),
         ),
         const SizedBox(height: 10),

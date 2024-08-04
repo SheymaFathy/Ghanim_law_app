@@ -41,10 +41,10 @@ class OrdersWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
-              orders.type!.tr(context),
+              orders.type!.label!,
             ),
             const Spacer(),
-            Text(orders.status!),
+            Text(orders.status!.label!),
           ],
         ),
       ),
