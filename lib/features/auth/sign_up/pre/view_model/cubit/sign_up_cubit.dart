@@ -19,7 +19,7 @@ class SignUpCubit extends Cubit<SignUpState> {
   toggleObscure() {
     emit(state.copyWith(
         isObscure: !state.isObscure,
-        signUpNewAccoutState: AuthRequestState.loading));
+        signUpNewAccoutState: AuthRequestState.normal));
   }
 
   bool _formValidate() => formKey.currentState!.validate();
