@@ -18,7 +18,6 @@ class HomePage extends StatelessWidget {
       appBar: myAppBar(context, "our_services".tr(context)),
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
-          print("errrr".tr(context) == "");
           switch (state.homeDataState) {
             case RequestState.loading:
               return const Center(

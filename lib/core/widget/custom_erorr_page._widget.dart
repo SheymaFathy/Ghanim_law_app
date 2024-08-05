@@ -44,13 +44,13 @@ class CustomErorrPageWidget extends StatelessWidget {
             onTap: onTap,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-              child: Text(
-                "Reload".tr(context),
-                style: TextStyle(color: Colors.white),
-              ),
               decoration: BoxDecoration(
                 color: Colors.grey[800],
                 borderRadius: BorderRadius.circular(25),
+              ),
+              child: Text(
+                "Reload".tr(context),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           )

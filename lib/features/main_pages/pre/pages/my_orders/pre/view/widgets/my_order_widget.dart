@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../../../../core/constants/app_router.dart';

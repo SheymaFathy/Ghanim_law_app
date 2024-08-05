@@ -25,31 +25,6 @@ class SettingsPage extends StatelessWidget {
           child: Column(
             children: [
               myAppBar(context, "settings".tr(context)),
-              if (checkUserMethod())
-                ListTile(
-                  leading: const Icon(Icons.feedback_outlined),
-                  title: Text("feedback".tr(context)),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                  onTap: () {
-                    GoRouter.of(context).push(AppRouter.kFeedback);
-                  },
-                ),
-              ListTile(
-                leading: const Icon(Icons.info_outline),
-                title: Text("about".tr(context)),
-                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                onTap: () {
-                  GoRouter.of(context).push(AppRouter.kAboutUs);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.info_outline),
-                title: Text("terms_and_privcy".tr(context)),
-                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                onTap: () {
-                  GoRouter.of(context).push(AppRouter.kpolicy);
-                },
-              ),
               ExpansionTile(
                 expandedAlignment: Alignment.topCenter,
                 expandedCrossAxisAlignment: CrossAxisAlignment.start,
@@ -77,6 +52,31 @@ class SettingsPage extends StatelessWidget {
                     selected: state.locale.languageCode == "ar",
                   ),
                 ],
+              ),
+              ListTile(
+                leading: const Icon(Icons.info_outline),
+                title: Text("terms_and_privcy".tr(context)),
+                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                onTap: () {
+                  GoRouter.of(context).push(AppRouter.kpolicy);
+                },
+              ),
+              if (checkUserMethod())
+                ListTile(
+                  leading: const Icon(Icons.feedback_outlined),
+                  title: Text("feedback".tr(context)),
+                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  onTap: () {
+                    GoRouter.of(context).push(AppRouter.kFeedback);
+                  },
+                ),
+              ListTile(
+                leading: const Icon(Icons.phone_in_talk),
+                title: Text("about".tr(context)),
+                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                onTap: () {
+                  GoRouter.of(context).push(AppRouter.kAboutUs);
+                },
               ),
             ],
           ),
