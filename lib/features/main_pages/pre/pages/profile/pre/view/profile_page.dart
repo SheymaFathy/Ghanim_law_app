@@ -23,6 +23,7 @@ class ProfilePage extends StatelessWidget {
     return BlocProvider.value(
       value: getIt<ProfileCubit>(),
       child: Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.surface,
           appBar: myAppBar(context, "profile".tr(context),
               actionWidget: UserData.uId != null
                   ? IconButton(

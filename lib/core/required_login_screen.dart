@@ -12,6 +12,7 @@ class RequiredLoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: isAppBar ? myAppBar(context, "login".tr(context)) : null,
       body: Container(
         padding: const EdgeInsets.all(15),

@@ -21,9 +21,10 @@ class CustomServiceContainer extends StatelessWidget {
       //   padding: const EdgeInsets.symmetric(horizontal: 10),
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(15),
           color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2)),
       child: InkWell(
+        borderRadius: BorderRadius.circular(15),
         onTap: () {
           GoRouter.of(context).push(AppRouter.kOrderForm,
               extra: {"type": priceModel.serviceName});

@@ -18,6 +18,8 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides();
   ServiceLocator().init();
   await CacheHelper.init();
+
+  await ThemeService.themeInit();
   await UserData.init();
   await DioHelper.init();
   runApp(const MyApp());
@@ -55,7 +57,8 @@ class MyApp extends StatelessWidget {
           title: "Ghanim Law Firm",
           theme: ThemeService().lightMode(context),
           darkTheme: ThemeService().darkMode(context),
-          themeMode: true ? ThemeMode.dark : ThemeMode.light,
+          themeMode:
+              ThemeService.darkModeValue ? ThemeMode.dark : ThemeMode.light,
         );
       }),
     );

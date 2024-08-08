@@ -94,7 +94,7 @@ class LoginViewBody extends StatelessWidget {
             ),
             CustomBotton(
                 backgroundColor: Theme.of(context).colorScheme.onSurface,
-                textColor: Theme.of(context).colorScheme.primary,
+                textColor: Theme.of(context).colorScheme.surface,
                 text: "Login as guest".tr(context),
                 onPressed: () {
                   GoRouter.of(context).replace(AppRouter.kHomeView);

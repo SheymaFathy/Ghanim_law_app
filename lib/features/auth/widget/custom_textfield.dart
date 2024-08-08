@@ -27,30 +27,33 @@ class CustomAuthTextFormFeild extends StatelessWidget {
         controller: mycontroller,
         obscureText: obbscureText ?? false,
         decoration: InputDecoration(
-          hintText: hinttext,
-          hintStyle: TextStyle(
-            fontSize: 14,
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
-          ),
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 5, horizontal: 35),
-          label: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              child: Text(
-                label,
-                style: const TextStyle(fontSize: 15),
-              )),
-          suffixIcon: onTapSuffix != null
-              ? IconButton(
-                  onPressed: onTapSuffix,
-                  icon: obbscureText!
-                      ? const Icon(Icons.lock)
-                      : const Icon(Icons.remove_red_eye))
-              : Icon(iconData),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-        ),
+            hintText: hinttext,
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 5, horizontal: 35),
+            label: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  label,
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: Theme.of(context).colorScheme.onSurface),
+                )),
+            suffixIcon: onTapSuffix != null
+                ? IconButton(
+                    onPressed: onTapSuffix,
+                    icon: obbscureText!
+                        ? const Icon(Icons.lock)
+                        : const Icon(Icons.remove_red_eye))
+                : Icon(iconData),
+            border: outlineInputBorder(context),
+            enabledBorder: outlineInputBorder(context),
+            focusedBorder: outlineInputBorder(context)),
       ),
     );
   }
 }
+
+outlineInputBorder(context) => OutlineInputBorder(
+    borderRadius: BorderRadius.circular(15),
+    borderSide: BorderSide(color: Theme.of(context).colorScheme.onSurface));
