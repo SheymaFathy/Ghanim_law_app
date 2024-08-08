@@ -14,18 +14,8 @@ class MyOrderDetailsViewBody extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [Colors.grey[200]!, Colors.white],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomCenter),
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
           borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: const Offset(0, 3)),
-          ],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

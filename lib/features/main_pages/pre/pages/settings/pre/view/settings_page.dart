@@ -25,58 +25,101 @@ class SettingsPage extends StatelessWidget {
           child: Column(
             children: [
               myAppBar(context, "settings".tr(context)),
-              ExpansionTile(
-                expandedAlignment: Alignment.topCenter,
-                expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                leading: const Icon(Icons.language),
-                title: Text("language".tr(context)),
-                children: [
-                  ListTile(
-                    title: Text("eng".tr(context)),
-                    onTap: () async {
-                      context.read<SettingCubit>().changeLanguage("en");
-                      await UserData.initLang();
+              Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10)),
+                child: ExpansionTile(
+                  expandedAlignment: Alignment.topCenter,
+                  expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                  leading: const Icon(Icons.language),
+                  title: Text("language".tr(context)),
+                  children: [
+                    ListTile(
+                      selectedColor: Colors.blue,
+                      title: Text("eng".tr(context)),
+                      onTap: () async {
+                        context.read<SettingCubit>().changeLanguage("en");
+                        await UserData.initLang();
 
-                      getIt<HomeCubit>().getHomeData();
-                    },
-                    selected: state.locale.languageCode == "en",
-                  ),
-                  ListTile(
-                    title: Text("arb".tr(context)),
-                    onTap: () async {
-                      context.read<SettingCubit>().changeLanguage("ar");
-                      await UserData.initLang();
+                        getIt<HomeCubit>().getHomeData();
+                      },
+                      selected: state.locale.languageCode == "en",
+                    ),
+                    ListTile(
+                      selectedColor: Colors.blue,
+                      title: Text("arb".tr(context)),
+                      onTap: () async {
+                        context.read<SettingCubit>().changeLanguage("ar");
+                        await UserData.initLang();
 
-                      getIt<HomeCubit>().getHomeData();
-                    },
-                    selected: state.locale.languageCode == "ar",
-                  ),
-                ],
+                        getIt<HomeCubit>().getHomeData();
+                      },
+                      selected: state.locale.languageCode == "ar",
+                    ),
+                  ],
+                ),
               ),
-              ListTile(
-                leading: const Icon(Icons.info_outline),
-                title: Text("terms_and_privcy".tr(context)),
-                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                onTap: () {
-                  GoRouter.of(context).push(AppRouter.kpolicy);
-                },
+              SizedBox(
+                height: 8,
               ),
-              if (checkUserMethod())
-                ListTile(
-                  leading: const Icon(Icons.feedback_outlined),
-                  title: Text("feedback".tr(context)),
+              Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10)),
+                child: ListTile(
+                  leading: const Icon(Icons.info_outline),
+                  title: Text("terms_and_privcy".tr(context)),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                   onTap: () {
-                    GoRouter.of(context).push(AppRouter.kFeedback);
+                    GoRouter.of(context).push(AppRouter.kpolicy);
                   },
                 ),
-              ListTile(
-                leading: const Icon(Icons.phone_in_talk),
-                title: Text("about".tr(context)),
-                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                onTap: () {
-                  GoRouter.of(context).push(AppRouter.kAboutUs);
-                },
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              if (checkUserMethod())
+                Container(
+                  decoration: BoxDecoration(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: ListTile(
+                    leading: const Icon(Icons.feedback_outlined),
+                    title: Text("feedback".tr(context)),
+                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                    onTap: () {
+                      GoRouter.of(context).push(AppRouter.kFeedback);
+                    },
+                  ),
+                ),
+              SizedBox(
+                height: 8,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10)),
+                child: ListTile(
+                  leading: const Icon(Icons.phone_in_talk),
+                  title: Text("about".tr(context)),
+                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  onTap: () {
+                    GoRouter.of(context).push(AppRouter.kAboutUs);
+                  },
+                ),
               ),
             ],
           ),

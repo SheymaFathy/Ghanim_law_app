@@ -15,6 +15,7 @@ class PrivacyPolicyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: myAppBar(context, 'terms_and_privcy'.tr(context)),
       body: BlocProvider.value(
           value: getIt<HomeCubit>(),
@@ -24,9 +25,9 @@ class PrivacyPolicyPage extends StatelessWidget {
               builder: (context, state) {
                 switch (state.homeDataState) {
                   case RequestState.loading:
-                    return const Center(
+                    return Center(
                       child: CircularProgressIndicator(
-                        color: Colors.black,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     );
                   case RequestState.sucess:
@@ -84,7 +85,9 @@ class UsagePolicyAndPrivacyCustomWidget extends StatelessWidget {
       children: [
         Text(title, style: Styles.textStyle18),
         const SizedBox(height: 5.0),
-        Divider(color: Colors.grey[400]),
+        Divider(
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+        ),
         const SizedBox(height: 16.0),
         Text('content'.tr(context), style: Styles.textStyle18),
         const SizedBox(height: 8.0),

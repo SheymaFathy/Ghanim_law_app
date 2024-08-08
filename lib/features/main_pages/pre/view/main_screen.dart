@@ -28,16 +28,11 @@ class MainScreen extends StatelessWidget {
           return Scaffold(
             body: mainPageCubit.bottomNavBarPages[state.selectedNavBarIndex],
             bottomNavigationBar: SalomonBottomBar(
-              selectedItemColor: Colors.black,
-              // gap: 8,
-              // activeColor: AppColors.primeryColor,
-              // iconSize: 24,
-              // padding:
-              //     const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-              // duration: const Duration(milliseconds: 800),
-              // tabBackgroundColor: AppColors.primeryColor.withOpacity(0.1),
-              // color: Colors.grey,
-
+              selectedItemColor: Theme.of(context).colorScheme.onSurface,
+              backgroundColor:
+                  Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
+              unselectedItemColor:
+                  Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
               currentIndex: mainPageCubit.state.selectedNavBarIndex,
               onTap: (index) {
                 mainPageCubit.bottomNavBarTabsChangeIndex(index);

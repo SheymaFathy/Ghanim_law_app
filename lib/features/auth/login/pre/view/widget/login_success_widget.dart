@@ -8,6 +8,6 @@ void loginMaterialBannerWidget(BuildContext context) {
   EasyLoading.dismiss();
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
-    ..showSnackBar(
-        customSnackBarWidget("login_sccess".tr(context), Colors.grey[800]!));
+    ..showSnackBar(customSnackBarWidget(
+        "login_sccess".tr(context), Theme.of(context).colorScheme.onSurface));
 }

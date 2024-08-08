@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:ghanim_law_app/core/constants/app_colors.dart';
 import 'package:ghanim_law_app/core/dio/dio_helper.dart';
 import 'package:ghanim_law_app/core/shared_preferences/cache_helper.dart';
 import 'core/AppLocalizations/app_localizations.dart';
 import 'core/constants/app_router.dart';
 import 'core/get_it/service_locator.dart';
 import 'core/profile.dart';
+import 'core/theme/theme.dart';
 import 'features/main_pages/pre/pages/settings/pre/view_model/cubit/setting_cubit.dart';
 
 void main() async {
@@ -53,13 +53,9 @@ class MyApp extends StatelessWidget {
             return supportedLocales.first;
           },
           title: "Ghanim Law Firm",
-          theme: ThemeData(
-            fontFamily: settingCubit.state.locale.languageCode == 'ar'
-                ? "Cairo"
-                : "Rubik",
-            scaffoldBackgroundColor: AppColors.backgroundColor,
-            useMaterial3: true,
-          ),
+          theme: ThemeService().lightMode(context),
+          darkTheme: ThemeService().darkMode(context),
+          themeMode: true ? ThemeMode.dark : ThemeMode.light,
         );
       }),
     );

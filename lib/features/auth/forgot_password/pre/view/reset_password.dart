@@ -7,7 +7,6 @@ import 'package:ghanim_law_app/core/widget/app_bar.dart';
 import 'package:ghanim_law_app/features/auth/forgot_password/pre/view_model/cubit/forgot_password_cubit.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/enum/enum.dart';
 import '../../../../../core/get_it/service_locator.dart';
 import '../../../../../core/method/handler_errorr_message_text.dart';
@@ -22,6 +21,7 @@ class ResetPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: myAppBar(context, 'new_password'.tr(context)),
         body: BlocProvider.value(
           value: ForgotPasswordCubit(getIt()),
@@ -37,7 +37,8 @@ class ResetPasswordScreen extends StatelessWidget {
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(customSnackBarWidget(
-                      "reset_password_success".tr(context), Colors.grey[800]!));
+                      "reset_password_success".tr(context),
+                      Theme.of(context).colorScheme.onSurface));
                 GoRouter.of(context).pushReplacement(AppRouter.kLogin);
               } else if (state.forgotPasswordResetState ==
                   AuthRequestState.erorr) {
@@ -104,8 +105,9 @@ class ResetPasswordScreen extends StatelessWidget {
                         height: 10,
                       ),
                       CustomBotton(
-                        backgroundColor: AppColors.primeryColor,
-                        textColor: AppColors.grey,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.onSurface,
+                        textColor: Theme.of(context).colorScheme.surface,
                         text: 'continue_btn'.tr(context),
                         onPressed: () {
                           forgotCubit.fetchRestPassword(

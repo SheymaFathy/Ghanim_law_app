@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 
-import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/custom_button.dart';
 import '../../../widget/custom_auth_title.dart';
 import '../../../widget/custom_auth_welcome_text.dart';
@@ -46,9 +45,9 @@ class SignUpViewBody extends StatelessWidget {
               mycontroller: signUpCubit.nameController,
               validator: (value) {
                 if (value!.length < 4) {
-                  return "Name is Short";
+                  return "Name is Short".tr(context);
                 } else if (value.isEmpty) {
-                  return "Please Enter your name";
+                  return "Please Enter your name".tr(context);
                 } else {
                   return null;
                 }
@@ -61,7 +60,7 @@ class SignUpViewBody extends StatelessWidget {
               mycontroller: signUpCubit.emailController,
               validator: (value) {
                 if (value!.isEmpty) {
-                  return "Please Enter email";
+                  return "Please Enter email".tr(context);
                 } else {
                   return null;
                 }
@@ -74,10 +73,10 @@ class SignUpViewBody extends StatelessWidget {
               mycontroller: signUpCubit.phoneController,
               validator: (value) {
                 if (value!.length < 9) {
-                  return "phone number is Short";
+                  return "phone number is Short".tr(context);
                 }
                 if (value.isEmpty) {
-                  return "Please Enter your phone number";
+                  return "Please Enter your phone number".tr(context);
                 } else {
                   return null;
                 }
@@ -94,9 +93,9 @@ class SignUpViewBody extends StatelessWidget {
               obbscureText: state.isObscure,
               validator: (value) {
                 if (value!.length < 8) {
-                  return "password is Short";
+                  return "password is Short".tr(context);
                 } else if (value.isEmpty) {
-                  return "Please Enter Password";
+                  return "Please Enter Password".tr(context);
                 } else {
                   return null;
                 }
@@ -106,8 +105,8 @@ class SignUpViewBody extends StatelessWidget {
               height: 10,
             ),
             CustomBotton(
-              backgroundColor: AppColors.primeryColor,
-              textColor: AppColors.grey,
+              backgroundColor: Theme.of(context).colorScheme.onSurface,
+              textColor: Theme.of(context).colorScheme.surface,
               text: 'sign_up_now'.tr(context),
               onPressed: () {
                 signUpCubit.fetchSignUp(SetSignUpModel(

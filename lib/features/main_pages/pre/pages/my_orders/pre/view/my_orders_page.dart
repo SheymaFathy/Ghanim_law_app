@@ -15,6 +15,7 @@ class MyOrdersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: myAppBar(context, "my-order".tr(context)),
         body: checkUserMethod()
             ? const MyOrderViewBody()
@@ -43,9 +44,9 @@ class MyOrderViewBody extends StatelessWidget {
         builder: (context, state) {
           switch (state.myOrdersState) {
             case RequestState.loading:
-              return const Center(
+              return Center(
                 child: CircularProgressIndicator(
-                  color: Colors.black,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               );
             case RequestState.sucess:

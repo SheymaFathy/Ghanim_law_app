@@ -62,9 +62,9 @@ class ChangeLanguageColumn extends StatelessWidget {
               height: 20,
             ),
             CustomBotton(
-              backgroundColor: AppColors.primeryColor,
-              textColor: AppColors.grey,
-              text: 'arabic'.tr(context),
+              backgroundColor: Theme.of(context).colorScheme.onSurface,
+              textColor: Theme.of(context).colorScheme.surface,
+              text: 'العربية',
               onPressed: () {
                 context.read<SettingCubit>().changeLanguage("ar");
                 GoRouter.of(context).go(AppRouter.kHomeView);
@@ -74,8 +74,8 @@ class ChangeLanguageColumn extends StatelessWidget {
               height: 15,
             ),
             CustomBotton(
-              backgroundColor: AppColors.primeryColor,
-              textColor: AppColors.grey,
+              backgroundColor: Theme.of(context).colorScheme.onSurface,
+              textColor: Theme.of(context).colorScheme.surface,
               text: 'english'.tr(context),
               onPressed: () {
                 context.read<SettingCubit>().changeLanguage("en");

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../../../../../../core/constants/app_colors.dart';
 import '../../../../../../../../core/constants/app_router.dart';
 import '../../../../../../../../core/constants/styles.dart';
 import '../../view_model/cubit/profile_cubit.dart';
@@ -16,7 +14,7 @@ class ProfileViewBodyWidget extends StatelessWidget {
       padding: const EdgeInsets.all(5.0),
       child: Column(children: [
         CircleAvatar(
-          backgroundColor: AppColors.backgroundColor,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           radius: 60,
           backgroundImage: NetworkImage(state.profileModel!.data!.avatar!),
         ),
@@ -37,26 +35,13 @@ class ProfileViewBodyWidget extends StatelessWidget {
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.grey[200]!, Colors.white],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
             borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: const Offset(0, 3),
-              ),
-            ],
           ),
           child: ListTile(
-            leading: Icon(Icons.email, color: Colors.blueGrey[900]),
+            leading: Icon(Icons.email),
             title: Text(
               prfileData.email!,
-              style: TextStyle(color: Colors.blueGrey[900]),
             ),
           ),
         ),
@@ -64,26 +49,13 @@ class ProfileViewBodyWidget extends StatelessWidget {
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.grey[200]!, Colors.white],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomCenter,
-            ),
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
             borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: const Offset(0, 3),
-              ),
-            ],
           ),
           child: ListTile(
-            leading: Icon(Icons.phone, color: Colors.blueGrey[900]),
+            leading: Icon(Icons.phone),
             title: Text(
               prfileData.phone!,
-              style: TextStyle(color: Colors.blueGrey[900]),
             ),
           ),
         ),

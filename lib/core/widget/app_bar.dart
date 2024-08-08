@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
-import '../constants/app_colors.dart';
 
 AppBar myAppBar(BuildContext context, String title, {Widget? actionWidget}) {
   return AppBar(
-    backgroundColor: AppColors.backgroundColor,
+    backgroundColor: Theme.of(context).colorScheme.surface,
     elevation: 0.0,
     actions: actionWidget != null ? [actionWidget] : null,
-    foregroundColor: Colors.black,
     title: Text(
       title,
-      style: Theme.of(context)
-          .textTheme
-          .titleLarge!
-          .copyWith(color: AppColors.grey, fontSize: 15),
+      style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 15),
     ),
     centerTitle: true,
   );

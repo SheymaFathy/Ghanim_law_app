@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 
-import '../../../../../../../../core/constants/app_colors.dart';
 import '../../../../../../../../core/widget/custom_button.dart';
 import '../../../../../../../../core/widget/global_textfield.dart';
 import '../../../../../../../auth/widget/custom_auth_title.dart';
@@ -87,8 +86,8 @@ class UpdateProfileViewBodyWidget extends StatelessWidget {
             ),
             if (state.checkValuesFormFiled)
               CustomBotton(
-                  backgroundColor: AppColors.primeryColor,
-                  textColor: AppColors.backgroundColor,
+                  backgroundColor: Theme.of(context).colorScheme.onSurface,
+                  textColor: Theme.of(context).colorScheme.surface,
                   text: "confirm".tr(context),
                   onPressed: () {
                     profileCubit.updateProfile();

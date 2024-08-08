@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
-import 'package:ghanim_law_app/core/constants/app_colors.dart';
 import 'package:ghanim_law_app/core/constants/image_assets.dart';
 import 'package:ghanim_law_app/core/constants/styles.dart';
 import 'package:ghanim_law_app/core/widget/app_bar.dart';
@@ -17,6 +16,7 @@ class AboutUsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: myAppBar(context, "contact_us".tr(context)),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -57,27 +57,12 @@ class AboutUsScreen extends StatelessWidget {
                           vertical: 10, horizontal: 10),
                       height: 100,
                       decoration: BoxDecoration(
-                          border: Border.all(color: AppColors.lightGrey),
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey
-                                  .withOpacity(0.5), // grey shadow with opacity
-                              spreadRadius: 1,
-                              blurRadius: 3,
-                              offset: const Offset(
-                                  0, 2), // changes position of shadow
-                            ),
-                          ],
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.white,
-                              Colors.grey.shade200, // very light grey
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomCenter,
-                          ),
-                          color: AppColors.backgroundColor),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.2),
+                      ),
                       child: Text(
                           overflow: TextOverflow.fade,
                           textAlign: TextAlign.justify,
@@ -133,7 +118,7 @@ class AboutUsScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.clip,
                       contactUsModel.app!.copyright!,
-                      style: Styles.textStyle11,
+                      //  style: Styles.textStyle11,
                     ),
                   ],
                 ),

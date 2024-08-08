@@ -22,6 +22,7 @@ class OrderForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: myAppBar(context, 'submit-consultation'.tr(context)),
       body: MultiBlocProvider(
         providers: [

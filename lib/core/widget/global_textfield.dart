@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_colors.dart';
-
 class GlobalTextfield extends StatelessWidget {
   final String hinttext;
   final String? label;
@@ -38,7 +36,8 @@ class GlobalTextfield extends StatelessWidget {
         obscureText: obbscureText ?? false, // Potential issue here
         decoration: InputDecoration(
           hintText: hinttext,
-          hintStyle: const TextStyle(fontSize: 14, color: AppColors.grey),
+          hintStyle: TextStyle(
+              fontSize: 14, color: Theme.of(context).colorScheme.onSurface),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           contentPadding:
               const EdgeInsets.symmetric(vertical: 5, horizontal: 25),

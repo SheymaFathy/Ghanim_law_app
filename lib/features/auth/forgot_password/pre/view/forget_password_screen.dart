@@ -7,7 +7,6 @@ import 'package:ghanim_law_app/core/enum/enum.dart';
 import 'package:ghanim_law_app/features/auth/forgot_password/pre/view_model/cubit/forgot_password_cubit.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/get_it/service_locator.dart';
 import '../../../../../core/method/handler_errorr_message_text.dart';
 import '../../../../../core/widget/app_bar.dart';
@@ -23,6 +22,7 @@ class ForgotPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: myAppBar(context, '4getpass'.tr(context)),
         body: BlocProvider(
           create: (context) => ForgotPasswordCubit(getIt()),
@@ -82,8 +82,9 @@ class ForgotPasswordScreen extends StatelessWidget {
                         height: 10,
                       ),
                       CustomBotton(
-                        backgroundColor: AppColors.primeryColor,
-                        textColor: AppColors.grey,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.onSurface,
+                        textColor: Theme.of(context).colorScheme.surface,
                         text: 'checkbtn'.tr(context),
                         onPressed: () {
                           forgotCubit.forgotPasswordCheckEmail(

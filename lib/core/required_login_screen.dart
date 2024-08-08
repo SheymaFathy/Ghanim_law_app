@@ -25,8 +25,8 @@ class RequiredLoginScreen extends StatelessWidget {
                 height: 15,
               ),
               CustomBotton(
-                  backgroundColor: Colors.black,
-                  textColor: Colors.white,
+                  backgroundColor: Theme.of(context).colorScheme.onSurface,
+                  textColor: Theme.of(context).colorScheme.surface,
                   text: "login_now".tr(context),
                   onPressed: () {
                     GoRouter.of(context).go(AppRouter.kLogin);

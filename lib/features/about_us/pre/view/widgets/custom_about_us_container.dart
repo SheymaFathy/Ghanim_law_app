@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/constants/app_colors.dart';
-
 class CustomAboutUsContainer extends StatelessWidget {
   final String title;
   final IconData? iconData;
@@ -17,25 +15,9 @@ class CustomAboutUsContainer extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 5),
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       decoration: BoxDecoration(
-          border: Border.all(color: AppColors.lightGrey),
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5), // grey shadow with opacity
-              spreadRadius: 1,
-              blurRadius: 3,
-              offset: const Offset(0, 2), // changes position of shadow
-            ),
-          ],
-          gradient: LinearGradient(
-            colors: [
-              Colors.white,
-              Colors.grey.shade200, // very light grey
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomCenter,
-          ),
-          color: AppColors.backgroundColor),
+        borderRadius: BorderRadius.circular(10),
+        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

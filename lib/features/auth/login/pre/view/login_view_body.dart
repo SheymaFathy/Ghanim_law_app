@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
-
 import 'package:go_router/go_router.dart';
-
-import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_router.dart';
 import '../../../../../core/widget/custom_button.dart';
 import '../../../widget/custom_auth_title.dart';
@@ -84,8 +81,8 @@ class LoginViewBody extends StatelessWidget {
               height: 20,
             ),
             CustomBotton(
-              backgroundColor: AppColors.primeryColor,
-              textColor: AppColors.grey,
+              backgroundColor: Theme.of(context).colorScheme.onSurface,
+              textColor: Theme.of(context).colorScheme.surface,
               text: 'login'.tr(context),
               onPressed: () {
                 loginCubit.fetchLogin(loginCubit.userNameController.text,
@@ -96,8 +93,8 @@ class LoginViewBody extends StatelessWidget {
               height: 20,
             ),
             CustomBotton(
-                backgroundColor: Colors.grey,
-                textColor: Colors.black,
+                backgroundColor: Theme.of(context).colorScheme.onSurface,
+                textColor: Theme.of(context).colorScheme.primary,
                 text: "Login as guest".tr(context),
                 onPressed: () {
                   GoRouter.of(context).replace(AppRouter.kHomeView);

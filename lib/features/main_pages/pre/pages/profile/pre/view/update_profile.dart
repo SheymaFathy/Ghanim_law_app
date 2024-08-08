@@ -36,7 +36,8 @@ class UpdateProfile extends StatelessWidget {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(customSnackBarWidget(
-                    "update_profile_success".tr(context), Colors.grey[800]!));
+                    "update_profile_success".tr(context),
+                    Theme.of(context).colorScheme.surface));
 
               GoRouter.of(context).pop();
             } else if (state.profileUpdateRequestState ==

@@ -17,6 +17,7 @@ class MyOrderDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: myAppBar(context, "order_details".tr(context)),
       body: BlocProvider.value(
         value: getIt<MyOrderDetailsCubit>()..fetchOrderDetailsById(id),
@@ -24,9 +25,9 @@ class MyOrderDetails extends StatelessWidget {
           builder: (context, state) {
             switch (state.myorderDetailsState) {
               case RequestState.loading:
-                return const Center(
+                return Center(
                   child: CircularProgressIndicator(
-                    color: Colors.black,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 );
               case RequestState.sucess:

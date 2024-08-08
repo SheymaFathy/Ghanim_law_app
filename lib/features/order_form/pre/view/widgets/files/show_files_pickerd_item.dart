@@ -19,7 +19,8 @@ class ShowFilesPickerdItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         children: [
-          const Icon(Icons.insert_drive_file, color: Colors.grey),
+          Icon(Icons.insert_drive_file,
+              color: Theme.of(context).colorScheme.onSurface),
           const SizedBox(width: 10),
           Expanded(
             child: Text(file.name),

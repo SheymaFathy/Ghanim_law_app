@@ -15,13 +15,15 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: myAppBar(context, "our_services".tr(context)),
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           switch (state.homeDataState) {
             case RequestState.loading:
-              return const Center(
-                child: CircularProgressIndicator(color: Colors.black),
+              return Center(
+                child: CircularProgressIndicator(
+                    color: Theme.of(context).colorScheme.onSurface),
               );
             case RequestState.sucess:
               return ListView.builder(

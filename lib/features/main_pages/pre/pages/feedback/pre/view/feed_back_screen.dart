@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
-import 'package:ghanim_law_app/core/constants/app_colors.dart';
 import 'package:ghanim_law_app/core/enum/enum.dart';
 import 'package:ghanim_law_app/core/widget/app_bar.dart';
 import 'package:ghanim_law_app/core/widget/custom_button.dart';
@@ -22,6 +21,7 @@ class FeedBackScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: myAppBar(context, "feedback".tr(context)),
       body: SingleChildScrollView(
         child: BlocProvider(
@@ -37,8 +37,8 @@ class FeedBackScreen extends StatelessWidget {
                 EasyLoading.dismiss();
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
-                  ..showSnackBar(customSnackBarWidget(
-                      state.feedBackMessage, Colors.grey[800]!));
+                  ..showSnackBar(customSnackBarWidget(state.feedBackMessage,
+                      Theme.of(context).colorScheme.onSurface));
                 GoRouter.of(context).pop();
               } else if (state.feedbackRequestState == RequestState.erorr) {
                 EasyLoading.dismiss();
@@ -73,8 +73,9 @@ class FeedBackScreen extends StatelessWidget {
                       height: 20,
                     ),
                     CustomBotton(
-                        backgroundColor: AppColors.primeryColor,
-                        textColor: AppColors.backgroundColor,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.onSurface,
+                        textColor: Theme.of(context).colorScheme.surface,
                         text: "confirm".tr(context),
                         onPressed: () {
                           final profileState =

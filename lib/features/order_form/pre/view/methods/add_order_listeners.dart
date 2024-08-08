@@ -32,8 +32,8 @@ addorderListeners(context, state) async {
     EasyLoading.dismiss();
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
-      ..showSnackBar(
-          customSnackBarWidget("order_sccess".tr(context), Colors.grey[800]!));
+      ..showSnackBar(customSnackBarWidget(
+          "order_sccess".tr(context), Theme.of(context).colorScheme.onSurface));
     BlocProvider.of<AddOrderCubit>(context).clearFiled();
     getIt<MyOrderCubit>().fetchOrdersData();
     GoRouter.of(context).go(AppRouter.kHomeView);

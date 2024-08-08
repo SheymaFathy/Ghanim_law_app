@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/constants/app_colors.dart';
-
 class CustomAttachedFile extends StatelessWidget {
   final String text;
   final Icon iconData;
@@ -20,7 +18,7 @@ class CustomAttachedFile extends StatelessWidget {
       onTap: ontab,
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: AppColors.primeryColor),
+          border: Border.all(color: Theme.of(context).colorScheme.onSurface),
           borderRadius: BorderRadius.circular(10),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 25),

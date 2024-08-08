@@ -8,6 +8,6 @@ void signUpSuccessWidget(BuildContext context, SignUpState state) {
   EasyLoading.dismiss();
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
-    ..showSnackBar(customSnackBarWidget(
-        state.signUpNewAccoutModel!.message!, Colors.grey[800]!));
+    ..showSnackBar(customSnackBarWidget(state.signUpNewAccoutModel!.message!,
+        Theme.of(context).colorScheme.onSurface));
 }

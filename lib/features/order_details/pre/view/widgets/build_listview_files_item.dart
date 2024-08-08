@@ -19,7 +19,8 @@ class BuildListViewFilesItem extends StatelessWidget {
       padding: const EdgeInsets.all(5),
       margin: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(7), color: Colors.white),
+          borderRadius: BorderRadius.circular(7),
+          color: Theme.of(context).colorScheme.surface),
       child: Row(
         children: [
           if (isDoc) const Icon(Icons.attach_file),

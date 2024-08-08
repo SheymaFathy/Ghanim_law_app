@@ -108,5 +108,12 @@
     "Your Request Not Found, Please try later!": "لم يتم العثور على طلبك، يرجى المحاولة لاحقًا!",
     "Internal Server Erorr, Please try later!": "حدث خطأ داخلي في الخادم، يرجى المحاولة لاحقًا!",
     "Reload": "أعد التحميل",
-    "Ooops": "عفواً"
+    "Ooops": "عفواً",
+    "Name is Short": "الاسم قصير جداً , يجب ان لا يقل الاسم عن 8 احرف",
+    "Please Enter your name": "يرجي ادخال الاسم",
+    "Please Enter email": "يرجي ادخال البريد الالكتروني",
+    "phone number is Short": "رقم الهاتف قصير جداً",
+    "Please Enter your phone number": "الرجاء ادخال رقم الهاتف",
+    "password is Short": "  كلمة المرور قصيرة جداً , يجب ان لا تقل عن 8 احرف",
+    "Please Enter Password": "يرجي ادخال كلمة المرور"
 }

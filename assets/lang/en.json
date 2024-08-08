@@ -108,5 +108,12 @@
     "Your Request Not Found, Please try later!": "Your Request Not Found, Please try later!",
     "Internal Server Erorr, Please try later!": "Internal Server Erorr, Please try later!",
     "Reload": "Reload",
-    "Ooops": "Ooops"
+    "Ooops": "Ooops",
+    "Name is Short": "Name is Short",
+    "Please Enter your name": "Please Enter your name",
+    "Please Enter email": "Please Enter email",
+    "phone number is Short": "phone number is Short",
+    "Please Enter your phone number": "Please Enter your phone number",
+    "password is Short": "password is Short",
+    "Please Enter Password": "Please Enter Password"
 }

@@ -20,6 +20,7 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: myAppBar(context, 'sign_up'.tr(context)),
         body: BlocProvider(
           create: (context) => SignUpCubit(getIt()),
