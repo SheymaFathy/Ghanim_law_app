@@ -14,7 +14,7 @@ class AddOrderSendVoiceWidget extends StatelessWidget {
         text: 'Send_voice'.tr(context),
         iconData: Icon(
             color: state.isRecording ? Colors.red : Colors.blue,
-            state.isRecording ? Icons.mic_off : Icons.mic),
+            state.isRecording ? Icons.stop : Icons.mic),
         ontab: null,
         onPressedIcon: state.isRecording
             ? context.read<AddOrderCubit>().stopRecording
