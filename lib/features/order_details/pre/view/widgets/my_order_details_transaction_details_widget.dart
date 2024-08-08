@@ -15,28 +15,32 @@ class MyOrdersDetailsTransactionDetailsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionTile(
-      title: Text("details".tr(context).toUpperCase()),
-      children: [
-        if (state.myOrderDetailsModel!.data!.description != null)
-          MyOrderDescriptionTextWidget(
-              description: state.myOrderDetailsModel!.data!.description!),
-        if (state.myOrderDetailsModel!.data!.documents != null)
-          MyOrderDetailsListViewWidget(state: state),
-        if (state.myOrderDetailsModel!.data!.voice != null &&
-            state.myOrderDetailsModel!.data!.voice != '')
-          BuildListViewFilesItem(
-              fileName: state.myOrderDetailsModel!.data!.voice!, isVoice: true),
-        if (state.myOrderDetailsModel!.data!.images != null)
-          ListView.builder(
-              itemCount: state.myOrderDetailsModel!.data!.images!.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return BuildListViewFilesItem(
-                    fileName: state.myOrderDetailsModel!.data!.images![index],
-                    isImage: true);
-              })
-      ],
+    return Theme(
+      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      child: ExpansionTile(
+        title: Text("details".tr(context).toUpperCase()),
+        children: [
+          if (state.myOrderDetailsModel!.data!.description != null)
+            MyOrderDescriptionTextWidget(
+                description: state.myOrderDetailsModel!.data!.description!),
+          if (state.myOrderDetailsModel!.data!.documents != null)
+            MyOrderDetailsListViewWidget(state: state),
+          if (state.myOrderDetailsModel!.data!.voice != null &&
+              state.myOrderDetailsModel!.data!.voice != '')
+            BuildListViewFilesItem(
+                fileName: state.myOrderDetailsModel!.data!.voice!,
+                isVoice: true),
+          if (state.myOrderDetailsModel!.data!.images != null)
+            ListView.builder(
+                itemCount: state.myOrderDetailsModel!.data!.images!.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return BuildListViewFilesItem(
+                      fileName: state.myOrderDetailsModel!.data!.images![index],
+                      isImage: true);
+                })
+        ],
+      ),
     );
   }
 }

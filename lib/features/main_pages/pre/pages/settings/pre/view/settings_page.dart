@@ -83,7 +83,7 @@ class SettingsPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10)),
                   child: ListTile(
                     leading: Icon(Icons.color_lens_outlined),
-                    title: Text("Dark Mode"),
+                    title: Text("Dark_Mode".tr(context)),
                     trailing: Switch(
                         value: ThemeService.darkModeValue,
                         onChanged: (val) {
