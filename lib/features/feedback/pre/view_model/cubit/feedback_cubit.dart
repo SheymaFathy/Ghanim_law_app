@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/enum/enum.dart';
-import 'package:ghanim_law_app/features/main_pages/pre/pages/feedback/data/repo/fedback_repo.dart';
+import 'package:ghanim_law_app/features/feedback/data/repo/fedback_repo.dart';
 
 part 'feedback_state.dart';
 

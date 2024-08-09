@@ -44,30 +44,33 @@ class AddOrderCubit extends Cubit<AddOrderState> {
 
   bool validateFormKey() => formKey.currentState!.validate();
   fetchAddOrder(String orderType) async {
-    if (validateFormKey()) {
-      emit(state.copyWith(addOrderState: AuthRequestState.loading));
-      final response = await addOrderRepo.fetchAddOrder(AddOrderModel(
-          name: nameController.text,
-          email: emailController.text,
-          phone: phoneController.text,
-          description: detailsController.text,
-          image: imageFiles,
-          typeOrder: orderType,
-          voice: recordsList,
-          docs: pickedFiles));
-      response.fold((ifLeft) {
-        emit(
-          state.copyWith(
+    if (detailsController.text.isEmpty) {
+      if (pickedFiles!.isEmpty &&
+          imageFiles!.isEmpty &&
+          (recordsList == null)) {
+        emit(state.copyWith(validateFormValues: false));
+      } else {
+        emit(state.copyWith(addOrderState: AuthRequestState.loading));
+
+        final response = await addOrderRepo.fetchAddOrder(AddOrderModel(
+            name: nameController.text,
+            email: emailController.text,
+            phone: phoneController.text,
+            description: detailsController.text,
+            image: imageFiles,
+            typeOrder: orderType,
+            voice: recordsList,
+            docs: pickedFiles));
+        response.fold((ifLeft) {
+          emit(state.copyWith(
               addOrderState: AuthRequestState.erorr,
-              erorrMessage: ifLeft.erorrMessage),
-        );
-      }, (ifRight) {
-        emit(
-          state.copyWith(
+              erorrMessage: ifLeft.erorrMessage));
+        }, (ifRight) {
+          emit(state.copyWith(
               addOrderState: AuthRequestState.sucess,
-              addOrderResultModel: ifRight),
-        );
-      });
+              addOrderResultModel: ifRight));
+        });
+      }
     }
   }
 
@@ -87,7 +90,7 @@ class AddOrderCubit extends Cubit<AddOrderState> {
 // gloabal Method
   // Images Controllers
   final ImagePicker picker = ImagePicker();
-  List<XFile>? imageFiles;
+  List<XFile>? imageFiles = [];
   Future<void> pickImagesFromGallery() async {
     try {
       final List<XFile> selectedImages = await picker.pickMultiImage();
@@ -118,7 +121,7 @@ class AddOrderCubit extends Cubit<AddOrderState> {
   // Images Controllers
 
   // Files Controllers
-  List<PlatformFile>? pickedFiles;
+  List<PlatformFile>? pickedFiles = [];
   void openFiles(List<PlatformFile> files) {
     pickedFiles = (pickedFiles ?? [])..addAll(files);
     emit(state.copyWith(pickedFiles: pickedFiles));
@@ -135,7 +138,9 @@ class AddOrderCubit extends Cubit<AddOrderState> {
             result.files[0].extension == 'docx')) {
       openFiles(result.files);
     } else {
-      emit(state.copyWith(validateFileExtensions: false));
+      if (result != null) {
+        emit(state.copyWith(validateFileExtensions: false));
+      }
     }
   }
 // Files Controllers

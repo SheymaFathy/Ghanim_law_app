@@ -1,25 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/enum/enum.dart';
 import 'package:ghanim_law_app/core/get_it/service_locator.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/my_orders/pre/view/widgets/my_order_widget.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/my_orders/pre/view_model/cubit/my_order_cubit.dart';
 import '../../../../../../../core/required_login_screen.dart';
 import '../../../../../../../core/shared_preferences/cache_helper.dart';
-import '../../../../../../../core/widget/app_bar.dart';
 import '../../../../../../../core/widget/custom_erorr_page._widget.dart';
 
 class MyOrdersPage extends StatelessWidget {
   const MyOrdersPage({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        appBar: myAppBar(context, "my-order".tr(context)),
-        body: checkUserMethod()
-            ? const MyOrderViewBody()
-            : const RequiredLoginScreen());
+    return checkUserMethod()
+        ? const MyOrderViewBody()
+        : const RequiredLoginScreen();
   }
 }
 

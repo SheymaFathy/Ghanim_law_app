@@ -22,6 +22,12 @@ class MainPageCubit extends Cubit<MainPageState> {
     const ProfilePage(),
     const SettingsPage()
   ];
+  List<String> appbarTitls = [
+    'our_services',
+    'my-order',
+    'profile',
+    'settings'
+  ];
   List<SalomonBottomBarItem> bottomNavBarTabs(context) {
     final textStyle = TextStyle(
         fontSize: 12,

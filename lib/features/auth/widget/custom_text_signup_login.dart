@@ -16,11 +16,14 @@ class CustomTextSignUpOrLogIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment:
+          textone == '' ? CrossAxisAlignment.end : CrossAxisAlignment.center,
       children: [
-        Text(
-          textone,
-          style: Styles.textStyle16.copyWith(fontSize: 13),
-        ),
+        if (textone != '')
+          Text(
+            textone,
+            style: Styles.textStyle16.copyWith(fontSize: 13),
+          ),
         InkWell(
           onTap: onTap,
           child: Text(texttwo,

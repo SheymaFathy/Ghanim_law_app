@@ -116,5 +116,6 @@
     "Please Enter your phone number": "الرجاء ادخال رقم الهاتف",
     "password is Short": "  كلمة المرور قصيرة جداً , يجب ان لا تقل عن 8 احرف",
     "Please Enter Password": "يرجي ادخال كلمة المرور",
-    "Dark_Mode": "الوضع اليلي"
+    "Dark_Mode": "الوضع اليلي",
+    "required_fill_any_filed": "مطلوب منك ملء أحد الحقول التالية"
 }

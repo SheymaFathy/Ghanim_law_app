@@ -8,6 +8,7 @@ class CustomAuthTextFormFeild extends StatelessWidget {
   final bool? obbscureText;
   final void Function()? onTapSuffix;
   final String? Function(String?)? validator;
+  final double? marginBottom;
   const CustomAuthTextFormFeild(
       {super.key,
       required this.hinttext,
@@ -16,12 +17,13 @@ class CustomAuthTextFormFeild extends StatelessWidget {
       required this.mycontroller,
       this.obbscureText,
       this.onTapSuffix,
-      this.validator});
+      this.validator,
+      this.marginBottom});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 20),
+      margin: EdgeInsets.only(bottom: marginBottom ?? 20),
       child: TextFormField(
         validator: validator,
         controller: mycontroller,

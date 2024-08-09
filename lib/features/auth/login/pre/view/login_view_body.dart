@@ -56,6 +56,7 @@ class LoginViewBody extends StatelessWidget {
               },
             ),
             CustomAuthTextFormFeild(
+              marginBottom: 0,
               onTapSuffix: loginCubit.toggleObscure,
               hinttext: 'enter_pass'.tr(context),
               label: 'password'.tr(context),
@@ -70,12 +71,16 @@ class LoginViewBody extends StatelessWidget {
               },
               mycontroller: loginCubit.passwordController,
             ),
-            CustomTextSignUpOrLogIn(
-              texttwo: "4get".tr(context),
-              onTap: () {
-                GoRouter.of(context).push(AppRouter.kForgetpassword);
-              },
-              textone: '',
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
+              child: CustomTextSignUpOrLogIn(
+                texttwo: "4get".tr(context),
+                onTap: () {
+                  GoRouter.of(context).push(AppRouter.kForgetpassword);
+                },
+                textone: '',
+              ),
             ),
             const SizedBox(
               height: 20,
@@ -99,6 +104,9 @@ class LoginViewBody extends StatelessWidget {
                 onPressed: () {
                   GoRouter.of(context).replace(AppRouter.kHomeView);
                 }),
+            const SizedBox(
+              height: 20,
+            ),
             CustomTextSignUpOrLogIn(
                 textone: "no_account".tr(context),
                 texttwo: "sign_up_now".tr(context),

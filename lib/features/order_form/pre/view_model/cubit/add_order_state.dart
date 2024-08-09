@@ -9,6 +9,7 @@ class AddOrderState {
   final AuthRequestState addOrderState;
   final String erorrMessage;
   final bool validateFileExtensions;
+  final bool validateFormValues;
   const AddOrderState(
       {this.imageFiles,
       this.pickedFiles,
@@ -17,23 +18,24 @@ class AddOrderState {
       this.addOrderResultModel,
       this.erorrMessage = '',
       this.validateFileExtensions = true,
+      this.validateFormValues = true,
       this.addOrderState = AuthRequestState.normal});
 
-  AddOrderState copyWith({
-    List<XFile>? imageFiles,
-    List<PlatformFile>? pickedFiles,
-    Duration? currentPosition,
-    Duration? totalDuration,
-    XFile? records,
-    bool? isRecording,
-    bool? isPlaying,
-    RequestState? playAudioState,
-    AudioPlayer? audioPlayer,
-    AddOrderResultModel? addOrderResultModel,
-    AuthRequestState? addOrderState,
-    String? erorrMessage,
-    bool? validateFileExtensions,
-  }) {
+  AddOrderState copyWith(
+      {List<XFile>? imageFiles,
+      List<PlatformFile>? pickedFiles,
+      Duration? currentPosition,
+      Duration? totalDuration,
+      XFile? records,
+      bool? isRecording,
+      bool? isPlaying,
+      RequestState? playAudioState,
+      AudioPlayer? audioPlayer,
+      AddOrderResultModel? addOrderResultModel,
+      AuthRequestState? addOrderState,
+      String? erorrMessage,
+      bool? validateFileExtensions,
+      bool? validateFormValues}) {
     return AddOrderState(
         imageFiles: imageFiles ?? this.imageFiles,
         pickedFiles: pickedFiles ?? this.pickedFiles,
@@ -42,6 +44,7 @@ class AddOrderState {
         addOrderResultModel: addOrderResultModel ?? this.addOrderResultModel,
         addOrderState: addOrderState ?? AuthRequestState.normal,
         erorrMessage: erorrMessage ?? this.erorrMessage,
-        validateFileExtensions: validateFileExtensions ?? true);
+        validateFileExtensions: validateFileExtensions ?? true,
+        validateFormValues: validateFormValues ?? true);
   }
 }

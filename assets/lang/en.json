@@ -116,5 +116,6 @@
     "Please Enter your phone number": "Please Enter your phone number",
     "password is Short": "password is Short",
     "Please Enter Password": "Please Enter Password",
-    "Dark_Mode": "Dark Mode"
+    "Dark_Mode": "Dark Mode",
+    "required_fill_any_filed": "You are required to fillout one of the following fields"
 }

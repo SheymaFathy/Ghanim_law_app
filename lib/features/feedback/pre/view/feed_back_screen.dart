@@ -7,13 +7,13 @@ import 'package:ghanim_law_app/core/widget/app_bar.dart';
 import 'package:ghanim_law_app/core/widget/custom_button.dart';
 import 'package:ghanim_law_app/core/widget/global_textfield.dart';
 import 'package:ghanim_law_app/features/auth/widget/logo.dart';
-import 'package:ghanim_law_app/features/main_pages/pre/pages/feedback/pre/view_model/cubit/feedback_cubit.dart';
+import 'package:ghanim_law_app/features/feedback/pre/view_model/cubit/feedback_cubit.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/profile/pre/view_model/cubit/profile_cubit.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../../../core/get_it/service_locator.dart';
-import '../../../../../../../core/method/handler_errorr_message_text.dart';
-import '../../../../../../../core/widget/custom_snackbar_widget.dart';
+import '../../../../core/get_it/service_locator.dart';
+import '../../../../core/method/handler_errorr_message_text.dart';
+import '../../../../core/widget/custom_snackbar_widget.dart';
 
 class FeedBackScreen extends StatelessWidget {
   const FeedBackScreen({super.key});

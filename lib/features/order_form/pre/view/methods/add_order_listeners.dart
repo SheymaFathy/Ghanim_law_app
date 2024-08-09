@@ -12,7 +12,13 @@ import '../../../../../core/widget/custom_snackbar_widget.dart';
 import '../../../../main_pages/pre/pages/my_orders/pre/view_model/cubit/my_order_cubit.dart';
 import '../../view_model/cubit/add_order_cubit.dart';
 
-addorderListeners(context, state) async {
+addorderListeners(context, AddOrderState state) async {
+  if (!state.validateFormValues) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(customSnackBarWidget(
+          "required_fill_any_filed".tr(context), Colors.red));
+  }
   if (!state.validateFileExtensions) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()

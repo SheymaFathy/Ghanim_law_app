@@ -5,7 +5,7 @@ import 'package:ghanim_law_app/features/auth/forgot_password/pre/view/otp_code.d
 import 'package:ghanim_law_app/features/auth/forgot_password/pre/view/reset_password.dart';
 import 'package:ghanim_law_app/features/auth/login/pre/view/login_screen.dart';
 import 'package:ghanim_law_app/features/auth/sign_up/pre/view/sign_up_screen.dart';
-import 'package:ghanim_law_app/features/main_pages/pre/pages/feedback/pre/view/feed_back_screen.dart';
+import 'package:ghanim_law_app/features/feedback/pre/view/feed_back_screen.dart';
 import 'package:ghanim_law_app/features/order_details/pre/view/my_order_details.dart';
 import 'package:ghanim_law_app/features/order_form/pre/view/order_form.dart';
 import 'package:ghanim_law_app/features/privacy_policy/pre/view/privacy_policy_page.dart';

@@ -2,7 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:ghanim_law_app/features/auth/forgot_password/data/repo/forgot_pssword_repo.dart';
 import 'package:ghanim_law_app/features/auth/login/data/repository/login_repo.dart';
 import 'package:ghanim_law_app/features/auth/sign_up/data/repository/sign_up_repo.dart';
-import 'package:ghanim_law_app/features/main_pages/pre/pages/feedback/data/repo/fedback_repo.dart';
+import 'package:ghanim_law_app/features/feedback/data/repo/fedback_repo.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/home/data/repo/home_repo.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/home/pre/view_model/cubit/home_cubit.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/my_orders/data/repo/my_order_repo.dart';

@@ -17,7 +17,7 @@ class ThemeService {
           surface: Colors.grey.shade300,
           primary: Colors.grey.shade900,
           // secondary: Colors.grey.shade400,
-          onSurface: Colors.grey.shade900,
+          onSurface: Color(0xff000000),
         ),
       );
 
@@ -31,7 +31,7 @@ class ThemeService {
                 : "Cairo",
         colorScheme: ColorScheme.dark(
           brightness: Brightness.dark,
-          surface: Colors.grey.shade900,
+          surface: Color(0xff000000),
           primary: Colors.grey.shade300,
           //  secondary: Colors.grey.shade700,
           onSurface: Colors.grey.shade300,
