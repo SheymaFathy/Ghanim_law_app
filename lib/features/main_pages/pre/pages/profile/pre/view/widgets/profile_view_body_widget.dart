@@ -39,7 +39,7 @@ class ProfileViewBodyWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: ListTile(
-            leading: Icon(Icons.email),
+            leading: const Icon(Icons.email),
             title: Text(
               prfileData.email!,
             ),
@@ -53,7 +53,7 @@ class ProfileViewBodyWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: ListTile(
-            leading: Icon(Icons.phone),
+            leading: const Icon(Icons.phone),
             title: Text(
               prfileData.phone!,
             ),
