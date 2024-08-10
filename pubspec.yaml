@@ -54,10 +54,10 @@ flutter_launcher_icons:
 #################################################### Splash Screen ###########################################################
 
 flutter_native_splash:
-  color: "#ffffff"
-  image: assets/images/logo.png
+  color: "#000000"
+  image: assets/images/logo_android12.jpg
   color_dark: "#000000"
-  image_dark: assets/images/logo.png
+  image_dark: assets/images/logo_android12.jpg
 
   android_12:
     image:  assets/images/logo_android12.jpg
