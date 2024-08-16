@@ -18,7 +18,6 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides();
   ServiceLocator().init();
   await CacheHelper.init();
-
   await ThemeService.themeInit();
   await UserData.init();
   await DioHelper.init();

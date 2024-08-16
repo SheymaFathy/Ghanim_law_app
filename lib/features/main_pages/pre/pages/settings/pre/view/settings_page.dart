@@ -20,7 +20,7 @@ class SettingsPage extends StatelessWidget {
     return BlocBuilder<SettingCubit, SettingState>(
       builder: (context, state) {
         return Container(
-          margin: EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
           child: Column(
             children: [
               Container(
@@ -64,7 +64,7 @@ class SettingsPage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Container(
@@ -75,7 +75,7 @@ class SettingsPage extends StatelessWidget {
                         .withOpacity(0.2),
                     borderRadius: BorderRadius.circular(10)),
                 child: ListTile(
-                  leading: Icon(Icons.color_lens_outlined),
+                  leading: const Icon(Icons.color_lens_outlined),
                   title: Text("Dark_Mode".tr(context)),
                   trailing: Switch(
                       value: ThemeService.darkModeValue,
@@ -84,7 +84,7 @@ class SettingsPage extends StatelessWidget {
                       }),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Container(
@@ -103,7 +103,7 @@ class SettingsPage extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               if (checkUserMethod())
@@ -125,7 +125,7 @@ class SettingsPage extends StatelessWidget {
                         },
                       ),
                     ),
-                    SizedBox(
+                   const SizedBox(
                       height: 8,
                     ),
                   ],
