@@ -33,7 +33,7 @@ dependencies:
   url_launcher: ##^6.3.0
   file_downloader_flutter: ##^0.0.5
   flutter_native_splash: ##^2.4.1
-  myfatoorah_pay: ^1.0.5
+  myfatoorah_flutter: 
 #################################################### Icon Lancher ###########################################################
 flutter_launcher_icons:
   android: "launcher_icon"

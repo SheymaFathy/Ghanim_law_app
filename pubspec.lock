@@ -278,14 +278,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
-  flutter_inappwebview:
-    dependency: transitive
-    description:
-      name: flutter_inappwebview
-      sha256: d198297060d116b94048301ee6749cd2e7d03c1f2689783f52d210a6b7aba350
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.8.0"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -573,14 +565,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
-  myfatoorah_pay:
+  myfatoorah_flutter:
     dependency: "direct main"
     description:
-      name: myfatoorah_pay
-      sha256: "3cb6274f0a0ccda649333a16d9ca16a581ae3c71f331c1c6e32d674dab2d2675"
+      name: myfatoorah_flutter
+      sha256: b8e6d328ff4c3cf918363cc9b44f5470e1a8682f60d72869c59bbabc775d2a34
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.5"
+    version: "3.1.1"
   nested:
     dependency: transitive
     description:

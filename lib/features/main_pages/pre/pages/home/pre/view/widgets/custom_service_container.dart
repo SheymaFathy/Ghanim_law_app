@@ -26,8 +26,10 @@ class CustomServiceContainer extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(15),
         onTap: () {
-          GoRouter.of(context).push(AppRouter.kOrderForm,
-              extra: {"type": priceModel.serviceName});
+          GoRouter.of(context).push(AppRouter.kOrderForm, extra: {
+            "type": priceModel.serviceName,
+            "price": priceModel.price.toString()
+          });
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),

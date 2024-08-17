@@ -6,7 +6,7 @@ import 'package:ghanim_law_app/features/auth/forgot_password/pre/view/reset_pass
 import 'package:ghanim_law_app/features/auth/login/pre/view/login_screen.dart';
 import 'package:ghanim_law_app/features/auth/sign_up/pre/view/sign_up_screen.dart';
 import 'package:ghanim_law_app/features/feedback/pre/view/feed_back_screen.dart';
-import 'package:ghanim_law_app/features/my_fatoora/pre/view/invoice_secreen.dart';
+import 'package:ghanim_law_app/features/payment/pre/view/invoice_secreen.dart';
 import 'package:ghanim_law_app/features/order_details/pre/view/my_order_details.dart';
 import 'package:ghanim_law_app/features/order_form/pre/view/order_form.dart';
 import 'package:ghanim_law_app/features/privacy_policy/pre/view/privacy_policy_page.dart';
@@ -19,6 +19,7 @@ import '../../features/auth/forgot_password/pre/view/success_reset_pass.dart';
 
 import '../../features/main_pages/pre/pages/profile/pre/view/update_profile.dart';
 import '../../features/main_pages/pre/view/main_screen.dart';
+import '../../features/payment/data/model/invoice_model.dart';
 
 abstract class AppRouter {
   static const kHomeView = '/homeView';
@@ -43,7 +44,7 @@ abstract class AppRouter {
   static final router = GoRouter(
     routes: [
       GoRoute(
-          path: '/myfatoora',
+          path: '/',
           builder: (context, state) {
             if (UserData.lang != null) {
               return const MainScreen();
@@ -105,7 +106,10 @@ abstract class AppRouter {
           builder: (context, state) {
             Map<String, String>? args = state.extra as Map<String, String>?;
             return checkUserMethod()
-                ? OrderForm(typeOrder: args!['type']!)
+                ? OrderForm(
+                    typeOrder: args!['type']!,
+                    price: args['price']!,
+                  )
                 : const RequiredLoginScreen(isAppBar: true);
           }),
       GoRoute(
@@ -120,8 +124,14 @@ abstract class AppRouter {
             );
           }),
       GoRoute(
-        path: '/',
-        builder: (context, state) =>  InvoiceSecreen(),
+        path: '/myfatoora',
+        builder: (context, state) {
+          PaymentMyFatorahModel paymentMyFatorahModel =
+              state.extra as PaymentMyFatorahModel;
+
+          return PaymentMyFatorahScreen(
+              paymentMyFatorahModel: paymentMyFatorahModel);
+        },
       ),
     ],
   );

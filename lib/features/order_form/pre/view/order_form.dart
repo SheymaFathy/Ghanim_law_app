@@ -17,8 +17,9 @@ import 'widgets/image/add_order_send_picture_widget.dart';
 import 'widgets/presonal_filed_widget.dart';
 
 class OrderForm extends StatelessWidget {
-  const OrderForm({super.key, required this.typeOrder});
+  const OrderForm({super.key, required this.typeOrder, required this.price});
   final String typeOrder;
+  final String price;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,8 +62,8 @@ class OrderForm extends StatelessWidget {
                     const SizedBox(height: 15),
                     AddOrderUploadButtonWidget(
                       addOrderCubit: addOrderCubit,
-                      state: state,
                       orderType: typeOrder,
+                      price: price,
                     )
                   ],
                 ),
