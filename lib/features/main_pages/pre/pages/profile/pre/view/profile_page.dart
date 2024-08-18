@@ -7,7 +7,7 @@ import 'package:ghanim_law_app/features/main_pages/pre/pages/profile/pre/view_mo
 
 import '../../../../../../../core/get_it/service_locator.dart';
 import '../../../../../../../core/required_login_screen.dart';
-import '../../../../../../../core/widget/custom_erorr_page._widget.dart';
+import '../../../../../../../core/widget/custom_erorr_page_widget.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});

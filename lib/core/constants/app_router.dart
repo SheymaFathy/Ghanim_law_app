@@ -1,3 +1,4 @@
+import 'package:flutter/src/widgets/basic.dart';
 import 'package:ghanim_law_app/core/profile.dart';
 import 'package:ghanim_law_app/core/required_login_screen.dart';
 import 'package:ghanim_law_app/features/auth/forgot_password/pre/view/forget_password_screen.dart';
@@ -6,7 +7,7 @@ import 'package:ghanim_law_app/features/auth/forgot_password/pre/view/reset_pass
 import 'package:ghanim_law_app/features/auth/login/pre/view/login_screen.dart';
 import 'package:ghanim_law_app/features/auth/sign_up/pre/view/sign_up_screen.dart';
 import 'package:ghanim_law_app/features/feedback/pre/view/feed_back_screen.dart';
-import 'package:ghanim_law_app/features/payment/pre/view/invoice_secreen.dart';
+import 'package:ghanim_law_app/features/payment/pre/view/payment_secreen.dart';
 import 'package:ghanim_law_app/features/order_details/pre/view/my_order_details.dart';
 import 'package:ghanim_law_app/features/order_form/pre/view/order_form.dart';
 import 'package:ghanim_law_app/features/privacy_policy/pre/view/privacy_policy_page.dart';
@@ -39,7 +40,7 @@ abstract class AppRouter {
   static const kAboutUs = '/aboutUs';
   static const kpolicy = '/policy';
   static const korderdetails = '/orderdetails';
-  static const kMyFatoora = "/myfatoora";
+  static const kMyFatoora = "/payment";
 
   static final router = GoRouter(
     routes: [
@@ -105,12 +106,16 @@ abstract class AppRouter {
           path: kOrderForm,
           builder: (context, state) {
             Map<String, String>? args = state.extra as Map<String, String>?;
-            return checkUserMethod()
-                ? OrderForm(
-                    typeOrder: args!['type']!,
-                    price: args['price']!,
-                  )
-                : const RequiredLoginScreen(isAppBar: true);
+            String? value = state.extra.toString() as String?;
+            return Builder(builder: (context) {
+              return checkUserMethod()
+                  ? OrderForm(
+                      value: value,
+                      typeOrder: args!['type']!,
+                      price: args['price']!,
+                    )
+                  : const RequiredLoginScreen(isAppBar: true);
+            });
           }),
       GoRoute(
           path: kpolicy,
@@ -123,8 +128,9 @@ abstract class AppRouter {
               id: args!["id"]!,
             );
           }),
+
       GoRoute(
-        path: '/myfatoora',
+        path: kMyFatoora,
         builder: (context, state) {
           PaymentMyFatorahModel paymentMyFatorahModel =
               state.extra as PaymentMyFatorahModel;

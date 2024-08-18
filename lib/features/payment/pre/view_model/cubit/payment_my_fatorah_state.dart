@@ -3,42 +3,69 @@ part of 'payment_my_fatorah_cubit.dart';
 
 class PaymentMyFatorahState extends Equatable {
   final String response;
-  final int isSelectedPayment;
   final List<MFPaymentMethod> paymentMethods;
-  final PaymentState paymentState;
   final String erorrMessage;
-  const PaymentMyFatorahState(
-      {this.response = '',
-      this.isSelectedPayment = -1,
-      this.paymentState = PaymentState.init,
-      this.paymentMethods = const [],
-      this.erorrMessage = ''});
+  final MFGetPaymentStatusResponse? paymentStatusResponse;
+  final RequestState paymentStatusState;
+  final PaymentState paymentSendState;
+  final MFGetPaymentStatusResponse? executePaymentResponse;
 
-  PaymentMyFatorahState copyWith(
-      {String? response,
-      int? isSelectedPayment,
-      List<MFPaymentMethod>? paymentMethods,
-      PaymentState? paymentState,
-      String? erorrMessage}) {
+//////////////
+  const PaymentMyFatorahState({
+    this.response = '',
+
+    /////////////////////
+    this.paymentStatusState = RequestState.loading,
+    this.paymentStatusResponse,
+    this.executePaymentResponse,
+    this.paymentMethods = const [],
+    this.paymentSendState = PaymentState.init,
+    this.erorrMessage = '',
+  });
+
+  PaymentMyFatorahState copyWith({
+    String? response,
+    List<MFPaymentMethod>? paymentMethods,
+    PaymentState? paymentSendState,
+    String? erorrMessage,
+    MFGetPaymentStatusResponse? paymentStatusResponse,
+    RequestState? paymentStatusState,
+    MFGetPaymentStatusResponse? executePaymentResponse,
+  }) {
     return PaymentMyFatorahState(
-        response: response ?? this.response,
-        paymentState: paymentState ?? this.paymentState,
-        isSelectedPayment: isSelectedPayment ?? this.isSelectedPayment,
-        erorrMessage: erorrMessage ?? this.erorrMessage,
-        paymentMethods: paymentMethods ?? this.paymentMethods);
+      response: response ?? this.response,
+      erorrMessage: erorrMessage ?? this.erorrMessage,
+      paymentMethods: paymentMethods ?? this.paymentMethods,
+      paymentSendState: paymentSendState ?? this.paymentSendState,
+      paymentStatusResponse:
+          paymentStatusResponse ?? this.paymentStatusResponse,
+      paymentStatusState: paymentStatusState ?? this.paymentStatusState,
+      executePaymentResponse:
+          executePaymentResponse ?? this.executePaymentResponse,
+    );
   }
 
   @override
-  List<Object> get props =>
-      [response, isSelectedPayment, paymentMethods, paymentState, erorrMessage];
+  List<Object?> get props => [
+        response,
+        paymentMethods,
+        erorrMessage,
+        paymentStatusResponse,
+        paymentStatusState,
+        paymentSendState,
+        executePaymentResponse,
+      ];
 }
 
 enum PaymentState {
   init,
-  requestloading,
-  requestSuccess,
-  requestErorr,
-  excuteloading,
-  excuteSuccess,
-  excuteErorr,
+  methodsPaymentLoading,
+  methodsPaymentSuccess,
+  requestPaymentLoading,
+  requestPaymentSuccess,
+  statusPaymentLoading,
+  statusPaymentSuccess,
+  executePaymentLoading,
+  executePaymentSuccess,
+  paymentErorr
 }

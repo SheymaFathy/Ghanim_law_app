@@ -10,7 +10,7 @@ import '../../../../../../../core/get_it/service_locator.dart';
 import '../../../../../../../core/method/handler_errorr_message_text.dart';
 import '../../../../../../../core/widget/app_bar.dart';
 
-import '../../../../../../../core/widget/custom_erorr_page._widget.dart';
+import '../../../../../../../core/widget/custom_erorr_page_widget.dart';
 import '../../../../../../../core/widget/custom_snackbar_widget.dart';
 import '../view_model/cubit/profile_cubit.dart';
 import 'widgets/update_profile_view_body_widget.dart';

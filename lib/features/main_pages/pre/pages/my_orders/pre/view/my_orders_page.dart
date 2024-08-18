@@ -6,7 +6,7 @@ import 'package:ghanim_law_app/features/main_pages/pre/pages/my_orders/pre/view/
 import 'package:ghanim_law_app/features/main_pages/pre/pages/my_orders/pre/view_model/cubit/my_order_cubit.dart';
 import '../../../../../../../core/required_login_screen.dart';
 import '../../../../../../../core/shared_preferences/cache_helper.dart';
-import '../../../../../../../core/widget/custom_erorr_page._widget.dart';
+import '../../../../../../../core/widget/custom_erorr_page_widget.dart';
 
 class MyOrdersPage extends StatelessWidget {
   const MyOrdersPage({super.key});

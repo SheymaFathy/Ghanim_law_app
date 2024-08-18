@@ -8,7 +8,7 @@ import 'package:ghanim_law_app/features/order_details/pre/view_model/cubit/my_or
 
 import '../../../../core/get_it/service_locator.dart';
 
-import '../../../../core/widget/custom_erorr_page._widget.dart';
+import '../../../../core/widget/custom_erorr_page_widget.dart';
 import 'widgets/my_order_details_view_body.dart';
 
 class MyOrderDetails extends StatelessWidget {

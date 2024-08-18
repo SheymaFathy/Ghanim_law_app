@@ -7,6 +7,7 @@ import 'package:ghanim_law_app/features/order_form/data/model/add_order_result_m
 import 'package:ghanim_law_app/features/order_form/data/repo/add_order_repo.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:myfatoorah_flutter/MFModels.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import '../../../../../core/enum/enum.dart';
@@ -22,6 +23,7 @@ class AddOrderCubit extends Cubit<AddOrderState> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
+  MFGetPaymentStatusResponse? paymetnResponse;
   clearFiled() {
     if (detailsController.text.isNotEmpty) {
       detailsController.clear();
@@ -44,7 +46,7 @@ class AddOrderCubit extends Cubit<AddOrderState> {
 
   bool validateFormKey() => formKey.currentState!.validate();
   fetchAddOrder(String orderType) async {
-    if (detailsController.text.isEmpty) {
+    if (detailsController.text.isNotEmpty) {
       if (pickedFiles!.isEmpty &&
           imageFiles!.isEmpty &&
           (recordsList == null)) {
@@ -70,6 +72,7 @@ class AddOrderCubit extends Cubit<AddOrderState> {
               addOrderState: AuthRequestState.sucess,
               addOrderResultModel: ifRight));
         });
+        paymetnResponse = null;
       }
     }
   }

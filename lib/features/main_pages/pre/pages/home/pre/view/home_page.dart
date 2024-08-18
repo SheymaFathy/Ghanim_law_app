@@ -5,7 +5,7 @@ import 'package:ghanim_law_app/core/enum/enum.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/home/pre/view/widgets/custom_service_container.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/home/pre/view_model/cubit/home_cubit.dart';
 
-import '../../../../../../../core/widget/custom_erorr_page._widget.dart';
+import '../../../../../../../core/widget/custom_erorr_page_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

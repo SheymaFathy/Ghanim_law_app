@@ -5,6 +5,7 @@ import 'package:ghanim_law_app/core/widget/app_bar.dart';
 import 'package:ghanim_law_app/core/widget/global_textfield.dart';
 import 'package:ghanim_law_app/features/auth/widget/custom_auth_title.dart';
 import '../../../../core/get_it/service_locator.dart';
+import '../../../../core/widget/custom_button.dart';
 import '../../../main_pages/pre/pages/profile/pre/view_model/cubit/profile_cubit.dart';
 import '../view_model/cubit/add_order_cubit.dart';
 import 'methods/add_order_listeners.dart';
@@ -17,9 +18,10 @@ import 'widgets/image/add_order_send_picture_widget.dart';
 import 'widgets/presonal_filed_widget.dart';
 
 class OrderForm extends StatelessWidget {
-  const OrderForm({super.key, required this.typeOrder, required this.price});
-  final String typeOrder;
-  final String price;
+  const OrderForm({super.key, this.typeOrder, this.price, this.value});
+  final String? typeOrder;
+  final String? price;
+  final String? value;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,11 +62,21 @@ class OrderForm extends StatelessWidget {
                     AddOrderAttachedImageAndVoiceAndFilesWidgets(
                         addOrderCubit: addOrderCubit, state: state),
                     const SizedBox(height: 15),
-                    AddOrderUploadButtonWidget(
-                      addOrderCubit: addOrderCubit,
-                      orderType: typeOrder,
-                      price: price,
-                    )
+                    if (addOrderCubit.paymetnResponse != null)
+                      CustomBotton(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.onSurface,
+                          textColor: Theme.of(context).colorScheme.surface,
+                          text: 'ارسال الطلب',
+                          onPressed: () {
+                            addOrderCubit.fetchAddOrder(typeOrder!);
+                          }),
+                    if (addOrderCubit.paymetnResponse == null)
+                      AddOrderUploadButtonWidget(
+                        addOrderCubit: addOrderCubit,
+                        orderType: typeOrder ?? "",
+                        price: price ?? "",
+                      )
                   ],
                 ),
               ),

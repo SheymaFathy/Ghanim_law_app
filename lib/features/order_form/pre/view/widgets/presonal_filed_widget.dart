@@ -19,6 +19,7 @@ class PersonalFiledWidget extends StatelessWidget {
         GlobalTextfield(
           mycontroller: addOrderCubit.nameController,
           hinttext: 'name'.tr(context),
+          readOnly: addOrderCubit.paymetnResponse == null ? false : true,
           validator: (value) {
             if (value!.isEmpty) {
               return "Please enter name";
@@ -30,6 +31,7 @@ class PersonalFiledWidget extends StatelessWidget {
         GlobalTextfield(
           mycontroller: addOrderCubit.emailController,
           hinttext: 'email'.tr(context),
+          readOnly: addOrderCubit.paymetnResponse == null ? false : true,
           validator: (value) {
             if (value!.isEmpty) {
               return "Please enter email";
@@ -41,6 +43,7 @@ class PersonalFiledWidget extends StatelessWidget {
         GlobalTextfield(
           mycontroller: addOrderCubit.phoneController,
           hinttext: 'phone'.tr(context),
+          readOnly: addOrderCubit.paymetnResponse == null ? false : true,
           validator: (value) {
             if (value!.isEmpty) {
               return "Please enter phone number";

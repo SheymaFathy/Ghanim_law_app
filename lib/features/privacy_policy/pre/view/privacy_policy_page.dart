@@ -6,7 +6,7 @@ import 'package:ghanim_law_app/core/enum/enum.dart';
 import 'package:ghanim_law_app/core/widget/app_bar.dart';
 
 import '../../../../core/get_it/service_locator.dart';
-import '../../../../core/widget/custom_erorr_page._widget.dart';
+import '../../../../core/widget/custom_erorr_page_widget.dart';
 import '../../../main_pages/pre/pages/home/pre/view_model/cubit/home_cubit.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {

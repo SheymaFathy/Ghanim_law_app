@@ -10,25 +10,26 @@ class GlobalTextfield extends StatelessWidget {
   final String? Function(String?)? validator;
   final String? Function(String?)? onChanged;
   final int? maxline;
-
-  const GlobalTextfield({
-    super.key,
-    required this.hinttext,
-    this.label,
-    this.iconData,
-    this.mycontroller,
-    this.obbscureText,
-    this.onTapSuffix,
-    this.onChanged,
-    this.validator,
-    this.maxline,
-  });
+  final bool? readOnly;
+  const GlobalTextfield(
+      {super.key,
+      required this.hinttext,
+      this.label,
+      this.iconData,
+      this.mycontroller,
+      this.obbscureText,
+      this.onTapSuffix,
+      this.onChanged,
+      this.validator,
+      this.maxline,
+      this.readOnly});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       child: TextFormField(
+        readOnly: readOnly ?? false,
         maxLines: maxline,
         onChanged: onChanged,
         validator: validator,

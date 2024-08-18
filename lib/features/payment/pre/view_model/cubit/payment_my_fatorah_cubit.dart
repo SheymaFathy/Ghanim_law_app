@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:ghanim_law_app/core/enum/enum.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 
 import '../../../data/model/invoice_model.dart';
@@ -9,63 +10,49 @@ import '../../../data/model/invoice_model.dart';
 part 'payment_my_fatorah_state.dart';
 
 class PaymentMyFatorahCubit extends Cubit<PaymentMyFatorahState> {
-  PaymentMyFatorahCubit(this.paymentMyFatorahModel)
-      : super(PaymentMyFatorahState()) {
-    initiate();
-    mfCardView = MFCardPaymentView(cardViewStyle: cardViewStyle());
-    mfApplePayButton = MFApplePayButton(applePayStyle: MFApplePayStyle());
-  }
-
-  MFInitiateSessionResponse? session;
-
-  final PaymentMyFatorahModel paymentMyFatorahModel;
-
-  late MFCardPaymentView mfCardView;
-  late MFApplePayButton mfApplePayButton;
-
-  initiate() async {
+  PaymentMyFatorahCubit() : super(const PaymentMyFatorahState());
+  static int? paymentMethodId;
+  initiApi(num price) async {
     if (Config.testAPIKey.isEmpty) {
       emit(state.copyWith(
           response:
               "Missing API Token Key.. You can get it from here: https://myfatoorah.readme.io/docs/test-token"));
-
       return;
     }
 
     await MFSDK.init(Config.testAPIKey, MFCountry.QATAR, MFEnvironment.TEST);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await initiatePayment();
+      await initiatePayment(price);
     });
-  }
-
-  // Initiate Payment
-  initiatePayment() async {
-    var request = MFInitiatePaymentRequest(
-        invoiceAmount: double.parse(paymentMyFatorahModel.price),
-        currencyIso: MFCurrencyISO.QATAR_QAR);
-
-    await MFSDK.initiatePayment(request, MFLanguage.ARABIC).then((value) {
-      emit(state.copyWith(paymentMethods: value.paymentMethods!));
-
-      for (int i = 0; i < state.paymentMethods.length; i++) {
-        emit(state.copyWith(isSelectedPayment: -1));
-      }
-    }).catchError((error) {
-      log(error.message);
-    });
-  }
-
-  log(Object object) {
-    var json = const JsonEncoder.withIndent('  ').convert(object);
-    emit(state.copyWith(response: json));
-
-    debugPrint(json);
-    json;
   }
 
   // Send Payment
-  sendPayment() async {
-    //  emit(state.copyWith(paymentState: PaymentState.requestloading));
+  initiatePayment(num price) async {
+    emit(state.copyWith(paymentSendState: PaymentState.methodsPaymentLoading));
+    var request = MFInitiatePaymentRequest(
+        invoiceAmount: price, currencyIso: MFCurrencyISO.QATAR_QAR);
+
+    await MFSDK.initiatePayment(request, MFLanguage.ARABIC).then((value) {
+      emit(state.copyWith(
+          paymentMethods: value.paymentMethods!,
+          paymentSendState: PaymentState.methodsPaymentSuccess));
+      log('Initiate Payment Response: ${jsonEncode(value.toJson())}');
+    }).catchError((error) {
+      log('Initiate Payment Error: ${error.toString()}');
+      emit(state.copyWith(
+          response: 'Error initiating payment: ${error.toString()}',
+          paymentSendState: PaymentState.paymentErorr));
+    });
+  }
+
+  // Log function
+  log(String message) {
+    debugPrint(message);
+  }
+
+  // Send Payment
+  sendPayment(PaymentMyFatorahModel paymentMyFatorahModel) async {
+    emit(state.copyWith(paymentSendState: PaymentState.requestPaymentLoading));
     var request = MFSendPaymentRequest(
         invoiceValue: double.parse(paymentMyFatorahModel.price),
         customerName: paymentMyFatorahModel.name,
@@ -73,84 +60,76 @@ class PaymentMyFatorahCubit extends Cubit<PaymentMyFatorahState> {
         customerMobile: paymentMyFatorahModel.phone,
         notificationOption: MFNotificationOption.EMAIL);
     await MFSDK.sendPayment(request, MFLanguage.ARABIC).then((value) {
-      state.copyWith(paymentState: PaymentState.requestSuccess);
-      executeRegularPayment();
+      log("Send Payment Response: ${jsonEncode(value.toJson())}");
+      emit(
+          state.copyWith(paymentSendState: PaymentState.requestPaymentSuccess));
+      getPaymentStatus(value.invoiceId.toString());
     }).catchError((error) {
-      log(error);
-      state.copyWith(
-          paymentState: PaymentState.requestErorr,
-          erorrMessage: error.toString());
+      log('Send Payment Error: ${error.toString()}');
+      emit(state.copyWith(
+          paymentSendState: PaymentState.paymentErorr,
+          erorrMessage: error.toString()));
     });
   }
 
   // Execute Regular Payment
-  executeRegularPayment() async {
+  executeRegularPayment(PaymentMyFatorahModel paymentMyFatorahModel) async {
     var request = MFExecutePaymentRequest(
-        paymentMethodId: state.isSelectedPayment,
+        paymentMethodId: paymentMethodId,
         invoiceValue: double.parse(paymentMyFatorahModel.price));
     request.displayCurrencyIso = MFCurrencyISO.QATAR_QAR;
 
-    await MFSDK.executePayment(request, MFLanguage.ARABIC, (invoiceId) {
-      log(invoiceId);
-    }).then((value) {
-      log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP${value}");
+    await MFSDK
+        .executePayment(request, MFLanguage.ARABIC, (invoiceId) {})
+        .then((value) {
+      emit(state.copyWith(
+          paymentSendState: PaymentState.executePaymentSuccess,
+          executePaymentResponse: value));
+      log("Execute Payment Response: ${jsonEncode(value.toJson())}");
     }).catchError((error) {
-      log(error.message);
+      emit(state.copyWith(
+          paymentSendState: PaymentState.paymentErorr,
+          erorrMessage: error.message));
+      log('Execute Payment Error: ${error.message}');
     });
   }
 
-  // Payment Enquiry
-  getPaymentStatus() async {
-    MFGetPaymentStatusRequest request =
-        MFGetPaymentStatusRequest(key: '4289602', keyType: MFKeyType.INVOICEID);
+  setMethodId(int id) {
+    paymentMethodId = id;
+  }
 
-    await MFSDK
-        .getPaymentStatus(request, MFLanguage.ARABIC)
-        .then((value) => log(value))
-        .catchError((error) => {log(error.message)});
+  // Payment Enquiry
+  getPaymentStatus(String key) async {
+    emit(state.copyWith(paymentSendState: PaymentState.statusPaymentLoading));
+    MFGetPaymentStatusRequest request =
+        MFGetPaymentStatusRequest(key: key, keyType: MFKeyType.INVOICEID);
+
+    await MFSDK.getPaymentStatus(request, MFLanguage.ARABIC).then((value) {
+      emit(state.copyWith(
+          paymentSendState: PaymentState.statusPaymentSuccess,
+          paymentStatusResponse: value));
+    }).catchError((error) {
+      emit(state.copyWith(
+          paymentSendState: PaymentState.paymentErorr,
+          erorrMessage: error.toString()));
+    });
   }
 
   // Cancel Token
-  cancelToken() async {
-    await MFSDK
-        .cancelToken("Put your token here", MFLanguage.ARABIC)
-        .then((value) => log(value))
-        .catchError((error) => {log(error.message)});
-  }
+  // cancelToken() async {
+  //   await MFSDK
+  //       .cancelToken("Put your token here", MFLanguage.ARABIC)
+  //       .then((value) => log(value))
+  //       .catchError((error) => {log(error.message)});
+  // }
 
   // Cancel Recurring Payment
-  cancelRecurringPayment() async {
-    await MFSDK
-        .cancelRecurringPayment("Put RecurringId here", MFLanguage.ARABIC)
-        .then((value) => log(value))
-        .catchError((error) => {log(error.message)});
-  }
-
-  setPaymentMethodSelected(int index) {
-    emit(state.copyWith(isSelectedPayment: index));
-  }
-
-  MFCardViewStyle cardViewStyle() {
-    MFCardViewStyle cardViewStyle = MFCardViewStyle();
-    cardViewStyle.cardHeight = 200;
-    cardViewStyle.hideCardIcons = false;
-    cardViewStyle.input?.inputMargin = 3;
-    cardViewStyle.label?.display = true;
-    cardViewStyle.input?.fontFamily = MFFontFamily.Arial;
-    cardViewStyle.label?.fontWeight = MFFontWeight.Light;
-    return cardViewStyle;
-  }
-
-  initiateSession() async {
-    MFInitiateSessionRequest initiateSessionRequest =
-        MFInitiateSessionRequest();
-    await MFSDK
-        .initiateSession(initiateSessionRequest, (bin) {
-          log(bin);
-        })
-        .then((value) => {log(value)})
-        .catchError((error) => {log(error.message)});
-  }
+  // cancelRecurringPayment() async {
+  // await MFSDK
+  //     .cancelRecurringPayment("Put RecurringId here", MFLanguage.ARABIC)
+  //     .then((value) => log(value))
+  //       .catchError((error) => {log(error.message)});
+  // }
 }
 
 class Config {
