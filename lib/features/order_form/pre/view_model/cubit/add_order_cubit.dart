@@ -46,34 +46,32 @@ class AddOrderCubit extends Cubit<AddOrderState> {
 
   bool validateFormKey() => formKey.currentState!.validate();
   fetchAddOrder(String orderType) async {
-    if (detailsController.text.isNotEmpty) {
-      if (pickedFiles!.isEmpty &&
-          imageFiles!.isEmpty &&
-          (recordsList == null)) {
-        emit(state.copyWith(validateFormValues: false));
-      } else {
-        emit(state.copyWith(addOrderState: AuthRequestState.loading));
+    if ((pickedFiles!.isEmpty && imageFiles!.isEmpty && recordsList == null) &&
+        detailsController.text.isEmpty) {
+      emit(state.copyWith(validateFormValues: false));
+    } else {
+      emit(state.copyWith(
+          addOrderState: AuthRequestState.loading, validateFormValues: true));
 
-        final response = await addOrderRepo.fetchAddOrder(AddOrderModel(
-            name: nameController.text,
-            email: emailController.text,
-            phone: phoneController.text,
-            description: detailsController.text,
-            image: imageFiles,
-            typeOrder: orderType,
-            voice: recordsList,
-            docs: pickedFiles));
-        response.fold((ifLeft) {
-          emit(state.copyWith(
-              addOrderState: AuthRequestState.erorr,
-              erorrMessage: ifLeft.erorrMessage));
-        }, (ifRight) {
-          emit(state.copyWith(
-              addOrderState: AuthRequestState.sucess,
-              addOrderResultModel: ifRight));
-        });
-        paymetnResponse = null;
-      }
+      final response = await addOrderRepo.fetchAddOrder(AddOrderModel(
+          name: nameController.text,
+          email: emailController.text,
+          phone: phoneController.text,
+          description: detailsController.text,
+          image: imageFiles,
+          typeOrder: orderType,
+          voice: recordsList,
+          docs: pickedFiles));
+      response.fold((ifLeft) {
+        emit(state.copyWith(
+            addOrderState: AuthRequestState.erorr,
+            erorrMessage: ifLeft.erorrMessage));
+      }, (ifRight) {
+        emit(state.copyWith(
+            addOrderState: AuthRequestState.sucess,
+            addOrderResultModel: ifRight));
+      });
+      paymetnResponse = null;
     }
   }
 
