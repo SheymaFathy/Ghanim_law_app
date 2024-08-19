@@ -27,6 +27,7 @@ class PaymentMyFatorahScreen extends StatelessWidget {
           listener: (context, state) async {
             if (state.paymentSendState == PaymentState.executePaymentSuccess) {
               await Future.delayed(const Duration(seconds: 5)).then((onValue) {
+                print(onValue);
                 getIt<AddOrderCubit>().paymetnResponse =
                     state.executePaymentResponse;
                 GoRouter.of(context).pop();
@@ -43,6 +44,7 @@ class PaymentMyFatorahScreen extends StatelessWidget {
               case PaymentState.init:
                 return const Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Center(child: CircularProgressIndicator()),
                     Text("جاري تهيئة طرق الدفع برجاء الانتظار")
@@ -51,6 +53,7 @@ class PaymentMyFatorahScreen extends StatelessWidget {
               case PaymentState.methodsPaymentLoading:
                 return const Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Center(child: CircularProgressIndicator()),
                     Text("يجري تحميل طرق الدفع برجاء الانتظار")
@@ -61,6 +64,7 @@ class PaymentMyFatorahScreen extends StatelessWidget {
               case PaymentState.requestPaymentLoading:
                 return const Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Center(child: CircularProgressIndicator()),
                     Text("يجري تهيئة طلب الدفع")
@@ -69,6 +73,7 @@ class PaymentMyFatorahScreen extends StatelessWidget {
               case PaymentState.requestPaymentSuccess:
                 return const Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Center(child: CircularProgressIndicator()),
                     Text("تم تهيئة طلب الدفع بنجاح جاري عرض تفاصيل الاوردر")
@@ -77,6 +82,7 @@ class PaymentMyFatorahScreen extends StatelessWidget {
               case PaymentState.statusPaymentLoading:
                 return const Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Center(child: CircularProgressIndicator()),
                     Text("يجري تهيئة حالة الطلب")
@@ -106,6 +112,7 @@ class PaymentMyFatorahScreen extends StatelessWidget {
               case PaymentState.executePaymentLoading:
                 return const Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Center(child: CircularProgressIndicator()),
                     Text("يجري تهيئة صفحة الدفع")
@@ -114,6 +121,7 @@ class PaymentMyFatorahScreen extends StatelessWidget {
               case PaymentState.executePaymentSuccess:
                 return const Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Center(child: CircularProgressIndicator()),
                     Text(

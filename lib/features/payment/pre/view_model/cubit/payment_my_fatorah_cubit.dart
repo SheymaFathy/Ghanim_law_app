@@ -40,6 +40,7 @@ class PaymentMyFatorahCubit extends Cubit<PaymentMyFatorahState> {
     }).catchError((error) {
       log('Initiate Payment Error: ${error.toString()}');
       emit(state.copyWith(
+          erorrMessage: error.message,
           response: 'Error initiating payment: ${error.toString()}',
           paymentSendState: PaymentState.paymentErorr));
     });
@@ -134,5 +135,5 @@ class PaymentMyFatorahCubit extends Cubit<PaymentMyFatorahState> {
 
 class Config {
   static const String testAPIKey =
-      "rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL";
+      "Y9XRZ4LMV8f12Ngg4F2iGUjMf_wcgbkay1Ap9QH8uXm8eqHGiOX0R7nNrUrQs-MvtSk64Egz0gNVxaDY86PzUNAmSTG124vzT5qiTRj8AMDo0Jq2nXSXioZ-_2HF-I1j_VoBNzS-EjXNmwyw4vP7UkRxFavokhximUIlbMUHcbF0kDhNnraz5gUuneEcJsEMr4Fk3kfdg2QbbUKxVPBY-fuSssdOnHoR175wdbyu0oYsqjCzEgINPekdAVxcq8R1wk1dV6tC1uX9epopCE_B_I0Z338ShkJHmu5z4qsq_Csu_1NaGHTbTu2yHTxx7oEyFdqd6GvglH_2gGVEaJZzTl2_VVUUhhjJC9ef86N4JdCjqHfKfkUUqK1REfZ6t7nTTQUP2TwHRtl8OEKKvxKM7OWr6Q9VqUcHNiD7WC_5MW_ywh2WQ0LmI-ny5gSLMvGZGPilPPCZK2p-gOsbaf-Tnrw2Pl6rHu7yL9Pp3qHy3a3klmBksrJbHfJUUsrkccucOIgXwjH0ged6jQ6mYCIyAbUc6zDpk-q0EmGn-uBJlBDoBfTaEL2nF2T46zUL6FH4LK0pjNXEBWg9iGb6WHbC1mNhZ6KTywBRcHpQoNARI4pp_hm94c9jNo9nNi9dEE_O7G9t6HdXxzhhq27DxSYPco1kDKxOyVOvBE_iSYIE5Yu0zjcU";
 }
