@@ -10,14 +10,21 @@ class AddOrderSendPictureWidget extends StatelessWidget {
   final AddOrderState state;
   @override
   Widget build(BuildContext context) {
-    return CustomAttachedFile(
-        text: 'send_pic'.tr(context),
-        iconData: const Icon(Icons.photo_camera_back),
-        onPressedIcon: state.isRecording
-            ? null
-            : () {
-                attachPictureWidget(context);
-              },
-        ontab: null);
+    return Column(
+      children: [
+        CustomAttachedFile(
+          text: 'send_pic'.tr(context),
+          iconData: const Icon(Icons.photo_camera_back),
+          ontab: state.isRecording
+              ? null
+              : () {
+                  attachPictureWidget(context);
+                },
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+      ],
+    );
   }
 }

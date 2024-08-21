@@ -8,12 +8,16 @@ class BuildPaymentInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      elevation: 4,
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(5.0),
-        title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(content),
+      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
+      elevation: 0,
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          children: [
+            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(content),
+          ],
+        ),
       ),
     );
   }

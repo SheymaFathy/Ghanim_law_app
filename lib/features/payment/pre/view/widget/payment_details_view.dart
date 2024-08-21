@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/features/payment/pre/view/widget/build_payment_info_card.dart';
+import 'package:myfatoorah_flutter/MFModels.dart';
 
 import '../../../../../core/method/convert_datetime.dart';
 import '../../view_model/cubit/payment_my_fatorah_cubit.dart';
@@ -7,57 +8,63 @@ import '../../view_model/cubit/payment_my_fatorah_cubit.dart';
 class PaymentDetailsView extends StatelessWidget {
   const PaymentDetailsView({
     super.key,
-    required this.state,
+    required this.stateResponse,
   });
 
-  final PaymentMyFatorahState state;
+  final MFGetPaymentStatusResponse stateResponse;
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
+        Row(
+          children: [
+            Expanded(
+              child: BuildPaymentInfoCard(
+                  title: 'Invoice Number',
+                  content: stateResponse.invoiceId?.toString() ?? 'غير محدد'),
+            ),
+            Expanded(
+              child: BuildPaymentInfoCard(
+                  title: 'Invoice Status',
+                  content: stateResponse.invoiceStatus ?? 'غير محدد'),
+            ),
+            Expanded(
+              child: BuildPaymentInfoCard(
+                  title: 'Invoice Amount',
+                  content: stateResponse.invoiceDisplayValue?.toString() ??
+                      'غير محدد'),
+            )
+          ],
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: BuildPaymentInfoCard(
+                  title: 'Customer Email',
+                  content: stateResponse.customerEmail ?? 'غير محدد'),
+            ),
+            Expanded(
+              child: BuildPaymentInfoCard(
+                  title: 'Customer Name',
+                  content: stateResponse.customerName ?? 'غير محدد'),
+            ),
+          ],
+        ),
         BuildPaymentInfoCard(
-            title: 'رقم الفاتورة:',
-            content: state.paymentStatusResponse!.invoiceId?.toString() ??
+            title: 'Invoice Reference',
+            content: stateResponse.invoiceReference ?? 'غير محدد'),
+        BuildPaymentInfoCard(
+            title: 'Creation Date',
+            content: convertDateTime(stateResponse.createdDate.toString()) ??
                 'غير محدد'),
         BuildPaymentInfoCard(
-            title: 'حالة الفاتورة:',
-            content: state.paymentStatusResponse!.invoiceStatus ?? 'غير محدد'),
+            title: 'Expiration Date',
+            content: stateResponse.expiryDate ?? 'غير محدد'),
         BuildPaymentInfoCard(
-            title: 'مرجع الفاتورة:',
-            content:
-                state.paymentStatusResponse!.invoiceReference ?? 'غير محدد'),
+            title: 'Comments', content: stateResponse.comments ?? 'لا توجد'),
         BuildPaymentInfoCard(
-            title: 'مرجع العميل:',
-            content:
-                state.paymentStatusResponse!.customerReference ?? 'غير محدد'),
-        BuildPaymentInfoCard(
-            title: 'تاريخ الإنشاء:',
-            content: convertDateTime(
-                    state.paymentStatusResponse!.createdDate.toString()) ??
-                'غير محدد'),
-        BuildPaymentInfoCard(
-            title: 'تاريخ الانتهاء:',
-            content: state.paymentStatusResponse!.expiryDate ?? 'غير محدد'),
-        BuildPaymentInfoCard(
-            title: 'قيمة الفاتورة:',
-            content: state.paymentStatusResponse!.invoiceValue?.toString() ??
-                'غير محدد'),
-        BuildPaymentInfoCard(
-            title: 'التعليقات:',
-            content: state.paymentStatusResponse!.comments ?? 'لا توجد'),
-        BuildPaymentInfoCard(
-            title: 'اسم العميل:',
-            content: state.paymentStatusResponse!.customerName ?? 'غير محدد'),
-        BuildPaymentInfoCard(
-            title: 'رقم جوال العميل:',
-            content: state.paymentStatusResponse!.customerMobile ?? 'غير محدد'),
-        BuildPaymentInfoCard(
-            title: 'بريد العميل الإلكتروني:',
-            content: state.paymentStatusResponse!.customerEmail ?? 'غير محدد'),
-        BuildPaymentInfoCard(
-            title: 'عرض قيمة الفاتورة:',
-            content:
-                state.paymentStatusResponse!.invoiceDisplayValue ?? 'غير محدد'),
+            title: 'Customer Phone Number',
+            content: stateResponse.customerMobile ?? 'غير محدد'),
       ],
     );
   }

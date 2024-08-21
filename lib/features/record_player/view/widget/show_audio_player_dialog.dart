@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghanim_law_app/features/record_player/view_model/cubit/audio_player_cubit.dart';
+
 import '../progress_audio_page_widget.dart';
 
 showAudioPlayerDialog(
@@ -17,11 +18,14 @@ showAudioPlayerDialog(
         child: BlocBuilder<AudioPlayerCubit, AudioPlayerState>(
           builder: (context, state) {
             return AlertDialog(
-              content: SingleChildScrollView(
-                child: ProgressAudioPageWidget(
-                  audioPath: path,
-                  audioPlayerState: state,
-                ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ProgressAudioPageWidget(
+                    audioPath: path,
+                    audioPlayerState: state,
+                  ),
+                ],
               ),
             );
           },

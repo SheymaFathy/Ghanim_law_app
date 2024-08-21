@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/enum/enum.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 
@@ -20,10 +21,30 @@ class PaymentMyFatorahCubit extends Cubit<PaymentMyFatorahState> {
       return;
     }
 
-    await MFSDK.init(Config.testAPIKey, MFCountry.QATAR, MFEnvironment.TEST);
+    await MFSDK.init(Config.testAPIKey, MFCountry.EGYPT, MFEnvironment.TEST);
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await initiatePayment(price);
     });
+  }
+
+  setUpActionBar(BuildContext context) {
+    MFSDK.setUpActionBar(
+        toolBarTitle: "Checkout".tr(context),
+        toolBarTitleColor:
+            "#${convertToHexWithoutAlpha(Theme.of(context).colorScheme.surface.value)}",
+        toolBarBackgroundColor:
+            "#${convertToHexWithoutAlpha(Theme.of(context).colorScheme.onSurface.value)}",
+        isShowToolBar: true);
+  }
+
+  String convertToHexWithoutAlpha(int colorValue) {
+    // Convert ARGB integer to hex string
+    String hexString =
+        colorValue.toRadixString(16).padLeft(8, '0').toUpperCase();
+
+    // Remove the alpha channel (first 2 characters)
+    return hexString.substring(2); // Returns the RGB part of the hex string
   }
 
   // Send Payment
@@ -53,11 +74,21 @@ class PaymentMyFatorahCubit extends Cubit<PaymentMyFatorahState> {
   // Send Payment
   sendPayment(PaymentMyFatorahModel paymentMyFatorahModel) async {
     emit(state.copyWith(paymentSendState: PaymentState.requestPaymentLoading));
+    print(double.parse(paymentMyFatorahModel.price));
     var request = MFSendPaymentRequest(
-        invoiceValue: double.parse(paymentMyFatorahModel.price),
+        displayCurrencyIso: MFCurrencyISO.QATAR_QAR,
+        invoiceValue: int.parse(paymentMyFatorahModel.price),
         customerName: paymentMyFatorahModel.name,
         customerEmail: paymentMyFatorahModel.email,
         customerMobile: paymentMyFatorahModel.phone,
+        mobileCountryCode: paymentMyFatorahModel.countryCode,
+        invoiceItems: [
+          MFInvoiceItem(
+            quantity: 1,
+            unitPrice: double.parse(paymentMyFatorahModel.price),
+            itemName: paymentMyFatorahModel.serviceName,
+          )
+        ],
         notificationOption: MFNotificationOption.EMAIL);
     await MFSDK.sendPayment(request, MFLanguage.ARABIC).then((value) {
       log("Send Payment Response: ${jsonEncode(value.toJson())}");
@@ -73,11 +104,25 @@ class PaymentMyFatorahCubit extends Cubit<PaymentMyFatorahState> {
   }
 
   // Execute Regular Payment
-  executeRegularPayment(PaymentMyFatorahModel paymentMyFatorahModel) async {
+  executeRegularPayment(
+      PaymentMyFatorahModel paymentMyFatorahModel, BuildContext context) async {
+    setUpActionBar(context);
     var request = MFExecutePaymentRequest(
-        paymentMethodId: paymentMethodId,
-        invoiceValue: double.parse(paymentMyFatorahModel.price));
-    request.displayCurrencyIso = MFCurrencyISO.QATAR_QAR;
+      displayCurrencyIso: MFCurrencyISO.QATAR_QAR,
+      customerEmail: paymentMyFatorahModel.email,
+      customerMobile: paymentMyFatorahModel.phone,
+      customerName: paymentMyFatorahModel.name,
+      paymentMethodId: paymentMethodId,
+      mobileCountryCode: paymentMyFatorahModel.countryCode,
+      invoiceValue: double.parse(paymentMyFatorahModel.price),
+      invoiceItems: [
+        MFInvoiceItem(
+          quantity: 1,
+          unitPrice: double.parse(paymentMyFatorahModel.price),
+          itemName: paymentMyFatorahModel.serviceName,
+        )
+      ],
+    );
 
     await MFSDK
         .executePayment(request, MFLanguage.ARABIC, (invoiceId) {})

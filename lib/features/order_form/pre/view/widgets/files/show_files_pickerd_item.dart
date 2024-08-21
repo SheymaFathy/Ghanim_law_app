@@ -15,8 +15,11 @@ class ShowFilesPickerdItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2)),
+      padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5),
       child: Row(
         children: [
           Icon(Icons.insert_drive_file,

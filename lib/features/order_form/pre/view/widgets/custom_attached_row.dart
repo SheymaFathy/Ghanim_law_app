@@ -4,13 +4,13 @@ class CustomAttachedFile extends StatelessWidget {
   final String text;
   final Icon iconData;
   final void Function()? ontab;
-  final void Function()? onPressedIcon;
-  const CustomAttachedFile(
-      {super.key,
-      required this.text,
-      required this.iconData,
-      this.ontab,
-      this.onPressedIcon});
+
+  const CustomAttachedFile({
+    super.key,
+    required this.text,
+    required this.iconData,
+    this.ontab,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +21,10 @@ class CustomAttachedFile extends StatelessWidget {
           border: Border.all(color: Theme.of(context).colorScheme.onSurface),
           borderRadius: BorderRadius.circular(10),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 25),
+        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(text),
-            IconButton(onPressed: onPressedIcon, icon: iconData),
-          ],
+          children: [Text(text), iconData],
         ),
       ),
     );

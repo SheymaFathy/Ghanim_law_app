@@ -30,15 +30,34 @@ class AddOrderUploadButtonWidget extends StatelessWidget {
         : CustomBotton(
             backgroundColor: Theme.of(context).colorScheme.onSurface,
             textColor: Theme.of(context).colorScheme.surface,
-            text: 'confirm'.tr(context),
+            text: '${"request".tr(context)} ${orderType.tr(context)}',
             onPressed: () {
-              GoRouter.of(context).push(AppRouter.kMyFatoora,
-                  extra: PaymentMyFatorahModel(
-                      serviceName: orderType,
-                      name: addOrderCubit.nameController.text,
-                      email: addOrderCubit.emailController.text,
-                      price: price));
-              // addOrderCubit.fetchAddOrder(orderType);
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('warning'.tr(context)),
+                    content: Text(
+                        'You cannot undo sending the service request after completing the payment process.'
+                            .tr(context)),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('cancel'.tr(context)),
+                        onPressed: () {
+                          Navigator.of(context).pop(); // إغلاق النافذة
+                        },
+                      ),
+                      TextButton(
+                        child: Text('confirm'.tr(context)),
+                        onPressed: () {
+                          addOrderCubit.validatorAddOrder(
+                              context, orderType, price);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
             });
   }
 }

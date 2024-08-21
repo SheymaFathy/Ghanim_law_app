@@ -17,8 +17,12 @@ class ShowRecordsPickerdItem extends StatelessWidget {
         shrinkWrap: true,
         itemCount: 1,
         itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
+          return Container(
+            padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color:
+                    Theme.of(context).colorScheme.onSurface.withOpacity(0.2)),
             child: Column(
               children: [
                 Row(
@@ -26,6 +30,7 @@ class ShowRecordsPickerdItem extends StatelessWidget {
                     const SizedBox(
                       width: 30,
                       height: 30,
+                      child: Icon(Icons.record_voice_over),
                     ),
                     const SizedBox(width: 10),
                     Text(

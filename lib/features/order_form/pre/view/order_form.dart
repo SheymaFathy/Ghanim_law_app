@@ -32,10 +32,7 @@ class OrderForm extends StatelessWidget {
           BlocProvider.value(value: getIt<AddOrderCubit>()),
           BlocProvider.value(value: getIt<ProfileCubit>()),
         ],
-        child: BlocConsumer<AddOrderCubit, AddOrderState>(
-          listener: (context, state) {
-            addorderListeners(context, state);
-          },
+        child: BlocBuilder<AddOrderCubit, AddOrderState>(
           builder: (context, state) {
             final addOrderCubit = context.read<AddOrderCubit>();
             final profileCubit = context.read<ProfileCubit>();
@@ -62,21 +59,12 @@ class OrderForm extends StatelessWidget {
                     AddOrderAttachedImageAndVoiceAndFilesWidgets(
                         addOrderCubit: addOrderCubit, state: state),
                     const SizedBox(height: 15),
-                    if (addOrderCubit.paymetnResponse != null)
-                      CustomBotton(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.onSurface,
-                          textColor: Theme.of(context).colorScheme.surface,
-                          text: 'ارسال الطلب',
-                          onPressed: () {
-                            addOrderCubit.fetchAddOrder(typeOrder!);
-                          }),
-                    if (addOrderCubit.paymetnResponse == null)
-                      AddOrderUploadButtonWidget(
-                        addOrderCubit: addOrderCubit,
-                        orderType: typeOrder ?? "",
-                        price: price ?? "",
-                      )
+                    //      if (addOrderCubit.paymetnResponse == null)
+                    AddOrderUploadButtonWidget(
+                      addOrderCubit: addOrderCubit,
+                      orderType: typeOrder ?? "",
+                      price: price ?? "",
+                    )
                   ],
                 ),
               ),

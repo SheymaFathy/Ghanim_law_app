@@ -15,6 +15,6 @@ class AddOrderSendFileWidget extends StatelessWidget {
     return CustomAttachedFile(
         text: 'send_file'.tr(context),
         iconData: const Icon(Icons.file_present_sharp),
-        onPressedIcon: state.isRecording ? null : addOrderCubit.attachFile);
+        ontab: state.isRecording ? null : addOrderCubit.attachFile);
   }
 }

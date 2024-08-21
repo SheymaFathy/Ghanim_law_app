@@ -21,16 +21,26 @@ class AddOrderAttachedImageAndVoiceAndFilesWidgets extends StatelessWidget {
           ...state.imageFiles!.asMap().entries.map((entry) {
             int index = entry.key;
             XFile image = entry.value;
-            return ShowImagesPickerdItem(image: image, index: index);
+            return Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: ShowImagesPickerdItem(image: image, index: index),
+            );
           }),
         if (addOrderCubit.recordsList != null &&
             addOrderCubit.recordsList != null)
-          ShowRecordsPickerdItem(addOrderCubit: addOrderCubit, state: state),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: ShowRecordsPickerdItem(
+                addOrderCubit: addOrderCubit, state: state),
+          ),
         if (state.pickedFiles != null)
           ...state.pickedFiles!.asMap().entries.map((entry) {
             int index = entry.key;
             PlatformFile file = entry.value;
-            return ShowFilesPickerdItem(file: file, index: index);
+            return Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: ShowFilesPickerdItem(file: file, index: index),
+            );
           }),
       ],
     );

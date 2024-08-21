@@ -4,10 +4,14 @@ class PaymentMyFatorahModel {
   final String? email;
   final String? phone;
   final String? name;
+  final String? lang;
+  final String? countryCode;
 
   PaymentMyFatorahModel(
       {required this.price,
       required this.serviceName,
+      this.lang,
+      this.countryCode,
       this.email,
       this.phone,
       this.name});

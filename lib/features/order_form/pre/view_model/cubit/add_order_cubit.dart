@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/features/order_form/data/model/add_order_model.dart';
 import 'package:ghanim_law_app/features/order_form/data/model/add_order_result_model/add_order_result_model.dart';
 import 'package:ghanim_law_app/features/order_form/data/repo/add_order_repo.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:myfatoorah_flutter/MFModels.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
+import '../../../../../core/constants/app_router.dart';
 import '../../../../../core/enum/enum.dart';
+import '../../../../payment/data/model/invoice_model.dart';
 
 part 'add_order_state.dart';
 
@@ -22,6 +25,7 @@ class AddOrderCubit extends Cubit<AddOrderState> {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
+  String countryCode = '+93';
   GlobalKey<FormState> formKey = GlobalKey();
   MFGetPaymentStatusResponse? paymetnResponse;
   clearFiled() {
@@ -45,34 +49,49 @@ class AddOrderCubit extends Cubit<AddOrderState> {
   }
 
   bool validateFormKey() => formKey.currentState!.validate();
-  fetchAddOrder(String orderType) async {
+  validatorAddOrder(
+      BuildContext context, String orderType, String price) async {
     if ((pickedFiles!.isEmpty && imageFiles!.isEmpty && recordsList == null) &&
         detailsController.text.isEmpty) {
       emit(state.copyWith(validateFormValues: false));
     } else {
-      emit(state.copyWith(
-          addOrderState: AuthRequestState.loading, validateFormValues: true));
-
-      final response = await addOrderRepo.fetchAddOrder(AddOrderModel(
-          name: nameController.text,
-          email: emailController.text,
-          phone: phoneController.text,
-          description: detailsController.text,
-          image: imageFiles,
-          typeOrder: orderType,
-          voice: recordsList,
-          docs: pickedFiles));
-      response.fold((ifLeft) {
-        emit(state.copyWith(
-            addOrderState: AuthRequestState.erorr,
-            erorrMessage: ifLeft.erorrMessage));
-      }, (ifRight) {
-        emit(state.copyWith(
-            addOrderState: AuthRequestState.sucess,
-            addOrderResultModel: ifRight));
-      });
-      paymetnResponse = null;
+      GoRouter.of(context)
+          .push(AppRouter.kMyFatoora,
+              extra: PaymentMyFatorahModel(
+                  serviceName: orderType,
+                  countryCode: countryCode,
+                  phone: phoneController.text,
+                  name: nameController.text,
+                  email: emailController.text,
+                  price: price))
+          .then((onValue) {});
     }
+    Navigator.of(context).pop();
+  }
+
+  fetchUploadOrder(String orderType) async {
+    emit(state.copyWith(
+        addOrderState: AuthRequestState.loading, validateFormValues: true));
+
+    final response = await addOrderRepo.fetchAddOrder(AddOrderModel(
+        name: nameController.text,
+        email: emailController.text,
+        phone: phoneController.text,
+        description: detailsController.text,
+        image: imageFiles,
+        typeOrder: orderType,
+        voice: recordsList,
+        docs: pickedFiles));
+    response.fold((ifLeft) {
+      emit(state.copyWith(
+          addOrderState: AuthRequestState.erorr,
+          erorrMessage: ifLeft.erorrMessage));
+    }, (ifRight) {
+      emit(state.copyWith(
+          addOrderState: AuthRequestState.sucess,
+          addOrderResultModel: ifRight));
+    });
+    paymetnResponse = null;
   }
 
   void deleteFiles(int index, String fileType) {
