@@ -10,6 +10,7 @@ class AddOrderState {
   final String erorrMessage;
   final bool validateFileExtensions;
   final bool validateFormValues;
+  final AuthRequestState imageCompreeState;
   const AddOrderState(
       {this.imageFiles,
       this.pickedFiles,
@@ -19,6 +20,7 @@ class AddOrderState {
       this.erorrMessage = '',
       this.validateFileExtensions = true,
       this.validateFormValues = true,
+      this.imageCompreeState = AuthRequestState.normal,
       this.addOrderState = AuthRequestState.normal});
 
   AddOrderState copyWith(
@@ -35,7 +37,8 @@ class AddOrderState {
       AuthRequestState? addOrderState,
       String? erorrMessage,
       bool? validateFileExtensions,
-      bool? validateFormValues}) {
+      bool? validateFormValues,
+      AuthRequestState? imageCompreeState}) {
     return AddOrderState(
         imageFiles: imageFiles ?? this.imageFiles,
         pickedFiles: pickedFiles ?? this.pickedFiles,
@@ -45,6 +48,7 @@ class AddOrderState {
         addOrderState: addOrderState ?? AuthRequestState.normal,
         erorrMessage: erorrMessage ?? this.erorrMessage,
         validateFileExtensions: validateFileExtensions ?? true,
-        validateFormValues: validateFormValues ?? true);
+        validateFormValues: validateFormValues ?? true,
+        imageCompreeState: imageCompreeState ?? AuthRequestState.normal);
   }
 }

@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:ghanim_law_app/features/order_form/data/model/add_order_model.dart';
 import 'package:ghanim_law_app/features/order_form/data/model/add_order_result_model/add_order_result_model.dart';
 import 'package:ghanim_law_app/features/order_form/data/repo/add_order_repo.dart';
@@ -67,6 +70,17 @@ class AddOrderCubit extends Cubit<AddOrderState> {
           .then((onValue) {});
     }
     Navigator.of(context).pop();
+  }
+
+  Future<XFile> compressImage(XFile file) async {
+    emit(state.copyWith(imageCompreeState: AuthRequestState.loading));
+    final result = await FlutterImageCompress.compressAndGetFile(
+      file.path,
+      '${file.path}/temp_${file.name}',
+      quality: 80,
+    );
+    emit(state.copyWith(imageCompreeState: AuthRequestState.sucess));
+    return result!;
   }
 
   fetchUploadOrder(String orderType) async {

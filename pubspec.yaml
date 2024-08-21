@@ -35,6 +35,7 @@ dependencies:
   flutter_native_splash: ##^2.4.1
   myfatoorah_flutter: 
   intl_phone_number_input: ^0.7.4
+  flutter_image_compress: ^2.3.0
 #################################################### Icon Lancher ###########################################################
 flutter_launcher_icons:
   android: "launcher_icon"

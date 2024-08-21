@@ -126,7 +126,7 @@
     "Processing your payment request.": "يتم معالجة طلب الدفع الخاص بك.",
     "Your payment request has been successfully processed. Displaying details now.": "تمت معالجة طلب الدفع بنجاح. جاري عرض التفاصيل الآن.",
     "Initializing order status.": "جارٍ تهيئة حالة الطلب.",
-    "Checkout": "الدفع النهائي",
+    "Checkout": "الدفع",
     "Initializing payment page.": "جارٍ تهيئة صفحة الدفع.",
     "Payment was successful. Please wait a moment, and you will be redirected to the order submission page.": "تمت عملية الدفع بنجاح. يرجى الانتظار قليلاً، وسيتم توجيهك إلى صفحة إرسال الطلب.",
     "Invoice Number": "رقم الفاتورة",
@@ -138,5 +138,7 @@
     "Creation Date": "تاريخ الإنشاء",
     "Expiration Date": "تاريخ الانتهاء",
     "Comments": "التعليقات",
-    "Customer Phone Number": "رقم جوال العميل"
+    "Customer Phone Number": "رقم جوال العميل",
+    "is currently being Sending": "يجري حالياً ارسال  ",
+    "Go to the home page": "Go To The Home Page"
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/enum/enum.dart';
@@ -74,7 +75,9 @@ class PaymentMyFatorahCubit extends Cubit<PaymentMyFatorahState> {
   // Send Payment
   sendPayment(PaymentMyFatorahModel paymentMyFatorahModel) async {
     emit(state.copyWith(paymentSendState: PaymentState.requestPaymentLoading));
-    print(double.parse(paymentMyFatorahModel.price));
+    if (kDebugMode) {
+      print(double.parse(paymentMyFatorahModel.price));
+    }
     var request = MFSendPaymentRequest(
         displayCurrencyIso: MFCurrencyISO.QATAR_QAR,
         invoiceValue: int.parse(paymentMyFatorahModel.price),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
+import 'package:ghanim_law_app/core/constants/app_router.dart';
 import 'package:ghanim_law_app/core/enum/enum.dart';
 import 'package:ghanim_law_app/core/get_it/service_locator.dart';
 import 'package:ghanim_law_app/features/order_form/pre/view_model/cubit/add_order_cubit.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/widget/custom_button.dart';
 import '../../../../core/widget/custom_erorr_page_widget.dart';
 import '../../../../core/widget/custom_snackbar_widget.dart';
@@ -37,170 +39,181 @@ class PaymentMyFatorahScreen extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(
-                automaticallyImplyLeading: state.paymentSendState ==
-                            PaymentState.executePaymentLoading ||
-                        state.paymentSendState ==
-                            PaymentState.executePaymentSuccess
-                    ? false
-                    : true,
-                title: state.paymentSendState ==
-                        PaymentState.methodsPaymentLoading
-                    ? const Text('Select payment method')
-                    : state.paymentSendState ==
-                            PaymentState.methodsPaymentSuccess
-                        ? const Text('Select payment method')
-                        : state.paymentSendState ==
-                                PaymentState.statusPaymentLoading
-                            ? const Text('Payment Details')
-                            : state.paymentSendState ==
-                                    PaymentState.statusPaymentSuccess
-                                ? const Text('Payment Details')
-                                : state.paymentSendState ==
-                                        PaymentState.executePaymentLoading
-                                    ? const Text("Payment is being completed")
-                                    : state.paymentSendState ==
-                                            PaymentState.executePaymentSuccess
-                                        ? const Text(
-                                            "The payment was completed successfully")
-                                        : const Text(""),
-                centerTitle: true),
-            body: Builder(
-              builder: (context) {
-                switch (state.paymentSendState) {
-                  case PaymentState.init:
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Center(child: CircularProgressIndicator()),
-                        Text("Payment methods are being set up. Please wait."
-                            .tr(context))
-                      ],
-                    );
-                  case PaymentState.methodsPaymentLoading:
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Center(child: CircularProgressIndicator()),
-                        Text(
-                            "Loading payment methods. Please wait.".tr(context))
-                      ],
-                    );
-                  case PaymentState.methodsPaymentSuccess:
-                    return PaymentMethodsList(paymentMyFatorahModel);
-                  case PaymentState.requestPaymentLoading:
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Center(child: CircularProgressIndicator()),
-                        Text("Processing your payment request.".tr(context))
-                      ],
-                    );
-                  case PaymentState.requestPaymentSuccess:
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Center(child: CircularProgressIndicator()),
-                        Text(
-                            "Your payment request has been successfully processed. Displaying details now."
-                                .tr(context))
-                      ],
-                    );
-                  case PaymentState.statusPaymentLoading:
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Center(child: CircularProgressIndicator()),
-                        Text("Initializing order status.".tr(context))
-                      ],
-                    );
-                  case PaymentState.statusPaymentSuccess:
-                    return Column(
-                      children: [
-                        Expanded(
-                            child: PaymentDetailsView(
-                                stateResponse: state.paymentStatusResponse!)),
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 5),
-                          child: CustomBotton(
-                              borderRadius: BorderRadius.circular(12),
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.onSurface,
-                              textColor: Theme.of(context).colorScheme.surface,
-                              text: "Checkout".tr(context),
-                              onPressed: () {
-                                context
-                                    .read<PaymentMyFatorahCubit>()
-                                    .executeRegularPayment(
-                                        paymentMyFatorahModel, context);
-                              }),
-                        )
-                      ],
-                    );
-                  case PaymentState.executePaymentLoading:
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Center(child: CircularProgressIndicator()),
-                        Text("Initializing payment page.".tr(context))
-                      ],
-                    );
-                  case PaymentState.executePaymentSuccess:
-                    return BlocProvider.value(
-                      value: getIt<AddOrderCubit>()
-                        ..fetchUploadOrder(paymentMyFatorahModel.serviceName),
-                      child: BlocBuilder<AddOrderCubit, AddOrderState>(
-                        builder: (context, addOrderState) {
-                          switch (addOrderState.addOrderState) {
-                            case AuthRequestState.normal:
-                            case AuthRequestState.loading:
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            case AuthRequestState.sucess:
-                              return Column(
-                                children: [
-                                  Expanded(
-                                      child: PaymentDetailsView(
-                                          stateResponse:
-                                              state.executePaymentResponse!)),
-                                  Container(
-                                    margin: const EdgeInsets.only(bottom: 5),
-                                    child: CustomBotton(
-                                        borderRadius: BorderRadius.circular(12),
-                                        backgroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
-                                        textColor: Theme.of(context)
-                                            .colorScheme
-                                            .surface,
-                                        text: "تمت عملية الدفع بنجاح",
-                                        onPressed: () {}),
-                                  )
-                                ],
-                              );
-                            case AuthRequestState.erorr:
-                              return Text(addOrderState.erorrMessage);
-                          }
-                        },
-                      ),
-                    );
-                  case PaymentState.paymentErorr:
-                    return CustomErorrPageWidget(
-                      errorMessage: state.erorrMessage,
-                      onTap: () {},
-                    );
-                }
-              },
+            appBar: appBar(state),
+            body: Center(
+              child: Builder(
+                builder: (context) {
+                  switch (state.paymentSendState) {
+                    case PaymentState.init:
+                      return CustomLoadingPayment(
+                        text: "Payment methods are being set up. Please wait."
+                            .tr(context),
+                      );
+                    case PaymentState.methodsPaymentLoading:
+                      return CustomLoadingPayment(
+                        text:
+                            "Loading payment methods. Please wait.".tr(context),
+                      );
+
+                    case PaymentState.methodsPaymentSuccess:
+                      return PaymentMethodsList(paymentMyFatorahModel);
+                    case PaymentState.requestPaymentLoading:
+                      return CustomLoadingPayment(
+                        text: "Processing your payment request.".tr(context),
+                      );
+
+                    case PaymentState.requestPaymentSuccess:
+                      return CustomLoadingPayment(
+                        text: "Processing your payment request.".tr(context),
+                      );
+                    case PaymentState.statusPaymentLoading:
+                      return CustomLoadingPayment(
+                        text: "Initializing order status.".tr(context),
+                      );
+
+                    case PaymentState.statusPaymentSuccess:
+                      return Column(
+                        children: [
+                          Expanded(
+                              child: PaymentDetailsView(
+                                  stateResponse: state.paymentStatusResponse!)),
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 5),
+                            child: CustomBotton(
+                                borderRadius: BorderRadius.circular(12),
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.onSurface,
+                                textColor:
+                                    Theme.of(context).colorScheme.surface,
+                                text: "Checkout".tr(context),
+                                onPressed: () {
+                                  context
+                                      .read<PaymentMyFatorahCubit>()
+                                      .executeRegularPayment(
+                                          paymentMyFatorahModel, context);
+                                }),
+                          )
+                        ],
+                      );
+                    case PaymentState.executePaymentLoading:
+                      return CustomLoadingPayment(
+                        text: "Initializing payment page.".tr(context),
+                      );
+
+                    case PaymentState.executePaymentSuccess:
+                      return BlocProvider.value(
+                        value: getIt<AddOrderCubit>()
+                          ..fetchUploadOrder(paymentMyFatorahModel.serviceName),
+                        child: BlocBuilder<AddOrderCubit, AddOrderState>(
+                          builder: (context, addOrderState) {
+                            switch (addOrderState.addOrderState) {
+                              case AuthRequestState.normal:
+                              case AuthRequestState.loading:
+                                return CustomLoadingPayment(
+                                  text:
+                                      "${"is currently being Sending".tr(context)} ${paymentMyFatorahModel.serviceName.tr(context)}",
+                                );
+
+                              case AuthRequestState.sucess:
+                                return PopScope(
+                                  canPop: false,
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                          child: PaymentDetailsView(
+                                              stateResponse: state
+                                                  .executePaymentResponse!)),
+                                      Container(
+                                        margin:
+                                            const EdgeInsets.only(bottom: 5),
+                                        child: CustomBotton(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            backgroundColor: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface,
+                                            textColor: Theme.of(context)
+                                                .colorScheme
+                                                .surface,
+                                            text: "Go to the home page"
+                                                .tr(context),
+                                            onPressed: () {
+                                              GoRouter.of(context)
+                                                  .go(AppRouter.kHomeView);
+                                            }),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              case AuthRequestState.erorr:
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Center(
+                                        child:
+                                            Text(addOrderState.erorrMessage)),
+                                  ],
+                                );
+                            }
+                          },
+                        ),
+                      );
+                    case PaymentState.paymentErorr:
+                      return CustomErorrPageWidget(
+                        errorMessage: state.erorrMessage,
+                        onTap: () {},
+                      );
+                  }
+                },
+              ),
             ),
           );
         },
       ),
+    );
+  }
+}
+
+appBar(PaymentMyFatorahState state) => AppBar(
+    automaticallyImplyLeading:
+        state.paymentSendState == PaymentState.executePaymentLoading ||
+                state.paymentSendState == PaymentState.executePaymentSuccess
+            ? false
+            : true,
+    title: state.paymentSendState == PaymentState.methodsPaymentLoading
+        ? const Text('Select payment method')
+        : state.paymentSendState == PaymentState.methodsPaymentSuccess
+            ? const Text('Select payment method')
+            : state.paymentSendState == PaymentState.statusPaymentLoading
+                ? const Text('Payment Details')
+                : state.paymentSendState == PaymentState.statusPaymentSuccess
+                    ? const Text('Payment Details')
+                    : state.paymentSendState ==
+                            PaymentState.executePaymentLoading
+                        ? const Text("Payment is being completed")
+                        : state.paymentSendState ==
+                                PaymentState.executePaymentSuccess
+                            ? const Text(
+                                "The payment was completed successfully")
+                            : const Text(""),
+    centerTitle: true);
+
+class CustomLoadingPayment extends StatelessWidget {
+  const CustomLoadingPayment({super.key, required this.text});
+  final String text;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Center(child: CircularProgressIndicator()),
+        const SizedBox(
+          height: 5,
+        ),
+        Text(text)
+      ],
     );
   }
 }
