@@ -83,8 +83,6 @@ class PaymentMyFatorahCubit extends Cubit<PaymentMyFatorahState> {
         invoiceValue: int.parse(paymentMyFatorahModel.price),
         customerName: paymentMyFatorahModel.name,
         customerEmail: paymentMyFatorahModel.email,
-        customerMobile: paymentMyFatorahModel.phone,
-        mobileCountryCode: paymentMyFatorahModel.countryCode,
         invoiceItems: [
           MFInvoiceItem(
             quantity: 1,
@@ -113,10 +111,8 @@ class PaymentMyFatorahCubit extends Cubit<PaymentMyFatorahState> {
     var request = MFExecutePaymentRequest(
       displayCurrencyIso: MFCurrencyISO.QATAR_QAR,
       customerEmail: paymentMyFatorahModel.email,
-      customerMobile: paymentMyFatorahModel.phone,
       customerName: paymentMyFatorahModel.name,
       paymentMethodId: paymentMethodId,
-      mobileCountryCode: paymentMyFatorahModel.countryCode,
       invoiceValue: double.parse(paymentMyFatorahModel.price),
       invoiceItems: [
         MFInvoiceItem(

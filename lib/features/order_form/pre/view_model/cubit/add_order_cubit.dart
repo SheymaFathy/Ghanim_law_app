@@ -28,7 +28,7 @@ class AddOrderCubit extends Cubit<AddOrderState> {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
-  String countryCode = '+93';
+
   GlobalKey<FormState> formKey = GlobalKey();
   MFGetPaymentStatusResponse? paymetnResponse;
   clearFiled() {
@@ -62,7 +62,6 @@ class AddOrderCubit extends Cubit<AddOrderState> {
           .push(AppRouter.kMyFatoora,
               extra: PaymentMyFatorahModel(
                   serviceName: orderType,
-                  countryCode: countryCode,
                   phone: phoneController.text,
                   name: nameController.text,
                   email: emailController.text,
@@ -70,17 +69,6 @@ class AddOrderCubit extends Cubit<AddOrderState> {
           .then((onValue) {});
     }
     Navigator.of(context).pop();
-  }
-
-  Future<XFile> compressImage(XFile file) async {
-    emit(state.copyWith(imageCompreeState: AuthRequestState.loading));
-    final result = await FlutterImageCompress.compressAndGetFile(
-      file.path,
-      '${file.path}/temp_${file.name}',
-      quality: 80,
-    );
-    emit(state.copyWith(imageCompreeState: AuthRequestState.sucess));
-    return result!;
   }
 
   fetchUploadOrder(String orderType) async {
@@ -125,17 +113,46 @@ class AddOrderCubit extends Cubit<AddOrderState> {
   // Images Controllers
   final ImagePicker picker = ImagePicker();
   List<XFile>? imageFiles = [];
-  Future<void> pickImagesFromGallery() async {
+
+  Future<void> pickAndCompressImagesFromGallery() async {
     try {
       final List<XFile> selectedImages = await picker.pickMultiImage();
       if (selectedImages.isNotEmpty) {
-        imageFiles = (imageFiles ?? [])..addAll(selectedImages);
+        for (XFile image in selectedImages) {
+          final compressedImage = await compressImage(image);
+          if (compressedImage != null) {
+            imageFiles!.add(compressedImage);
+          }
+        }
+
+        // تحديث الحالة مع الصور المضغوطة
         emit(state.copyWith(imageFiles: imageFiles));
       }
     } catch (e) {
       if (kDebugMode) {
-        print("Error picking images: $e");
+        print("Error picking or compressing images: $e");
       }
+    }
+  }
+
+  Future<XFile?> compressImage(XFile file) async {
+    try {
+      emit(state.copyWith(imageCompreeState: AuthRequestState.loading));
+
+      final result = await FlutterImageCompress.compressAndGetFile(
+        file.path,
+        '${file.path.substring(0, file.path.lastIndexOf('/'))}/temp_${file.name}',
+        quality: 80,
+      );
+
+      emit(state.copyWith(imageCompreeState: AuthRequestState.sucess));
+      return result;
+    } catch (e) {
+      emit(state.copyWith(imageCompreeState: AuthRequestState.erorr));
+      if (kDebugMode) {
+        print("Error compressing image: $e");
+      }
+      return null;
     }
   }
 
@@ -152,9 +169,7 @@ class AddOrderCubit extends Cubit<AddOrderState> {
       }
     }
   }
-  // Images Controllers
 
-  // Files Controllers
   List<PlatformFile>? pickedFiles = [];
   void openFiles(List<PlatformFile> files) {
     pickedFiles = (pickedFiles ?? [])..addAll(files);

@@ -44,4 +44,11 @@ addorderListeners(context, AddOrderState state) async {
     getIt<MyOrderCubit>().fetchOrdersData();
     GoRouter.of(context).go(AppRouter.kHomeView);
   }
+  if (state.imageCompreeState == AuthRequestState.loading) {
+    EasyLoading.show(
+        status: 'Preparing the image...'.tr(context),
+        maskType: EasyLoadingMaskType.black);
+  } else if (state.imageCompreeState == AuthRequestState.sucess) {
+    EasyLoading.dismiss();
+  }
 }

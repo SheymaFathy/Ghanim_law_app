@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:ghanim_law_app/core/dio/dio_helper.dart';
@@ -38,9 +40,11 @@ class AddOrderRepoImp extends AddOrderRepo {
       if (order.voice != null) {
         formData.files.add(MapEntry(
             'voice',
-            await MultipartFile.fromFile(order.voice!.path,
-                filename: order.voice!.name,
-                contentType: DioMediaType.parse("audio/aac"))));
+            await MultipartFile.fromFile(
+              order.voice!.path,
+              filename: order.voice!.name,
+              //    contentType: DioMediaType.parse("audio/aac")
+            )));
       }
       // Upload Voice File
       // Upload description
@@ -57,9 +61,10 @@ class AddOrderRepoImp extends AddOrderRepo {
       // Upload Person Information
       final response =
           await DioHelper.postData(url: "/api/orders", data: formData);
-
+      print(response.statusCode);
       return Right(AddOrderResultModel.fromJson(response.data));
     } on Exception catch (e) {
+      print(jsonEncode(e.toString()));
       if (e is DioException) {
         return Left(ServerFaliure.fromDioErorr(e));
       } else {

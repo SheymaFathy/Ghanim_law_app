@@ -25,7 +25,7 @@ attachPictureWidget(BuildContext orderCtx) {
                       onTap: () {
                         Navigator.of(context).pop();
                         BlocProvider.of<AddOrderCubit>(orderCtx)
-                            .pickImagesFromGallery();
+                            .pickAndCompressImagesFromGallery();
                       },
                     ),
                     ListTile(

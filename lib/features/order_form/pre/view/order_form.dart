@@ -32,7 +32,10 @@ class OrderForm extends StatelessWidget {
           BlocProvider.value(value: getIt<AddOrderCubit>()),
           BlocProvider.value(value: getIt<ProfileCubit>()),
         ],
-        child: BlocBuilder<AddOrderCubit, AddOrderState>(
+        child: BlocConsumer<AddOrderCubit, AddOrderState>(
+          listener: (context, state) {
+            addorderListeners(context, state);
+          },
           builder: (context, state) {
             final addOrderCubit = context.read<AddOrderCubit>();
             final profileCubit = context.read<ProfileCubit>();

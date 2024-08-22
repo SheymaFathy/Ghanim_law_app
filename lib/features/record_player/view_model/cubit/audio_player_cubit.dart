@@ -23,11 +23,11 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
         audioPlayer: audioPlayer,
         totalDuration: audioPlayer.duration ?? const Duration(seconds: 0),
         playAudioState: RequestState.sucess));
-
+    print(state.audioPlayer!.playing);
     audioPlayer.positionStream.listen((position) {
       emit(state.copyWith(currentPosition: position));
-      if (state.currentPosition!.inMilliseconds ==
-          state.totalDuration!.inMilliseconds) {
+
+      if (position.inMilliseconds == state.totalDuration!.inMilliseconds) {
         if (state.isSeeking) {
           emit(state.copyWith(isPlaying: true));
         } else {
