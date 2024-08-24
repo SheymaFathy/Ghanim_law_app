@@ -28,7 +28,7 @@ class ServiceLocator {
 
     getIt.registerLazySingleton(() => SettingCubit(getIt()));
     getIt.registerLazySingleton(() => HomeCubit(getIt()));
-    getIt.registerLazySingleton(() => MainPageCubit());
+    getIt.registerFactory(() => MainPageCubit());
     getIt.registerLazySingleton(() => AddOrderCubit(getIt()));
     getIt.registerLazySingleton(() => ProfileCubit(getIt()));
     getIt.registerLazySingleton(() => MyOrderCubit(getIt()));

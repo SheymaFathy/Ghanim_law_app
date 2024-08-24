@@ -12,9 +12,7 @@ class MyOrdersPage extends StatelessWidget {
   const MyOrdersPage({super.key});
   @override
   Widget build(BuildContext context) {
-    return checkUserMethod()
-        ? const MyOrderViewBody()
-        : const RequiredLoginScreen();
+    return const MyOrderViewBody();
   }
 }
 
@@ -27,16 +25,18 @@ class MyOrderViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: getIt<MyOrderCubit>()..fetchOrdersData(),
-      child: BlocConsumer<MyOrderCubit, MyOrderState>(
-        listener: (context, state) {
-          if (state.myOrdersState == RequestState.erorr) {
-            if (state.erorrStatusCode != null && state.erorrStatusCode == 401) {
-              CacheHelper.clearData(key: 'uId');
-              checkUserMethod();
-            }
+      child:
+          BlocConsumer<MyOrderCubit, MyOrderState>(listener: (context, state) {
+        if (state.myOrdersState == RequestState.erorr) {
+          if (state.erorrStatusCode != null && state.erorrStatusCode == 401) {
+            CacheHelper.clearData(key: 'uId');
+            checkUserMethod();
           }
-        },
-        builder: (context, state) {
+        }
+      }, builder: (context, state) {
+        if (state.erorrStatusCode == 401) {
+          return const RequiredLoginScreen();
+        } else {
           switch (state.myOrdersState) {
             case RequestState.loading:
               return Center(
@@ -67,8 +67,8 @@ class MyOrderViewBody extends StatelessWidget {
                 errorMessage: state.erorrMessage,
               );
           }
-        },
-      ),
+        }
+      }),
     );
   }
 }

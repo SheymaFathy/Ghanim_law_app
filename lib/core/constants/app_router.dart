@@ -106,11 +106,10 @@ abstract class AppRouter {
           path: kOrderForm,
           builder: (context, state) {
             Map<String, String>? args = state.extra as Map<String, String>?;
-            String? value = state.extra.toString() as String?;
+
             return Builder(builder: (context) {
               return checkUserMethod()
                   ? OrderForm(
-                      value: value,
                       typeOrder: args!['type']!,
                       price: args['price']!,
                     )

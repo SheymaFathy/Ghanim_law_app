@@ -31,6 +31,10 @@ class CustomAuthTextFormFeild extends StatelessWidget {
         decoration: InputDecoration(
             hintText: hinttext,
             floatingLabelBehavior: FloatingLabelBehavior.always,
+            hintStyle: TextStyle(
+                fontSize: 14,
+                color:
+                    Theme.of(context).colorScheme.onSurface.withOpacity(0.5)),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 5, horizontal: 35),
             label: Container(

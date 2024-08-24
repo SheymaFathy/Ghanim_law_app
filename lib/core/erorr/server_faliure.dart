@@ -14,29 +14,54 @@ class ServerFaliure extends Faliure {
     switch (dioErorr.type) {
       case DioExceptionType.connectionTimeout:
         return ServerFaliure(
-            erorrMessage: "Connection Timeout With Api Server");
+            erorrMessage: "Connection Timeout With Api Server",
+            statusCode:
+                dioErorr.response != null ? dioErorr.response!.statusCode : 0);
 
       case DioExceptionType.sendTimeout:
-        return ServerFaliure(erorrMessage: "Send Timeout With Api Server");
+        return ServerFaliure(
+            erorrMessage: "Send Timeout With Api Server",
+            statusCode:
+                dioErorr.response != null ? dioErorr.response!.statusCode : 0);
       case DioExceptionType.receiveTimeout:
-        return ServerFaliure(erorrMessage: "Receive Timeout With Api Server");
+        return ServerFaliure(
+            erorrMessage: "Receive Timeout With Api Server",
+            statusCode:
+                dioErorr.response != null ? dioErorr.response!.statusCode : 0);
       case DioExceptionType.badResponse:
         return ServerFaliure.fromResponse(
             dioErorr.response!.statusCode!, dioErorr.response);
       case DioExceptionType.cancel:
-        return ServerFaliure(erorrMessage: "Request to Api Server Was Canceld");
+        return ServerFaliure(
+            erorrMessage: "Request to Api Server Was Canceld",
+            statusCode:
+                dioErorr.response != null ? dioErorr.response!.statusCode : 0);
 
       case DioExceptionType.unknown:
         if (dioErorr.message != null) {
           if (dioErorr.message!.contains('SocketException')) {
-            return ServerFaliure(erorrMessage: "No InterNet Connection");
+            return ServerFaliure(
+                erorrMessage: "No InterNet Connection",
+                statusCode: dioErorr.response != null
+                    ? dioErorr.response!.statusCode
+                    : 0);
           }
         } else {
-          return ServerFaliure(erorrMessage: "No InterNet Connection");
+          return ServerFaliure(
+              erorrMessage: "No InterNet Connection",
+              statusCode: dioErorr.response != null
+                  ? dioErorr.response!.statusCode
+                  : 0);
         }
-        return ServerFaliure(erorrMessage: "Unexpected Erorr, Plase ty again!");
+        return ServerFaliure(
+            erorrMessage: "Unexpected Erorr, Plase ty again!",
+            statusCode:
+                dioErorr.response != null ? dioErorr.response!.statusCode : 0);
       default:
-        return ServerFaliure(erorrMessage: "Opps There Was am Erorr");
+        return ServerFaliure(
+            erorrMessage: "Opps There Was am Erorr",
+            statusCode:
+                dioErorr.response != null ? dioErorr.response!.statusCode : 0);
     }
   }
   factory ServerFaliure.fromResponse(int stutusCode, dynamic response) {

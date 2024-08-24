@@ -38,7 +38,8 @@ class GlobalTextfield extends StatelessWidget {
         decoration: InputDecoration(
           hintText: hinttext,
           hintStyle: TextStyle(
-              fontSize: 14, color: Theme.of(context).colorScheme.onSurface),
+              fontSize: 14,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5)),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           contentPadding:
               const EdgeInsets.symmetric(vertical: 5, horizontal: 25),

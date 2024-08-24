@@ -19,9 +19,13 @@ class CustomErorrPageWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          //     if()
           Image.asset(
-            "assets/images/no-internet.png",
-            width: MediaQuery.of(context).size.width / 2,
+            fit: BoxFit.fill,
+            Theme.of(context).brightness == Brightness.dark
+                ? "assets/images/no_internet_white.png"
+                : "assets/images/no_internet_dark.png",
+
             //height: 100,
           ),
           Text(

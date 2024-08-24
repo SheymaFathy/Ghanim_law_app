@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'size_config.dart';
-
 double getResponsiveFontSize(context, {required double fontSize}) {
   double scaleFactor = getScaleFactor(context);
   double responsiveFontSize = fontSize * scaleFactor;
@@ -18,5 +16,16 @@ double getScaleFactor(context) {
     return width / 650;
   } else {
     return width / 1000;
+  }
+}
+
+class SizeConfig {
+  static const double tablet = 580;
+
+  static late double width, height;
+
+  static init(BuildContext context) {
+    height = MediaQuery.sizeOf(context).height;
+    width = MediaQuery.sizeOf(context).width;
   }
 }

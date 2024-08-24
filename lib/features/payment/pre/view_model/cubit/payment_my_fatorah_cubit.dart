@@ -31,11 +31,8 @@ class PaymentMyFatorahCubit extends Cubit<PaymentMyFatorahState> {
 
   setUpActionBar(BuildContext context) {
     MFSDK.setUpActionBar(
+        toolBarTitleColor: "#Ffffff",
         toolBarTitle: "Checkout".tr(context),
-        toolBarTitleColor:
-            "#${convertToHexWithoutAlpha(Theme.of(context).colorScheme.surface.value)}",
-        toolBarBackgroundColor:
-            "#${convertToHexWithoutAlpha(Theme.of(context).colorScheme.onSurface.value)}",
         isShowToolBar: true);
   }
 

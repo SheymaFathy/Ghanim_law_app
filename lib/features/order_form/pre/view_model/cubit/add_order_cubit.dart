@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -141,31 +139,47 @@ class AddOrderCubit extends Cubit<AddOrderState> {
 
       final result = await FlutterImageCompress.compressAndGetFile(
         file.path,
-        '${file.path.substring(0, file.path.lastIndexOf('/'))}/temp_${file.name}',
+        '${file.path.substring(0, file.path.lastIndexOf('/'))}/${file.name}',
         quality: 80,
       );
 
       emit(state.copyWith(imageCompreeState: AuthRequestState.sucess));
       return result;
     } catch (e) {
-      emit(state.copyWith(imageCompreeState: AuthRequestState.erorr));
-      if (kDebugMode) {
-        print("Error compressing image: $e");
-      }
+      emit(state.copyWith(
+          imageCompreeState: AuthRequestState.erorr,
+          erorrMessage: "Error compressing image"));
+
       return null;
     }
   }
 
-  Future<void> takePictureWithCamera() async {
+  Future<void> takeAndCompressPicture() async {
     try {
+      // التقاط الصورة باستخدام الكاميرا
       final XFile? image = await picker.pickImage(source: ImageSource.camera);
+
       if (image != null) {
-        imageFiles = (imageFiles ?? [])..add(image);
-        emit(state.copyWith(imageFiles: imageFiles));
+        // ضغط الصورة الملتقطة
+        emit(state.copyWith(imageCompreeState: AuthRequestState.loading));
+        final XFile? compressedImage = await compressImage(image);
+
+        if (compressedImage != null) {
+          imageFiles = (imageFiles ?? [])..add(compressedImage);
+          emit(state.copyWith(imageFiles: imageFiles));
+          emit(state.copyWith(imageCompreeState: AuthRequestState.sucess));
+        } else {
+          emit(state.copyWith(
+              imageCompreeState: AuthRequestState.erorr,
+              erorrMessage: "Failed to compress image"));
+        }
       }
     } catch (e) {
+      emit(state.copyWith(
+          imageCompreeState: AuthRequestState.erorr,
+          erorrMessage: "Error taking or compressing picture"));
       if (kDebugMode) {
-        print("Error taking picture: $e");
+        print("Error taking or compressing picture: $e");
       }
     }
   }
@@ -232,6 +246,7 @@ class AddOrderCubit extends Cubit<AddOrderState> {
 
   Future<void> saveRecordInList(String path) async {
     recordsList = XFile(path);
+    print(recordsList!.path);
     emit(state.copyWith(records: recordsList));
   }
 

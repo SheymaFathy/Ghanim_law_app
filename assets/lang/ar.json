@@ -141,5 +141,9 @@
     "Customer Phone Number": "رقم جوال العميل",
     "is currently being Sending": "يجري حالياً ارسال  ",
     "Go to the home page": "الذهاب للصفحة الرئيسية",
-    "Preparing the image...": "جاري تحضير الصور..."
+    "Preparing the image...": "جاري تحضير الصور...",
+    "Select payment method": "أختر طريقة الدفع",
+    "Payment Details": "تفاصيل",
+    "Payment is being completed": "جارٍ إكمال عملية الدفع",
+    "The payment was completed successfully": "تم إتمام عملية الدفع بنجاح"
 }

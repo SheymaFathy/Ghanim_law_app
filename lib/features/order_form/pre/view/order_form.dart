@@ -5,7 +5,7 @@ import 'package:ghanim_law_app/core/widget/app_bar.dart';
 import 'package:ghanim_law_app/core/widget/global_textfield.dart';
 import 'package:ghanim_law_app/features/auth/widget/custom_auth_title.dart';
 import '../../../../core/get_it/service_locator.dart';
-import '../../../../core/widget/custom_button.dart';
+
 import '../../../main_pages/pre/pages/profile/pre/view_model/cubit/profile_cubit.dart';
 import '../view_model/cubit/add_order_cubit.dart';
 import 'methods/add_order_listeners.dart';
@@ -18,28 +18,24 @@ import 'widgets/image/add_order_send_picture_widget.dart';
 import 'widgets/presonal_filed_widget.dart';
 
 class OrderForm extends StatelessWidget {
-  const OrderForm({super.key, this.typeOrder, this.price, this.value});
+  const OrderForm({super.key, this.typeOrder, this.price});
   final String? typeOrder;
   final String? price;
-  final String? value;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: myAppBar(context, 'submit-consultation'.tr(context)),
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider.value(value: getIt<AddOrderCubit>()),
-          BlocProvider.value(value: getIt<ProfileCubit>()),
-        ],
+      body: BlocProvider.value(
+        value: getIt<AddOrderCubit>(),
         child: BlocConsumer<AddOrderCubit, AddOrderState>(
           listener: (context, state) {
             addorderListeners(context, state);
           },
           builder: (context, state) {
             final addOrderCubit = context.read<AddOrderCubit>();
-            final profileCubit = context.read<ProfileCubit>();
-            fillInformationFileds(profileCubit, addOrderCubit);
+            fillInformationFileds(getIt<ProfileCubit>(), addOrderCubit);
             return Padding(
               padding: const EdgeInsets.all(15.0),
               child: Form(

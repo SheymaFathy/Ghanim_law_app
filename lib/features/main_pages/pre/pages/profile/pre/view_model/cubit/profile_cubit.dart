@@ -67,9 +67,6 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   fetchProfileData() async {
-    emit(state.copyWith(
-      profileRequestState: RequestState.loading,
-    ));
     final result = await profileRepo.fetchProfileData();
     result.fold((ifLeft) {
       emit(state.copyWith(
