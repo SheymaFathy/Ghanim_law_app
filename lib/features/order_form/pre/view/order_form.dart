@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
+import 'package:ghanim_law_app/core/enum/enum.dart';
 import 'package:ghanim_law_app/core/widget/app_bar.dart';
+import 'package:ghanim_law_app/core/widget/custom_erorr_page_widget.dart';
 import 'package:ghanim_law_app/core/widget/global_textfield.dart';
 import 'package:ghanim_law_app/features/auth/widget/custom_auth_title.dart';
+import 'package:ghanim_law_app/features/payment/pre/view/widget/custom_loading_payment.dart';
 import '../../../../core/get_it/service_locator.dart';
 
 import '../../../main_pages/pre/pages/profile/pre/view_model/cubit/profile_cubit.dart';
@@ -35,16 +38,41 @@ class OrderForm extends StatelessWidget {
           },
           builder: (context, state) {
             final addOrderCubit = context.read<AddOrderCubit>();
-            fillInformationFileds(getIt<ProfileCubit>(), addOrderCubit);
+
             return Padding(
               padding: const EdgeInsets.all(15.0),
               child: Form(
                 key: addOrderCubit.formKey,
                 child: ListView(
                   children: [
-                    CustomTextTitleAuth(title: 'how_can_help'.tr(context)),
-                    const SizedBox(height: 20),
-                    PersonalFiledWidget(addOrderCubit: addOrderCubit),
+                    BlocBuilder<ProfileCubit, ProfileState>(
+                      bloc: getIt<ProfileCubit>()..fetchProfileData(),
+                      builder: (context, state) {
+                        fillInformationFileds(state, addOrderCubit);
+                        switch (state.profileRequestState) {
+                          case RequestState.loading:
+                            return CustomLoadingPayment(
+                                text: "preparing your profile information"
+                                    .tr(context));
+                          case RequestState.sucess:
+                            return Column(
+                              children: [
+                                CustomTextTitleAuth(
+                                    title: 'how_can_help'.tr(context)),
+                                const SizedBox(height: 20),
+                                PersonalFiledWidget(
+                                    addOrderCubit: addOrderCubit),
+                              ],
+                            );
+                          case RequestState.erorr:
+                            return CustomErorrPageWidget(
+                                errorMessage: state.profileErorrMessage,
+                                onTap: () {
+                                  getIt<ProfileCubit>().fetchProfileData();
+                                });
+                        }
+                      },
+                    ),
                     GlobalTextfield(
                         mycontroller: addOrderCubit.detailsController,
                         maxline: 5,
