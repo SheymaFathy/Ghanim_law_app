@@ -5,31 +5,43 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/enum/enum.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 
 import '../../../data/model/invoice_model.dart';
 
 part 'payment_my_fatorah_state.dart';
 
-class PaymentMyFatorahCubit extends Cubit<PaymentMyFatorahState> {
+class PaymentMyFatorahCubit extends HydratedCubit<PaymentMyFatorahState> {
   PaymentMyFatorahCubit() : super(const PaymentMyFatorahState());
+
   static int? paymentMethodId;
-  initiApi(num price) async {
-    if (Config.testAPIKey.isEmpty) {
-      emit(state.copyWith(
-          response:
-              "Missing API Token Key.. You can get it from here: https://myfatoorah.readme.io/docs/test-token"));
-      return;
+  static String? serviceName;
+  static String? email;
+  Future<void> init(PaymentMyFatorahModel paymentMyFatorahModel) async {
+    if (email == paymentMyFatorahModel.email &&
+        state.executePaymentResponse != null &&
+        paymentMyFatorahModel.serviceName == serviceName) {
+    } else {
+      emit(state.copyWith(paymentSendState: PaymentState.init));
+      serviceName = paymentMyFatorahModel.serviceName;
+      email = paymentMyFatorahModel.email;
+      if (Config.testAPIKey.isEmpty) {
+        emit(state.copyWith(
+            response:
+                "Missing API Token Key.. You can get it from here: https://myfatoorah.readme.io/docs/test-token"));
+        return;
+      }
+
+      await MFSDK.init(Config.testAPIKey, MFCountry.EGYPT, MFEnvironment.TEST);
+
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await initiatePayment(num.parse(paymentMyFatorahModel.price));
+      });
     }
-
-    await MFSDK.init(Config.testAPIKey, MFCountry.EGYPT, MFEnvironment.TEST);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await initiatePayment(price);
-    });
   }
 
-  setUpActionBar(BuildContext context) {
+  void setUpActionBar(BuildContext context) {
     MFSDK.setUpActionBar(
         toolBarTitleColor: "#Ffffff",
         toolBarTitle: "Checkout".tr(context),
@@ -37,16 +49,13 @@ class PaymentMyFatorahCubit extends Cubit<PaymentMyFatorahState> {
   }
 
   String convertToHexWithoutAlpha(int colorValue) {
-    // Convert ARGB integer to hex string
     String hexString =
         colorValue.toRadixString(16).padLeft(8, '0').toUpperCase();
 
-    // Remove the alpha channel (first 2 characters)
     return hexString.substring(2); // Returns the RGB part of the hex string
   }
 
-  // Send Payment
-  initiatePayment(num price) async {
+  Future<void> initiatePayment(num price) async {
     emit(state.copyWith(paymentSendState: PaymentState.methodsPaymentLoading));
     var request = MFInitiatePaymentRequest(
         invoiceAmount: price, currencyIso: MFCurrencyISO.QATAR_QAR);
@@ -64,13 +73,11 @@ class PaymentMyFatorahCubit extends Cubit<PaymentMyFatorahState> {
     });
   }
 
-  // Log function
-  log(String message) {
+  void log(String message) {
     debugPrint(message);
   }
 
-  // Send Payment
-  sendPayment(PaymentMyFatorahModel paymentMyFatorahModel) async {
+  Future<void> sendPayment(PaymentMyFatorahModel paymentMyFatorahModel) async {
     emit(state.copyWith(paymentSendState: PaymentState.requestPaymentLoading));
     if (kDebugMode) {
       print(double.parse(paymentMyFatorahModel.price));
@@ -101,8 +108,7 @@ class PaymentMyFatorahCubit extends Cubit<PaymentMyFatorahState> {
     });
   }
 
-  // Execute Regular Payment
-  executeRegularPayment(
+  Future<void> executeRegularPayment(
       PaymentMyFatorahModel paymentMyFatorahModel, BuildContext context) async {
     setUpActionBar(context);
     var request = MFExecutePaymentRequest(
@@ -135,17 +141,17 @@ class PaymentMyFatorahCubit extends Cubit<PaymentMyFatorahState> {
     });
   }
 
-  setMethodId(int id) {
+  void setMethodId(int id) {
     paymentMethodId = id;
   }
 
-  // Payment Enquiry
-  getPaymentStatus(String key) async {
+  Future<void> getPaymentStatus(String key) async {
     emit(state.copyWith(paymentSendState: PaymentState.statusPaymentLoading));
     MFGetPaymentStatusRequest request =
         MFGetPaymentStatusRequest(key: key, keyType: MFKeyType.INVOICEID);
 
     await MFSDK.getPaymentStatus(request, MFLanguage.ARABIC).then((value) {
+      print("ResPoser results:${value.toJson()} ");
       emit(state.copyWith(
           paymentSendState: PaymentState.statusPaymentSuccess,
           paymentStatusResponse: value));
@@ -156,21 +162,34 @@ class PaymentMyFatorahCubit extends Cubit<PaymentMyFatorahState> {
     });
   }
 
-  // Cancel Token
-  // cancelToken() async {
-  //   await MFSDK
-  //       .cancelToken("Put your token here", MFLanguage.ARABIC)
-  //       .then((value) => log(value))
-  //       .catchError((error) => {log(error.message)});
-  // }
+  @override
+  PaymentMyFatorahState? fromJson(Map<String, dynamic> json) {
+    try {
+      return PaymentMyFatorahState.fromMap(json);
+    } catch (e) {
+      return null;
+    }
+  }
 
-  // Cancel Recurring Payment
-  // cancelRecurringPayment() async {
-  // await MFSDK
-  //     .cancelRecurringPayment("Put RecurringId here", MFLanguage.ARABIC)
-  //     .then((value) => log(value))
-  //       .catchError((error) => {log(error.message)});
-  // }
+  Future<void> resetStates() {
+    serviceName = null;
+    emit(state.copyWith(
+        paymentSendState: PaymentState.init,
+        paymentStatusResponse: null,
+        paymentMethods: [],
+        paymentStatusState: RequestState.loading,
+        executePaymentResponse: null));
+    return super.clear();
+  }
+
+  @override
+  Map<String, dynamic>? toJson(PaymentMyFatorahState state) {
+    try {
+      return state.toMap();
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
 class Config {

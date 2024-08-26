@@ -26,10 +26,10 @@ class PaymentMyFatorahScreen extends StatelessWidget {
   final PaymentMyFatorahModel paymentMyFatorahModel;
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PaymentMyFatorahCubit()
-        ..initiApi(num.parse(paymentMyFatorahModel.price)),
+    return BlocProvider.value(
+      value: getIt<PaymentMyFatorahCubit>()..init(paymentMyFatorahModel),
       child: BlocConsumer<PaymentMyFatorahCubit, PaymentMyFatorahState>(
+        bloc: getIt<PaymentMyFatorahCubit>(),
         listener: (context, state) async {
           if (state.paymentSendState == PaymentState.executePaymentSuccess) {
             await Future.delayed(const Duration(seconds: 5)).then((onValue) {
@@ -79,7 +79,7 @@ class PaymentMyFatorahScreen extends StatelessWidget {
                     return CustomErorrPageWidget(
                       errorMessage: state.erorrMessage,
                       onTap: () {
-                        context.read<PaymentMyFatorahCubit>().initiatePayment(
+                        getIt<PaymentMyFatorahCubit>().initiatePayment(
                             num.parse(paymentMyFatorahModel.price));
                       },
                     );

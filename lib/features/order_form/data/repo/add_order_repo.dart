@@ -37,8 +37,9 @@ class AddOrderRepoImp extends AddOrderRepo {
       }
       // Upload Images Files
       // Upload Voice File
-      print("Voice:${order.voice!.path}");
       if (order.voice != null) {
+        print(
+            "هل voice تساوي null :${order.voice == null}${order.voice!.name}");
         formData.files.add(MapEntry(
             'voice',
             await MultipartFile.fromFile(order.voice!.path,

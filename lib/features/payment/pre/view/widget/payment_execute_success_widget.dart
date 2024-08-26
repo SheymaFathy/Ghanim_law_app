@@ -4,6 +4,7 @@ import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/widget/custom_button.dart';
 import 'package:ghanim_law_app/features/payment/pre/view/widget/payment_details_view.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 import '../../../../../core/constants/app_router.dart';
 import '../../../../../core/enum/enum.dart';
@@ -20,50 +21,53 @@ class PaymentExecuteSucsessAndUploadOrderWidget extends StatelessWidget {
   final PaymentMyFatorahState state;
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: getIt<AddOrderCubit>()
+    return BlocConsumer<AddOrderCubit, AddOrderState>(
+      listener: (context, state) async {
+        if (state.addOrderState == AuthRequestState.sucess) {
+          await getIt<PaymentMyFatorahCubit>().resetStates();
+        }
+      },
+      bloc: getIt<AddOrderCubit>()
         ..fetchUploadOrder(paymentMyFatorahModel.serviceName),
-      child: BlocBuilder<AddOrderCubit, AddOrderState>(
-        builder: (context, addOrderState) {
-          switch (addOrderState.addOrderState) {
-            case AuthRequestState.normal:
-            case AuthRequestState.loading:
-              return Container();
+      builder: (context, addOrderState) {
+        switch (addOrderState.addOrderState) {
+          case AuthRequestState.normal:
+          case AuthRequestState.loading:
+            return Container();
 
-            case AuthRequestState.sucess:
-              return PopScope(
-                canPop: false,
-                child: Column(
-                  children: [
-                    Expanded(
-                        child: PaymentDetailsView(
-                            stateResponse: state.executePaymentResponse!)),
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 5),
-                      child: CustomBotton(
-                          borderRadius: BorderRadius.circular(12),
-                          backgroundColor:
-                              Theme.of(context).colorScheme.onSurface,
-                          textColor: Theme.of(context).colorScheme.surface,
-                          text: "Go to the home page".tr(context),
-                          onPressed: () {
-                            GoRouter.of(context).go(AppRouter.kHomeView);
-                          }),
-                    )
-                  ],
-                ),
-              );
-            case AuthRequestState.erorr:
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+          case AuthRequestState.sucess:
+            return PopScope(
+              canPop: false,
+              child: Column(
                 children: [
-                  Center(child: Text(addOrderState.erorrMessage)),
+                  Expanded(
+                      child: PaymentDetailsView(
+                          stateResponse: state.executePaymentResponse!)),
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 5),
+                    child: CustomBotton(
+                        borderRadius: BorderRadius.circular(12),
+                        backgroundColor:
+                            Theme.of(context).colorScheme.onSurface,
+                        textColor: Theme.of(context).colorScheme.surface,
+                        text: "Go to the home page".tr(context),
+                        onPressed: () {
+                          GoRouter.of(context).go(AppRouter.kHomeView);
+                        }),
+                  )
                 ],
-              );
-          }
-        },
-      ),
+              ),
+            );
+          case AuthRequestState.erorr:
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(child: Text(addOrderState.erorrMessage)),
+              ],
+            );
+        }
+      },
     );
   }
 }

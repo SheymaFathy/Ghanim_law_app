@@ -6,7 +6,9 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:ghanim_law_app/features/order_form/data/model/add_order_model.dart';
 import 'package:ghanim_law_app/features/order_form/data/model/add_order_result_model/add_order_result_model.dart';
 import 'package:ghanim_law_app/features/order_form/data/repo/add_order_repo.dart';
+import 'package:ghanim_law_app/features/payment/pre/view_model/cubit/payment_my_fatorah_cubit.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:myfatoorah_flutter/MFModels.dart';
@@ -14,6 +16,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import '../../../../../core/constants/app_router.dart';
 import '../../../../../core/enum/enum.dart';
+import '../../../../../core/get_it/service_locator.dart';
 import '../../../../payment/data/model/invoice_model.dart';
 
 part 'add_order_state.dart';
@@ -84,12 +87,15 @@ class AddOrderCubit extends Cubit<AddOrderState> {
         docs: pickedFiles));
     response.fold((ifLeft) {
       emit(state.copyWith(
-          addOrderState: AuthRequestState.erorr,
-          erorrMessage: ifLeft.erorrMessage));
-    }, (ifRight) {
+        addOrderState: AuthRequestState.erorr,
+        erorrMessage: ifLeft.erorrMessage,
+      ));
+    }, (ifRight) async {
       emit(state.copyWith(
           addOrderState: AuthRequestState.sucess,
           addOrderResultModel: ifRight));
+      await PaymentMyFatorahCubit().clear();
+      getIt<PaymentMyFatorahCubit>().clear();
     });
     paymetnResponse = null;
   }
@@ -139,7 +145,7 @@ class AddOrderCubit extends Cubit<AddOrderState> {
 
       final result = await FlutterImageCompress.compressAndGetFile(
         file.path,
-        '${file.path.substring(0, file.path.lastIndexOf('/'))}/${file.name}',
+        '${file.path.substring(0, file.path.lastIndexOf('/'))}/comp_${file.name}',
         quality: 80,
       );
 
@@ -230,7 +236,6 @@ class AddOrderCubit extends Cubit<AddOrderState> {
         bitRate: 128000,
       );
       await recorder.start(config, path: fileRecordPath!);
-
       isRecording = true;
       emit(state.copyWith(isRecording: isRecording));
     }
@@ -246,7 +251,6 @@ class AddOrderCubit extends Cubit<AddOrderState> {
 
   Future<void> saveRecordInList(String path) async {
     recordsList = XFile(path);
-    print(recordsList!.path);
     emit(state.copyWith(records: recordsList));
   }
 

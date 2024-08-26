@@ -10,11 +10,8 @@ class PaymentMyFatorahState extends Equatable {
   final PaymentState paymentSendState;
   final MFGetPaymentStatusResponse? executePaymentResponse;
 
-//////////////
   const PaymentMyFatorahState({
     this.response = '',
-
-    /////////////////////
     this.paymentStatusState = RequestState.loading,
     this.paymentStatusResponse,
     this.executePaymentResponse,
@@ -55,6 +52,39 @@ class PaymentMyFatorahState extends Equatable {
         paymentSendState,
         executePaymentResponse,
       ];
+
+  // Converts a Map to an instance of PaymentMyFatorahState
+  factory PaymentMyFatorahState.fromMap(Map<String, dynamic> map) {
+    return PaymentMyFatorahState(
+      response: map['response'] as String? ?? '',
+      erorrMessage: map['erorrMessage'] as String? ?? '',
+      paymentMethods: map['paymentMethods'] != null
+          ? List<MFPaymentMethod>.from(
+              map['paymentMethods'].map((x) => MFPaymentMethod.fromJson(x)))
+          : const [],
+      paymentSendState: PaymentState.values[map['paymentSendState'] as int],
+      paymentStatusState: RequestState.values[map['paymentStatusState'] as int],
+      paymentStatusResponse: map['paymentStatusResponse'] != null
+          ? MFGetPaymentStatusResponse.fromJson(map['paymentStatusResponse'])
+          : null,
+      executePaymentResponse: map['executePaymentResponse'] != null
+          ? MFGetPaymentStatusResponse.fromJson(map['executePaymentResponse'])
+          : null,
+    );
+  }
+
+  // Converts the current instance to a Map
+  Map<String, dynamic> toMap() {
+    return {
+      'response': response,
+      'erorrMessage': erorrMessage,
+      'paymentMethods': paymentMethods.map((x) => x.toJson()).toList(),
+      'paymentSendState': paymentSendState.index,
+      'paymentStatusState': paymentStatusState.index,
+      'paymentStatusResponse': paymentStatusResponse?.toJson(),
+      'executePaymentResponse': executePaymentResponse?.toJson(),
+    };
+  }
 }
 
 enum PaymentState {

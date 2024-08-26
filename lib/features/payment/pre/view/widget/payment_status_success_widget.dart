@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 
+import '../../../../../core/get_it/service_locator.dart';
 import '../../../../../core/widget/custom_button.dart';
 import '../../../data/model/invoice_model.dart';
 import '../../view_model/cubit/payment_my_fatorah_cubit.dart';
@@ -31,8 +31,7 @@ class PaymentStatusSuccessWidget extends StatelessWidget {
               textColor: Theme.of(context).colorScheme.surface,
               text: "Checkout".tr(context),
               onPressed: () {
-                context
-                    .read<PaymentMyFatorahCubit>()
+                getIt<PaymentMyFatorahCubit>()
                     .executeRegularPayment(paymentMyFatorahModel, context);
               }),
         )

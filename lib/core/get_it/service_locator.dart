@@ -33,7 +33,7 @@ class ServiceLocator {
     getIt.registerLazySingleton(() => ProfileCubit(getIt()));
     getIt.registerLazySingleton(() => MyOrderCubit(getIt()));
     getIt.registerLazySingleton(() => MyOrderDetailsCubit(getIt()));
-    getIt.registerFactory<PaymentMyFatorahCubit>(() => PaymentMyFatorahCubit());
+    getIt.registerLazySingleton(() => PaymentMyFatorahCubit());
 
     getIt.registerSingleton<MyOrderDetailsRepo>(MyOrderDetailsRepoImp());
 

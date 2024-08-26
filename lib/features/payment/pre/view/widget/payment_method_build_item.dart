@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/get_it/service_locator.dart';
 import '../../../../main_pages/pre/pages/settings/pre/view_model/cubit/setting_cubit.dart';
 import '../../../data/model/invoice_model.dart';
 import '../../view_model/cubit/payment_my_fatorah_cubit.dart';
@@ -13,15 +14,17 @@ class PaymentMethodsBuildItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final paymentMyFatorahCubit = context.read<PaymentMyFatorahCubit>();
     final settingCubit = context.read<SettingCubit>();
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: InkWell(
         onTap: () {
-          paymentMyFatorahCubit.setMethodId(paymentMyFatorahCubit
-              .state.paymentMethods[index].paymentMethodId!);
-          paymentMyFatorahCubit.sendPayment(paymentMyFatorahModel);
+          getIt<PaymentMyFatorahCubit>().setMethodId(
+              getIt<PaymentMyFatorahCubit>()
+                  .state
+                  .paymentMethods[index]
+                  .paymentMethodId!);
+          getIt<PaymentMyFatorahCubit>().sendPayment(paymentMyFatorahModel);
         },
         child: Container(
           padding: const EdgeInsets.all(15),
@@ -34,7 +37,10 @@ class PaymentMethodsBuildItem extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Image.network(
-                  paymentMyFatorahCubit.state.paymentMethods[index].imageUrl!,
+                  getIt<PaymentMyFatorahCubit>()
+                      .state
+                      .paymentMethods[index]
+                      .imageUrl!,
                   height: 35.0,
                 ),
                 const SizedBox(
@@ -42,11 +48,15 @@ class PaymentMethodsBuildItem extends StatelessWidget {
                 ),
                 Text(
                   settingCubit.state.locale.languageCode == "en"
-                      ? paymentMyFatorahCubit
-                              .state.paymentMethods[index].paymentMethodEn ??
+                      ? getIt<PaymentMyFatorahCubit>()
+                              .state
+                              .paymentMethods[index]
+                              .paymentMethodEn ??
                           ""
-                      : paymentMyFatorahCubit
-                              .state.paymentMethods[index].paymentMethodAr ??
+                      : getIt<PaymentMyFatorahCubit>()
+                              .state
+                              .paymentMethods[index]
+                              .paymentMethodAr ??
                           "",
                   style: const TextStyle(),
                   textAlign: TextAlign.center,

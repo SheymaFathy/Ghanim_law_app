@@ -36,6 +36,7 @@ dependencies:
   myfatoorah_flutter: 
   intl_phone_number_input: ^0.7.4
   flutter_image_compress: ^2.3.0
+  hydrated_bloc: ^9.1.5
 #################################################### Icon Lancher ###########################################################
 flutter_launcher_icons:
   android: "launcher_icon"

@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ghanim_law_app/core/dio/dio_helper.dart';
 import 'package:ghanim_law_app/core/shared_preferences/cache_helper.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'core/AppLocalizations/app_localizations.dart';
 import 'core/constants/app_router.dart';
 import 'core/get_it/service_locator.dart';
@@ -16,6 +19,12 @@ import 'features/main_pages/pre/pages/settings/pre/view_model/cubit/setting_cubi
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: kIsWeb
+        ? HydratedStorage.webStorageDirectory
+        : await getApplicationDocumentsDirectory(),
+  );
+
   ServiceLocator().init();
   await CacheHelper.init();
   await ThemeService.themeInit();
