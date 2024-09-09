@@ -1,4 +1,4 @@
-import 'package:flutter/src/widgets/basic.dart';
+import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/profile.dart';
 import 'package:ghanim_law_app/core/required_login_screen.dart';
 import 'package:ghanim_law_app/features/auth/forgot_password/pre/view/forget_password_screen.dart';

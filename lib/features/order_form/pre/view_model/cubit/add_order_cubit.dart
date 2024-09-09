@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -21,62 +20,109 @@ import '../../../../payment/data/model/invoice_model.dart';
 
 part 'add_order_state.dart';
 
-class AddOrderCubit extends Cubit<AddOrderState> {
+class AddOrderCubit extends HydratedCubit<AddOrderState> {
   AddOrderCubit(this.addOrderRepo) : super(const AddOrderState());
   final AddOrderRepo addOrderRepo;
-  // gloabal Method
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController detailsController = TextEditingController();
 
-  GlobalKey<FormState> formKey = GlobalKey();
-  MFGetPaymentStatusResponse? paymetnResponse;
-  clearFiled() {
-    if (detailsController.text.isNotEmpty) {
-      detailsController.clear();
-    }
-    if (imageFiles != null) {
-      imageFiles!.clear();
-    }
-    if (recordsList != null) {
-      recordsList = null;
-    }
-    if (pickedFiles != null) {
-      pickedFiles!.clear();
-    }
+  // Controllers
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController detailsController = TextEditingController();
 
-    emit(state.copyWith(
-        imageFiles: imageFiles,
-        records: recordsList,
-        pickedFiles: pickedFiles));
+  final GlobalKey<FormState> formKey = GlobalKey();
+
+  MFGetPaymentStatusResponse? paymentResponse;
+  String? previousOrderType;
+
+  final ImagePicker picker = ImagePicker();
+  List<XFile>? imageFiles = [];
+  List<PlatformFile>? pickedFiles = [];
+  XFile? recordsList;
+
+  bool isRecording = false;
+  String? fileRecordPath;
+  final AudioRecorder recorder = AudioRecorder();
+
+  // Clear Form
+  void clearFields() {
+    detailsController.clear();
+    imageFiles?.clear();
+    recordsList = null;
+    pickedFiles?.clear();
+    emitUpdatedState();
   }
 
-  bool validateFormKey() => formKey.currentState!.validate();
-  validatorAddOrder(
+  bool validateForm() => formKey.currentState!.validate();
+
+  // Add Order Validation
+  Future<void> validateAndAddOrder(
       BuildContext context, String orderType, String price) async {
-    if ((pickedFiles!.isEmpty && imageFiles!.isEmpty && recordsList == null) &&
-        detailsController.text.isEmpty) {
-      emit(state.copyWith(validateFormValues: false));
+    print(getIt<PaymentMyFatorahCubit>().serviceName);
+    if (getIt<PaymentMyFatorahCubit>().serviceName == null) {
+      resetPaymentStates();
+      if (areOrderFieldsEmpty()) {
+        emit(state.copyWith(validateFormValues: false));
+      } else {
+        navigateToPayment(context, orderType, price);
+      }
     } else {
-      GoRouter.of(context)
-          .push(AppRouter.kMyFatoora,
-              extra: PaymentMyFatorahModel(
-                  serviceName: orderType,
-                  phone: phoneController.text,
-                  name: nameController.text,
-                  email: emailController.text,
-                  price: price))
-          .then((onValue) {});
+      handleExistingOrder(context, orderType, price);
+    }
+  }
+
+  void resetPaymentStates() {
+    getIt<PaymentMyFatorahCubit>().resetStates();
+    getIt<PaymentMyFatorahCubit>().clear();
+  }
+
+  bool areOrderFieldsEmpty() {
+    return (pickedFiles?.isEmpty ?? true) &&
+        (imageFiles?.isEmpty ?? true) &&
+        recordsList == null &&
+        detailsController.text.isEmpty;
+  }
+
+  void navigateToPayment(BuildContext context, String orderType, String price) {
+    GoRouter.of(context).push(
+      AppRouter.kMyFatoora,
+      extra: PaymentMyFatorahModel(
+        serviceName: orderType,
+        phone: phoneController.text,
+        name: nameController.text,
+        email: emailController.text,
+        price: price,
+      ),
+    );
+  }
+
+  void handleExistingOrder(
+      BuildContext context, String orderType, String price) {
+    if (getIt<PaymentMyFatorahCubit>().serviceName == orderType) {
+      navigateToPayment(context, orderType, price);
+    } else {
+      showOrderError(context);
     }
     Navigator.of(context).pop();
   }
 
-  fetchUploadOrder(String orderType) async {
+  void showOrderError(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+            'لا يمكنك تقديم طلب جديد حتى يتم الانتهاء من الطلب الحالي أو إصلاح الخطأ.'),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
+  // Fetch and Upload Order
+  Future<void> fetchUploadOrder(String orderType) async {
     emit(state.copyWith(
         addOrderState: AuthRequestState.loading, validateFormValues: true));
 
-    final response = await addOrderRepo.fetchAddOrder(AddOrderModel(
+    final response = await addOrderRepo.fetchAddOrder(
+      AddOrderModel(
         name: nameController.text,
         email: emailController.text,
         phone: phoneController.text,
@@ -84,58 +130,44 @@ class AddOrderCubit extends Cubit<AddOrderState> {
         image: imageFiles,
         typeOrder: orderType,
         voice: recordsList,
-        docs: pickedFiles));
-    response.fold((ifLeft) {
-      emit(state.copyWith(
-        addOrderState: AuthRequestState.erorr,
-        erorrMessage: ifLeft.erorrMessage,
-      ));
-    }, (ifRight) async {
-      emit(state.copyWith(
-          addOrderState: AuthRequestState.sucess,
-          addOrderResultModel: ifRight));
-      await PaymentMyFatorahCubit().clear();
-      getIt<PaymentMyFatorahCubit>().clear();
-    });
-    paymetnResponse = null;
+        docs: pickedFiles,
+      ),
+    );
+
+    response.fold(
+      (error) => emit(state.copyWith(
+          addOrderState: AuthRequestState.erorr,
+          erorrMessage: error.erorrMessage)),
+      (result) async {
+        emit(state.copyWith(
+            addOrderState: AuthRequestState.sucess,
+            addOrderResultModel: result));
+        resetPayment();
+      },
+    );
   }
 
-  void deleteFiles(int index, String fileType) {
-    if (fileType == 'image') {
-      imageFiles!.removeAt(index);
-      emit(state.copyWith(imageFiles: imageFiles));
-    } else if (fileType == 'audio') {
-      recordsList = null;
-      emit(state.copyWith(records: recordsList));
-    } else {
-      pickedFiles!.removeAt(index);
-      emit(state.copyWith(pickedFiles: pickedFiles));
-    }
+  Future<void> resetPayment() async {
+    getIt<PaymentMyFatorahCubit>().serviceName = null;
+    await getIt<PaymentMyFatorahCubit>().resetStates();
+    getIt<PaymentMyFatorahCubit>().clear();
   }
 
-// gloabal Method
-  // Images Controllers
-  final ImagePicker picker = ImagePicker();
-  List<XFile>? imageFiles = [];
-
-  Future<void> pickAndCompressImagesFromGallery() async {
+  // Image Operations
+  Future<void> pickAndCompressImages() async {
     try {
-      final List<XFile> selectedImages = await picker.pickMultiImage();
+      final selectedImages = await picker.pickMultiImage();
       if (selectedImages.isNotEmpty) {
-        for (XFile image in selectedImages) {
+        for (var image in selectedImages) {
           final compressedImage = await compressImage(image);
           if (compressedImage != null) {
             imageFiles!.add(compressedImage);
           }
         }
-
-        // تحديث الحالة مع الصور المضغوطة
-        emit(state.copyWith(imageFiles: imageFiles));
+        emitUpdatedState();
       }
     } catch (e) {
-      if (kDebugMode) {
-        print("Error picking or compressing images: $e");
-      }
+      debugPrint("Error picking or compressing images: $e");
     }
   }
 
@@ -155,104 +187,138 @@ class AddOrderCubit extends Cubit<AddOrderState> {
       emit(state.copyWith(
           imageCompreeState: AuthRequestState.erorr,
           erorrMessage: "Error compressing image"));
-
       return null;
     }
   }
 
-  Future<void> takeAndCompressPicture() async {
+  Future<void> captureAndCompressImage() async {
     try {
-      // التقاط الصورة باستخدام الكاميرا
-      final XFile? image = await picker.pickImage(source: ImageSource.camera);
-
+      final image = await picker.pickImage(source: ImageSource.camera);
       if (image != null) {
-        // ضغط الصورة الملتقطة
-        emit(state.copyWith(imageCompreeState: AuthRequestState.loading));
-        final XFile? compressedImage = await compressImage(image);
-
+        final compressedImage = await compressImage(image);
         if (compressedImage != null) {
-          imageFiles = (imageFiles ?? [])..add(compressedImage);
-          emit(state.copyWith(imageFiles: imageFiles));
-          emit(state.copyWith(imageCompreeState: AuthRequestState.sucess));
-        } else {
-          emit(state.copyWith(
-              imageCompreeState: AuthRequestState.erorr,
-              erorrMessage: "Failed to compress image"));
+          imageFiles!.add(compressedImage);
+          emitUpdatedState();
         }
       }
     } catch (e) {
-      emit(state.copyWith(
-          imageCompreeState: AuthRequestState.erorr,
-          erorrMessage: "Error taking or compressing picture"));
-      if (kDebugMode) {
-        print("Error taking or compressing picture: $e");
-      }
+      debugPrint("Error capturing or compressing image: $e");
     }
   }
 
-  List<PlatformFile>? pickedFiles = [];
-  void openFiles(List<PlatformFile> files) {
-    pickedFiles = (pickedFiles ?? [])..addAll(files);
-    emit(state.copyWith(pickedFiles: pickedFiles));
-  }
-
+  // File Operations
   void attachFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf', 'doc', 'docx'],
     );
     if (result != null &&
-        (result.files[0].extension == 'pdf' ||
-            result.files[0].extension == 'doc' ||
-            result.files[0].extension == 'docx')) {
-      openFiles(result.files);
-    } else {
-      if (result != null) {
-        emit(state.copyWith(validateFileExtensions: false));
-      }
+        ['pdf', 'doc', 'docx'].contains(result.files[0].extension)) {
+      pickedFiles?.addAll(result.files);
+      emitUpdatedState();
     }
   }
-// Files Controllers
 
-// Records Controllers
-
-  final AudioRecorder recorder = AudioRecorder();
-  XFile? recordsList;
-  bool isRecording = false;
-  String? fileRecordPath;
-
+  // Audio Operations
   Future<void> startRecording() async {
-    final bool isPermissionGranted = await recorder.hasPermission();
-    if (!isPermissionGranted) {
-      return;
-    } else {
-      final directory = await getApplicationDocumentsDirectory();
-      String fileName =
-          "recording_${DateTime.now().millisecondsSinceEpoch}.wav";
-      fileRecordPath = "${directory.path}/$fileName";
-      const config = RecordConfig(
-        encoder: AudioEncoder.wav,
-        sampleRate: 44100,
-        bitRate: 128000,
-      );
-      await recorder.start(config, path: fileRecordPath!);
+    if (await recorder.hasPermission()) {
+      fileRecordPath =
+          "${(await getApplicationDocumentsDirectory()).path}/record_${DateTime.now().millisecondsSinceEpoch}.wav";
+      await recorder.start(
+          const RecordConfig(
+              encoder: AudioEncoder.wav, sampleRate: 44100, bitRate: 128000),
+          path: fileRecordPath!);
       isRecording = true;
-      emit(state.copyWith(isRecording: isRecording));
+      emit(state.copyWith(isRecording: true));
     }
   }
 
   Future<void> stopRecording() async {
-    await recorder.stop().then((onValue) {
-      saveRecordInList(onValue!);
-    });
-    isRecording = false;
-    emit(state.copyWith(isRecording: isRecording));
+    final path = await recorder.stop();
+    if (path != null) {
+      recordsList = XFile(path);
+      emit(state.copyWith(records: recordsList, isRecording: false));
+    }
   }
 
-  Future<void> saveRecordInList(String path) async {
-    recordsList = XFile(path);
-    emit(state.copyWith(records: recordsList));
+  void deleteFile(int index, String fileType) {
+    if (fileType == 'image') {
+      imageFiles?.removeAt(index);
+      emitUpdatedState();
+    } else if (fileType == 'audio') {
+      recordsList = null;
+      emitUpdatedState();
+    } else {
+      pickedFiles?.removeAt(index);
+      emitUpdatedState();
+    }
   }
 
-// Records Controllers
+  void emitUpdatedState() {
+    emit(state.copyWith(
+        imageFiles: imageFiles,
+        pickedFiles: pickedFiles,
+        records: recordsList));
+  }
+
+  @override
+  AddOrderState? fromJson(Map<String, dynamic> json) {
+    try {
+      return AddOrderState(
+        imageFiles: (json['imageFiles'] as List<dynamic>?)
+            ?.map((item) => XFile(item))
+            .toList(),
+        pickedFiles: (json['pickedFiles'] as List<dynamic>?)
+            ?.map((item) => platformFileFromMap(item as Map<String, dynamic>))
+            .toList(),
+        isRecording: json['isRecording'] as bool,
+        records: json['records'] != null ? XFile(json['records']) : null,
+        addOrderState: AuthRequestState.values[json['addOrderState'] as int],
+        erorrMessage:
+            json['errorMessage'] != null ? json['errorMessage'] as String : "",
+        validateFileExtensions: json['validateFileExtensions'] as bool,
+        validateFormValues: json['validateFormValues'] as bool,
+        imageCompreeState:
+            AuthRequestState.values[json['imageCompressState'] as int],
+      );
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Map<String, dynamic>? toJson(AddOrderState state) {
+    return {
+      'imageFiles': state.imageFiles?.map((e) => e.path).toList(),
+      'pickedFiles':
+          state.pickedFiles?.map((e) => platformFileToMap(e)).toList(),
+      'isRecording': state.isRecording,
+      'records': state.records?.path,
+      'addOrderState': state.addOrderState.index,
+      'errorMessage': state.erorrMessage,
+      'validateFileExtensions': state.validateFileExtensions,
+      'validateFormValues': state.validateFormValues,
+      'imageCompressState': state.imageCompreeState.index,
+    };
+  }
+
+  PlatformFile platformFileFromMap(Map<String, dynamic> map) {
+    return PlatformFile(
+      path: map['path'] as String?,
+      name: map['name'] as String,
+      size: map['size'] as int,
+      bytes: map['bytes'] as Uint8List?,
+      readStream: map['readStream'] as Stream<List<int>>?,
+    );
+  }
+
+  Map<String, dynamic> platformFileToMap(PlatformFile file) {
+    return {
+      'path': file.path,
+      'name': file.name,
+      'size': file.size,
+      'bytes': file.bytes,
+      'readStream': file.readStream,
+    };
+  }
 }

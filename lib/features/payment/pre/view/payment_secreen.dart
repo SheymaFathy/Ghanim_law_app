@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:ghanim_law_app/core/get_it/service_locator.dart';
 import 'package:ghanim_law_app/features/order_form/pre/view_model/cubit/add_order_cubit.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/widget/custom_erorr_page_widget.dart';
 import '../../../../core/widget/custom_snackbar_widget.dart';
@@ -32,15 +33,14 @@ class PaymentMyFatorahScreen extends StatelessWidget {
         bloc: getIt<PaymentMyFatorahCubit>(),
         listener: (context, state) async {
           if (state.paymentSendState == PaymentState.executePaymentSuccess) {
-            await Future.delayed(const Duration(seconds: 5)).then((onValue) {
-              getIt<AddOrderCubit>().paymetnResponse =
-                  state.executePaymentResponse;
-            });
+            await Future.delayed(const Duration(seconds: 5)).then((onValue) {});
           } else if (state.paymentSendState == PaymentState.paymentErorr) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
                   customSnackBarWidget(state.erorrMessage, Colors.red));
+            getIt<PaymentMyFatorahCubit>().resetStates();
+            GoRouter.of(context).pop();
           }
         },
         builder: (context, state) {
@@ -53,24 +53,20 @@ class PaymentMyFatorahScreen extends StatelessWidget {
                     return const PaymentInitWidget();
                   case PaymentState.methodsPaymentLoading:
                     return const PaymentMethodLoadingWidget();
-
                   case PaymentState.methodsPaymentSuccess:
                     return PaymentMethodsList(paymentMyFatorahModel);
                   case PaymentState.requestPaymentLoading:
                     return const PaymentRequestPaymentLoadingWidget();
-
                   case PaymentState.requestPaymentSuccess:
                     return const PaymentRequestPaymentSuccessWidget();
                   case PaymentState.statusPaymentLoading:
                     return const PaymentStatusLoadingWidget();
-
                   case PaymentState.statusPaymentSuccess:
                     return PaymentStatusSuccessWidget(
                         state: state,
                         paymentMyFatorahModel: paymentMyFatorahModel);
                   case PaymentState.executePaymentLoading:
                     return const PaymentExecuteLoadingWidget();
-
                   case PaymentState.executePaymentSuccess:
                     return PaymentExecuteSucsessAndUploadOrderWidget(
                         state: state,

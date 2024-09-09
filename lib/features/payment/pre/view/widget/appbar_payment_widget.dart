@@ -17,7 +17,7 @@ AppBar appBarPayment(PaymentMyFatorahState state, BuildContext context) {
         return 'Select payment method'.tr(context);
       case PaymentState.statusPaymentLoading:
       case PaymentState.statusPaymentSuccess:
-        return '${"Payment Details".tr(context)}';
+        return "Payment Details".tr(context);
       case PaymentState.executePaymentLoading:
         return "Payment is being completed".tr(context);
       case PaymentState.executePaymentSuccess:

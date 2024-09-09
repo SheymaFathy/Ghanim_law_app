@@ -28,7 +28,7 @@ void showDeletePhotoDialog(
                   child: Text('delete'.tr(context)),
                   onPressed: () {
                     BlocProvider.of<AddOrderCubit>(context)
-                        .deleteFiles(index, fileType);
+                        .deleteFile(index, fileType);
                     Navigator.of(context).pop();
                   },
                 ),

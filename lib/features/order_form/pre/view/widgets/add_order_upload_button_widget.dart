@@ -47,7 +47,7 @@ class AddOrderUploadButtonWidget extends StatelessWidget {
                       TextButton(
                         child: Text('confirm'.tr(context)),
                         onPressed: () {
-                          addOrderCubit.validatorAddOrder(
+                          addOrderCubit.validateAndAddOrder(
                               context, orderType, price);
                         },
                       ),

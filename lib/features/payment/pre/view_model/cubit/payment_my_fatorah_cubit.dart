@@ -1,13 +1,14 @@
 import 'dart:convert';
-import 'package:bloc/bloc.dart';
+
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/enum/enum.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 
+import '../../../../../core/get_it/service_locator.dart';
 import '../../../data/model/invoice_model.dart';
 
 part 'payment_my_fatorah_state.dart';
@@ -16,16 +17,30 @@ class PaymentMyFatorahCubit extends HydratedCubit<PaymentMyFatorahState> {
   PaymentMyFatorahCubit() : super(const PaymentMyFatorahState());
 
   static int? paymentMethodId;
-  static String? serviceName;
+  String? serviceName;
   static String? email;
+  static bool isPreviousPaymentPending =
+      false; // متغير لتتبع حالة الدفع السابقة
+  static MFGetPaymentStatusResponse? paymentResponse;
   Future<void> init(PaymentMyFatorahModel paymentMyFatorahModel) async {
+    if (isPreviousPaymentPending) {
+      emit(state.copyWith(
+        response:
+            "يجب إكمال عملية الدفع السابقة أولاً قبل البدء في خدمة جديدة.",
+      ));
+      return;
+    }
+
     if (email == paymentMyFatorahModel.email &&
         state.executePaymentResponse != null &&
         paymentMyFatorahModel.serviceName == serviceName) {
+      emit(state.copyWith(isPaymentSuccess: true));
     } else {
-      emit(state.copyWith(paymentSendState: PaymentState.init));
+      emit(state.copyWith(
+          paymentSendState: PaymentState.init, isPaymentSuccess: false));
       serviceName = paymentMyFatorahModel.serviceName;
       email = paymentMyFatorahModel.email;
+
       if (Config.testAPIKey.isEmpty) {
         emit(state.copyWith(
             response:
@@ -56,6 +71,9 @@ class PaymentMyFatorahCubit extends HydratedCubit<PaymentMyFatorahState> {
   }
 
   Future<void> initiatePayment(num price) async {
+    // عند بدء عملية الدفع، ضبط حالة الدفع على معلق
+    isPreviousPaymentPending = true;
+
     emit(state.copyWith(paymentSendState: PaymentState.methodsPaymentLoading));
     var request = MFInitiatePaymentRequest(
         invoiceAmount: price, currencyIso: MFCurrencyISO.QATAR_QAR);
@@ -70,6 +88,8 @@ class PaymentMyFatorahCubit extends HydratedCubit<PaymentMyFatorahState> {
       emit(state.copyWith(
           erorrMessage: error.message,
           paymentSendState: PaymentState.paymentErorr));
+      // إذا حدث خطأ، إعادة تعيين حالة الدفع إلى غير معلق
+      isPreviousPaymentPending = false;
     });
   }
 
@@ -79,9 +99,7 @@ class PaymentMyFatorahCubit extends HydratedCubit<PaymentMyFatorahState> {
 
   Future<void> sendPayment(PaymentMyFatorahModel paymentMyFatorahModel) async {
     emit(state.copyWith(paymentSendState: PaymentState.requestPaymentLoading));
-    if (kDebugMode) {
-      print(double.parse(paymentMyFatorahModel.price));
-    }
+
     var request = MFSendPaymentRequest(
         displayCurrencyIso: MFCurrencyISO.QATAR_QAR,
         invoiceValue: int.parse(paymentMyFatorahModel.price),
@@ -95,6 +113,7 @@ class PaymentMyFatorahCubit extends HydratedCubit<PaymentMyFatorahState> {
           )
         ],
         notificationOption: MFNotificationOption.EMAIL);
+
     await MFSDK.sendPayment(request, MFLanguage.ARABIC).then((value) {
       log("Send Payment Response: ${jsonEncode(value.toJson())}");
       emit(
@@ -105,6 +124,8 @@ class PaymentMyFatorahCubit extends HydratedCubit<PaymentMyFatorahState> {
       emit(state.copyWith(
           paymentSendState: PaymentState.paymentErorr,
           erorrMessage: error.message));
+      // إذا حدث خطأ، إعادة تعيين حالة الدفع إلى غير معلق
+      isPreviousPaymentPending = false;
     });
   }
 
@@ -129,15 +150,21 @@ class PaymentMyFatorahCubit extends HydratedCubit<PaymentMyFatorahState> {
     await MFSDK
         .executePayment(request, MFLanguage.ARABIC, (invoiceId) {})
         .then((value) {
+      paymentResponse = value;
       emit(state.copyWith(
           paymentSendState: PaymentState.executePaymentSuccess,
           executePaymentResponse: value));
       log("Execute Payment Response: ${jsonEncode(value.toJson())}");
+
+      isPreviousPaymentPending = false;
     }).catchError((error) {
+      paymentResponse = null;
       emit(state.copyWith(
           paymentSendState: PaymentState.paymentErorr,
           erorrMessage: error.message));
       log('Execute Payment Error: ${error.message}');
+
+      isPreviousPaymentPending = false;
     });
   }
 
@@ -165,6 +192,13 @@ class PaymentMyFatorahCubit extends HydratedCubit<PaymentMyFatorahState> {
   @override
   PaymentMyFatorahState? fromJson(Map<String, dynamic> json) {
     try {
+      paymentMethodId = json['paymentMethodId'] as int?;
+      serviceName = json['serviceName'] as String?;
+      email = json['email'] as String?;
+      isPreviousPaymentPending = json['isPreviousPaymentPending'] as bool;
+      paymentResponse = json['paymentResponse'] != null
+          ? MFGetPaymentStatusResponse.fromJson(json['paymentResponse'])
+          : null;
       return PaymentMyFatorahState.fromMap(json);
     } catch (e) {
       return null;
@@ -173,12 +207,14 @@ class PaymentMyFatorahCubit extends HydratedCubit<PaymentMyFatorahState> {
 
   Future<void> resetStates() {
     serviceName = null;
+    isPreviousPaymentPending = false; // إعادة تعيين حالة الدفع المعلق
     emit(state.copyWith(
         paymentSendState: PaymentState.init,
         paymentStatusResponse: null,
         paymentMethods: [],
         paymentStatusState: RequestState.loading,
         executePaymentResponse: null));
+    paymentResponse = null;
     return super.clear();
   }
 
@@ -189,6 +225,24 @@ class PaymentMyFatorahCubit extends HydratedCubit<PaymentMyFatorahState> {
     } catch (e) {
       return null;
     }
+  }
+
+  void updatePaymentData({
+    int? newPaymentMethodId,
+    String? newServiceName,
+    String? newEmail,
+    bool? newIsPreviousPaymentPending,
+    MFGetPaymentStatusResponse? newPaymentResponse,
+  }) {
+    paymentMethodId = newPaymentMethodId ?? paymentMethodId;
+    serviceName = newServiceName ?? serviceName;
+    email = newEmail ?? email;
+    isPreviousPaymentPending =
+        newIsPreviousPaymentPending ?? isPreviousPaymentPending;
+    paymentResponse = newPaymentResponse ?? paymentResponse;
+
+    // Emit the current state if you want to trigger UI updates
+    emit(state);
   }
 }
 

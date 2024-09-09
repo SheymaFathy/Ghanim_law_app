@@ -13,7 +13,7 @@ class CustomTextWelcomeAuth extends StatelessWidget {
         welcometextbody,
         style: Theme.of(context).textTheme.titleLarge!.copyWith(
             fontSize: 13,
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
             fontWeight: FontWeight.normal),
       ),
     );

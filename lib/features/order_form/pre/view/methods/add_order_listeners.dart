@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
+import 'package:ghanim_law_app/features/payment/pre/view_model/cubit/payment_my_fatorah_cubit.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/constants/app_router.dart';
@@ -40,8 +41,10 @@ addorderListeners(context, AddOrderState state) async {
       ..hideCurrentSnackBar()
       ..showSnackBar(customSnackBarWidget(
           "order_sccess".tr(context), Theme.of(context).colorScheme.onSurface));
-    BlocProvider.of<AddOrderCubit>(context).clearFiled();
+    BlocProvider.of<AddOrderCubit>(context).clearFields();
     getIt<MyOrderCubit>().fetchOrdersData();
+    getIt<PaymentMyFatorahCubit>().serviceName = null;
+    getIt<PaymentMyFatorahCubit>().resetStates();
     GoRouter.of(context).go(AppRouter.kHomeView);
   }
   if (state.imageCompreeState == AuthRequestState.loading) {

@@ -3,7 +3,6 @@ import 'package:ghanim_law_app/features/payment/pre/view/widget/build_payment_in
 import 'package:myfatoorah_flutter/MFModels.dart';
 
 import '../../../../../core/method/convert_datetime.dart';
-import '../../view_model/cubit/payment_my_fatorah_cubit.dart';
 
 class PaymentDetailsView extends StatelessWidget {
   const PaymentDetailsView({

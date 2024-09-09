@@ -9,6 +9,7 @@ class PaymentMyFatorahState extends Equatable {
   final RequestState paymentStatusState;
   final PaymentState paymentSendState;
   final MFGetPaymentStatusResponse? executePaymentResponse;
+  final bool isPaymentSuccess;
 
   const PaymentMyFatorahState({
     this.response = '',
@@ -18,39 +19,43 @@ class PaymentMyFatorahState extends Equatable {
     this.paymentMethods = const [],
     this.paymentSendState = PaymentState.init,
     this.erorrMessage = '',
+    this.isPaymentSuccess = false,
   });
 
-  PaymentMyFatorahState copyWith({
-    String? response,
-    List<MFPaymentMethod>? paymentMethods,
-    PaymentState? paymentSendState,
-    String? erorrMessage,
-    MFGetPaymentStatusResponse? paymentStatusResponse,
-    RequestState? paymentStatusState,
-    MFGetPaymentStatusResponse? executePaymentResponse,
-  }) {
+  PaymentMyFatorahState copyWith(
+      {String? response,
+      List<MFPaymentMethod>? paymentMethods,
+      PaymentState? paymentSendState,
+      String? erorrMessage,
+      MFGetPaymentStatusResponse? paymentStatusResponse,
+      RequestState? paymentStatusState,
+      MFGetPaymentStatusResponse? executePaymentResponse,
+      bool? isPaymentSuccess}) {
     return PaymentMyFatorahState(
-      response: response ?? this.response,
-      erorrMessage: erorrMessage ?? this.erorrMessage,
-      paymentMethods: paymentMethods ?? this.paymentMethods,
-      paymentSendState: paymentSendState ?? this.paymentSendState,
-      paymentStatusResponse:
-          paymentStatusResponse ?? this.paymentStatusResponse,
-      paymentStatusState: paymentStatusState ?? this.paymentStatusState,
-      executePaymentResponse:
-          executePaymentResponse ?? this.executePaymentResponse,
-    );
+        response: response ?? this.response,
+        erorrMessage: erorrMessage ?? this.erorrMessage,
+        paymentMethods: paymentMethods ?? this.paymentMethods,
+        paymentSendState: paymentSendState ?? this.paymentSendState,
+        paymentStatusResponse:
+            paymentStatusResponse ?? this.paymentStatusResponse,
+        paymentStatusState: paymentStatusState ?? this.paymentStatusState,
+        executePaymentResponse:
+            executePaymentResponse ?? this.executePaymentResponse,
+        isPaymentSuccess: isPaymentSuccess ?? this.isPaymentSuccess);
   }
 
   @override
   List<Object?> get props => [
         response,
         paymentMethods,
+        isPaymentSuccess,
         erorrMessage,
         paymentStatusResponse,
         paymentStatusState,
         paymentSendState,
+        isPaymentSuccess,
         executePaymentResponse,
+        isPaymentSuccess
       ];
 
   // Converts a Map to an instance of PaymentMyFatorahState

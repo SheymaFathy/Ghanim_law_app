@@ -30,9 +30,9 @@ class LoginViewBody extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
-            CustomTextTitleAuth(
-              title: "welcome_back".tr(context),
-            ),
+            // CustomTextTitleAuth(
+            //   title: "welcome_back".tr(context),
+            // ),
             const SizedBox(
               height: 20,
             ),
@@ -97,16 +97,16 @@ class LoginViewBody extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            CustomBotton(
-                backgroundColor: Theme.of(context).colorScheme.onSurface,
-                textColor: Theme.of(context).colorScheme.surface,
-                text: "Login as guest".tr(context),
-                onPressed: () {
-                  GoRouter.of(context).replace(AppRouter.kHomeView);
-                }),
-            const SizedBox(
-              height: 20,
-            ),
+            // CustomBotton(
+            //     backgroundColor: Theme.of(context).colorScheme.onSurface,
+            //     textColor: Theme.of(context).colorScheme.surface,
+            //     text: "Login as guest".tr(context),
+            //     onPressed: () {
+            //       GoRouter.of(context).replace(AppRouter.kHomeView);
+            //     }),
+            // const SizedBox(
+            //   height: 20,
+            // ),
             CustomTextSignUpOrLogIn(
                 textone: "no_account".tr(context),
                 texttwo: "sign_up_now".tr(context),

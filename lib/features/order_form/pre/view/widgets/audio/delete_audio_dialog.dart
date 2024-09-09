@@ -28,7 +28,7 @@ void showDeleteAudioDialog(int index, String fileType, BuildContext orderCtx) {
                   onPressed: () {
                     Navigator.of(context).pop();
                     BlocProvider.of<AddOrderCubit>(orderCtx)
-                        .deleteFiles(index, fileType);
+                        .deleteFile(index, fileType);
                   },
                 ),
               ],

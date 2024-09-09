@@ -4,7 +4,6 @@ import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/widget/custom_button.dart';
 import 'package:ghanim_law_app/features/payment/pre/view/widget/payment_details_view.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 import '../../../../../core/constants/app_router.dart';
 import '../../../../../core/enum/enum.dart';
