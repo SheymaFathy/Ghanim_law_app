@@ -32,7 +32,17 @@ class OrdersWidget extends StatelessWidget {
                 orders.type!.label!,
               ),
               const Spacer(),
-              Text(orders.status!.label!),
+              Text(
+                orders.status!.label!,
+                style: TextStyle(
+                    color: orders.status!.code == 'completed'
+                        ? Colors.green
+                        : orders.status!.code == 'in_progress'
+                            ? Colors.blue
+                            : orders.status!.code == 'rejected'
+                                ? Colors.red
+                                : null),
+              ),
             ],
           ),
         ),

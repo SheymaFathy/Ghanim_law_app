@@ -20,7 +20,8 @@ class MyOrdersDetailsTransactionDetailsWidget extends StatelessWidget {
       child: ExpansionTile(
         title: Text("details".tr(context).toUpperCase()),
         children: [
-          if (state.myOrderDetailsModel!.data!.description != null)
+          if (state.myOrderDetailsModel!.data!.description != '' &&
+              state.myOrderDetailsModel!.data!.description != null)
             MyOrderDescriptionTextWidget(
                 description: state.myOrderDetailsModel!.data!.description!),
           if (state.myOrderDetailsModel!.data!.documents != null)
