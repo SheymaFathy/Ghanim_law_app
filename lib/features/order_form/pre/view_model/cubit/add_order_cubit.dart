@@ -175,11 +175,12 @@ class AddOrderCubit extends HydratedCubit<AddOrderState> {
     try {
       emit(state.copyWith(imageCompreeState: AuthRequestState.loading));
 
-      final result = await FlutterImageCompress.compressAndGetFile(
-        file.path,
-        '${file.path.substring(0, file.path.lastIndexOf('/'))}/comp_${file.name}',
-        quality: 80,
-      );
+      final result = await FlutterImageCompress.compressAndGetFile(file.path,
+          '${file.path.substring(0, file.path.lastIndexOf('/'))}/comp_${file.name}',
+          quality: 80,
+          minWidth: 1080, // Set to desired resolution
+          minHeight: 720,
+          format: CompressFormat.webp);
 
       emit(state.copyWith(imageCompreeState: AuthRequestState.sucess));
       return result;
@@ -243,13 +244,28 @@ class AddOrderCubit extends HydratedCubit<AddOrderState> {
 
   void deleteFile(int index, String fileType) {
     if (fileType == 'image') {
-      imageFiles?.removeAt(index);
+      if (imageFiles!.isEmpty && state.imageFiles != null) {
+        imageFiles = state.imageFiles;
+        imageFiles?.removeAt(index);
+      } else {
+        imageFiles?.removeAt(index);
+      }
       emitUpdatedState();
     } else if (fileType == 'audio') {
-      recordsList = null;
+      if (recordsList == null && state.records != null) {
+        recordsList = state.records;
+        recordsList = null;
+      } else {
+        recordsList = null;
+      }
       emitUpdatedState();
     } else {
-      pickedFiles?.removeAt(index);
+      if (pickedFiles!.isEmpty && state.pickedFiles != null) {
+        pickedFiles = state.pickedFiles;
+        pickedFiles?.removeAt(index);
+      } else {
+        pickedFiles?.removeAt(index);
+      }
       emitUpdatedState();
     }
   }

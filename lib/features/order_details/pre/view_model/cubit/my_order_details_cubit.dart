@@ -15,11 +15,13 @@ class MyOrderDetailsCubit extends Cubit<MyOrderDetailsState> {
       myorderDetailsState: RequestState.loading,
     ));
     final response = await myOrderDetailsRepo.fetchOrderDetailsById(id);
+
     response.fold((ifLeft) {
       emit(state.copyWith(
           myorderDetailsState: RequestState.erorr,
           erorrMessage: ifLeft.erorrMessage));
     }, (ifRight) {
+      print(ifRight);
       emit(state.copyWith(
           myorderDetailsState: RequestState.sucess,
           myOrderDetailsModel: ifRight));

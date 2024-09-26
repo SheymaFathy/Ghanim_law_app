@@ -146,5 +146,7 @@
     "Payment Details": "Details",
     "Payment is being completed": "Payment is being completed",
     "The payment was completed successfully": "The payment was completed successfully",
-    "preparing your profile information": "Preparing your profile information"
+    "preparing your profile information": "Preparing your profile information",
+    "file": "Results of requesting ",
+    "Download pdf": "Download Pdf File","Reject Reason":"Reject Reason"
 }

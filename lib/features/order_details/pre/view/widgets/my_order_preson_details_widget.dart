@@ -24,7 +24,17 @@ class MyOrderPersonDetailsWidget extends StatelessWidget {
         ListTile(
           leading: Text("status".tr(context), style: Styles.textStyle14),
           trailing: Text(state.myOrderDetailsModel!.data!.status!.label!,
-              style: Styles.textStyle14),
+              style: Styles.textStyle14.copyWith(
+                  color: state.myOrderDetailsModel!.data!.status!.code ==
+                          'completed'
+                      ? Colors.green
+                      : state.myOrderDetailsModel!.data!.status!.code ==
+                              'in_progress'
+                          ? Colors.blue
+                          : state.myOrderDetailsModel!.data!.status!.code ==
+                                  'rejected'
+                              ? Colors.red
+                              : null)),
         ),
         const SizedBox(height: 10),
         ListTile(
