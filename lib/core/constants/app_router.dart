@@ -18,6 +18,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/about_us/pre/view/about_us_screen.dart';
 import '../../features/auth/forgot_password/pre/view/success_reset_pass.dart';
 
+import '../../features/auth/terms_and_conditions/pre/view/terms_and_conditions_screen.dart';
 import '../../features/main_pages/pre/pages/profile/pre/view/update_profile.dart';
 import '../../features/main_pages/pre/view/main_screen.dart';
 import '../../features/payment/data/model/invoice_model.dart';
@@ -29,6 +30,7 @@ abstract class AppRouter {
   static const kLanguages = "/languages";
   static const kLogin = "/login";
   static const kSignup = "/ksignup";
+  static const kSignUpTerms = '/ksignupterms';
   static const kForgetpassword = "/forgetpassword";
   static const kVerfiyCode = "/verfiycode";
   static const kResetPassword = "/resetpassword";
@@ -56,6 +58,10 @@ abstract class AppRouter {
       GoRoute(
         path: kSettings,
         builder: (context, state) => const SettingsPage(),
+      ),
+      GoRoute(
+        path: kSignUpTerms,
+        builder: (context, state) => const TermsAndConditionsPage(),
       ),
       GoRoute(
         path: kHomeView,

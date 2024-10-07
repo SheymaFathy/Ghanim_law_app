@@ -111,7 +111,7 @@ class LoginViewBody extends StatelessWidget {
                 textone: "no_account".tr(context),
                 texttwo: "sign_up_now".tr(context),
                 onTap: () {
-                  GoRouter.of(context).push(AppRouter.kSignup);
+                  GoRouter.of(context).push(AppRouter.kSignUpTerms);
                 }),
           ],
         ),

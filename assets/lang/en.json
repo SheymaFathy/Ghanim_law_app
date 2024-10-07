@@ -148,5 +148,9 @@
     "The payment was completed successfully": "The payment was completed successfully",
     "preparing your profile information": "Preparing your profile information",
     "file": "Results of requesting ",
-    "Download pdf": "Download Pdf File","Reject Reason":"Reject Reason"
+    "Download pdf": "Download Pdf File",
+    "Reject Reason": "Reject Reason",
+    "I agree to the rules and usage policy": "I agree to the rules and usage policy",
+    "next": "Next",
+    "search by country name or digital code": "search by country name or digital code"
 }

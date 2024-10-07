@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
+import '../../../../../core/profile.dart';
 import '../../../../../core/widget/custom_button.dart';
 import '../../../widget/custom_auth_title.dart';
 import '../../../widget/custom_auth_welcome_text.dart';
@@ -66,11 +68,42 @@ class SignUpViewBody extends StatelessWidget {
                 }
               },
             ),
-            CustomAuthTextFormFeild(
-              hinttext: 'enter_phone'.tr(context),
-              label: 'phone'.tr(context),
-              iconData: Icons.phone,
-              mycontroller: signUpCubit.phoneController,
+            InternationalPhoneNumberInput(
+              locale: UserData.lang,
+              searchBoxDecoration: InputDecoration(
+                  label: Text(
+                      "search by country name or digital code".tr(context))),
+              onInputChanged: (PhoneNumber number) {},
+              onInputValidated: (bool value) {},
+              inputDecoration: InputDecoration(
+                  hintText: "enter_phone".tr(context),
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                  hintStyle: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.5)),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 35),
+                  label: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        "phone".tr(context),
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Theme.of(context).colorScheme.onSurface),
+                      )),
+                  border: outlineInputBorder(context),
+                  enabledBorder: outlineInputBorder(context),
+                  focusedBorder: outlineInputBorder(context)),
+              selectorConfig: const SelectorConfig(
+                useEmoji: true,
+                selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                useBottomSheetSafeArea: true,
+              ),
+              ignoreBlank: false,
+              autoValidateMode: AutovalidateMode.disabled,
               validator: (value) {
                 if (value!.length < 9) {
                   return "phone number is Short".tr(context);
@@ -81,7 +114,36 @@ class SignUpViewBody extends StatelessWidget {
                   return null;
                 }
               },
+              selectorTextStyle:
+                  TextStyle(color: Theme.of(context).colorScheme.onSurface),
+              // initialValue: number,
+              textFieldController: signUpCubit.phoneController,
+              formatInput: true,
+              keyboardType: const TextInputType.numberWithOptions(
+                  signed: true, decimal: true),
+              inputBorder: OutlineInputBorder(),
+              onSaved: (PhoneNumber number) {
+                print('On Saved: $number');
+              },
             ),
+            SizedBox(
+              height: 20,
+            ), // CustomAuthTextFormFeild(
+            //   hinttext: 'enter_phone'.tr(context),
+            //   label: 'phone'.tr(context),
+            //   iconData: Icons.phone,
+            //   mycontroller: signUpCubit.phoneController,
+            //   validator: (value) {
+            //     if (value!.length < 9) {
+            //       return "phone number is Short".tr(context);
+            //     }
+            //     if (value.isEmpty) {
+            //       return "Please Enter your phone number".tr(context);
+            //     } else {
+            //       return null;
+            //     }
+            //   },
+            // ),
             CustomAuthTextFormFeild(
               hinttext: 'enter_pass'.tr(context),
               label: 'password'.tr(context),

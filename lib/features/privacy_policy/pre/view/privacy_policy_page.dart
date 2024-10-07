@@ -10,13 +10,15 @@ import '../../../../core/widget/custom_erorr_page_widget.dart';
 import '../../../main_pages/pre/pages/home/pre/view_model/cubit/home_cubit.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
-  const PrivacyPolicyPage({super.key});
-
+  const PrivacyPolicyPage({super.key, this.isAppbar = false});
+  final bool isAppbar;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: myAppBar(context, 'terms_and_privcy'.tr(context)),
+      backgroundColor:
+          isAppbar ? Theme.of(context).colorScheme.surface : Colors.transparent,
+      appBar:
+          isAppbar ? myAppBar(context, 'terms_and_privcy'.tr(context)) : null,
       body: BlocProvider.value(
           value: getIt<HomeCubit>(),
           child: SingleChildScrollView(
