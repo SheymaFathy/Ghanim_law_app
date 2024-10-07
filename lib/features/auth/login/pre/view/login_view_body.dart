@@ -3,7 +3,6 @@ import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/constants/app_router.dart';
 import '../../../../../core/widget/custom_button.dart';
-import '../../../widget/custom_auth_title.dart';
 import '../../../widget/custom_auth_welcome_text.dart';
 import '../../../widget/custom_text_signup_login.dart';
 import '../../../widget/custom_textfield.dart';
