@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
@@ -121,12 +123,12 @@ class SignUpViewBody extends StatelessWidget {
               formatInput: true,
               keyboardType: const TextInputType.numberWithOptions(
                   signed: true, decimal: true),
-              inputBorder: OutlineInputBorder(),
+              inputBorder: const OutlineInputBorder(),
               onSaved: (PhoneNumber number) {
                 print('On Saved: $number');
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ), // CustomAuthTextFormFeild(
             //   hinttext: 'enter_phone'.tr(context),

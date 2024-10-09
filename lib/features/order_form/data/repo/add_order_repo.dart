@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, duplicate_ignore
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:ghanim_law_app/core/dio/dio_helper.dart';

@@ -1,6 +1,7 @@
 library auto_direction;
 
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart' as intl;
 
 class AutoDirection extends StatefulWidget {
@@ -8,14 +9,14 @@ class AutoDirection extends StatefulWidget {
   final Widget child;
   final void Function(bool isRTL)? onDirectionChange;
 
-  AutoDirection(
-      {Key? key,
+  const AutoDirection(
+      {super.key,
       required this.text,
       required this.child,
-      this.onDirectionChange})
-      : super(key: key);
+      this.onDirectionChange});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AutoDirectionState createState() => _AutoDirectionState();
 }
 

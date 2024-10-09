@@ -34,25 +34,25 @@ dependencies:
   file_downloader_flutter: ##^0.0.5
   flutter_native_splash: ##^2.4.1
   myfatoorah_flutter: 
-  intl_phone_number_input: ^0.7.4
+  intl_phone_number_input: 
   flutter_image_compress: ^2.3.0
   hydrated_bloc: ^9.1.5
 #################################################### Icon Lancher ###########################################################
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/new_logo.png"
+  image_path: "assets/images/llooggoo.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
   web:
     generate: true
-    image_path: "assets/images/new_logo.png"
+    image_path: "assets/images/llooggoo.png"
   windows:
     generate: true
-    image_path: "assets/images/new_logo.png"
+    image_path: "assets/images/llooggoo.png"
     icon_size: 48 # min:48, max:256, default: 48
   macos:
     generate: true
-    image_path: "assets/images/new_logo.png"
+    image_path: "assets/images/llooggoo.png"
 #################################################### Icon Lancher ###########################################################
 
 #################################################### Splash Screen ###########################################################
