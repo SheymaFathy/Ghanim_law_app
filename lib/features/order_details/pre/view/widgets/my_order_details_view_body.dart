@@ -67,8 +67,8 @@ class MyOrderDetailsViewBody extends StatelessWidget {
                                     "Download pdf".tr(context),
                                     style: Styles.textStyle16,
                                   ),
-                                  Spacer(),
-                                  Icon(Icons.download)
+                                  const Spacer(),
+                                  const Icon(Icons.download)
                                 ],
                               )),
                         ))
@@ -91,7 +91,7 @@ class MyOrderDetailsViewBody extends StatelessWidget {
                 child: ExpansionTile(
                     title: Text("Reject Reason".tr(context)),
                     children: [
-                      Container(
+                      SizedBox(
                         width: double.infinity,
                         child: AutoDirection(
                           text: state.myOrderDetailsModel!.data!.rejectReason,

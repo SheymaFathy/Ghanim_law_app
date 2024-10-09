@@ -8,7 +8,6 @@ import 'package:ghanim_law_app/core/enum/enum.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 
-import '../../../../../core/get_it/service_locator.dart';
 import '../../../data/model/invoice_model.dart';
 
 part 'payment_my_fatorah_state.dart';

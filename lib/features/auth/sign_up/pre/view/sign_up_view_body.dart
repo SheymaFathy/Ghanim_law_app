@@ -121,12 +121,12 @@ class SignUpViewBody extends StatelessWidget {
               formatInput: true,
               keyboardType: const TextInputType.numberWithOptions(
                   signed: true, decimal: true),
-              inputBorder: OutlineInputBorder(),
+              inputBorder: const OutlineInputBorder(),
               onSaved: (PhoneNumber number) {
                 print('On Saved: $number');
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ), // CustomAuthTextFormFeild(
             //   hinttext: 'enter_phone'.tr(context),

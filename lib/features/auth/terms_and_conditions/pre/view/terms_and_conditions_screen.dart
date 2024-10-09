@@ -50,7 +50,7 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
                           .colorScheme
                           .onSurface
                           .withOpacity(0.2)),
-                  child: PrivacyPolicyPage()),
+                  child: const PrivacyPolicyPage()),
             ),
             GestureDetector(
               onTap: () {
