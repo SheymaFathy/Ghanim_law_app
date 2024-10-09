@@ -1,7 +1,6 @@
 library auto_direction;
 
 import 'package:flutter/material.dart';
-// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart' as intl;
 
 class AutoDirection extends StatefulWidget {
@@ -16,7 +15,6 @@ class AutoDirection extends StatefulWidget {
       this.onDirectionChange});
 
   @override
-  // ignore: library_private_types_in_public_api
   _AutoDirectionState createState() => _AutoDirectionState();
 }
 
