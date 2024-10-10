@@ -40,8 +40,12 @@ class ProfileViewBodyWidget extends StatelessWidget {
           ),
           child: ListTile(
             leading: const Icon(Icons.email),
-            title: Text(
-              prfileData.email!,
+            title: Directionality(
+              textDirection: TextDirection.ltr,
+              child: Text(
+                textAlign: TextAlign.left,
+                prfileData.email!,
+              ),
             ),
           ),
         ),
@@ -54,8 +58,12 @@ class ProfileViewBodyWidget extends StatelessWidget {
           ),
           child: ListTile(
             leading: const Icon(Icons.phone),
-            title: Text(
-              prfileData.phone!,
+            title: Directionality(
+              textDirection: TextDirection.ltr,
+              child: Text(
+                textAlign: TextAlign.left,
+                prfileData.phone!,
+              ),
             ),
           ),
         ),

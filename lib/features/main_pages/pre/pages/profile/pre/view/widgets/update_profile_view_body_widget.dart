@@ -50,12 +50,14 @@ class UpdateProfileViewBodyWidget extends StatelessWidget {
                 return null;
               },
               mycontroller: profileCubit.phoneController,
+              textDirection: TextDirection.ltr,
               hinttext: "enter_phone".tr(context),
+              textAlign: TextAlign.left,
               label: "phone".tr(context),
-              iconData: Icons.person,
+              iconData: Icons.phone,
               validator: (value) {
                 if (value!.isEmpty) {
-                  return "Please enter phone number";
+                  return "Please enter Phonenumber";
                 } else {
                   return null;
                 }
@@ -65,6 +67,7 @@ class UpdateProfileViewBodyWidget extends StatelessWidget {
               height: 20,
             ),
             GlobalTextfield(
+              textAlign: TextAlign.left,
               onChanged: (value) {
                 profileCubit.checkValuesFormFiled(state.profileModel!);
                 return null;
@@ -72,7 +75,7 @@ class UpdateProfileViewBodyWidget extends StatelessWidget {
               mycontroller: profileCubit.emailController,
               hinttext: "enter_email".tr(context),
               label: "email".tr(context),
-              iconData: Icons.person,
+              iconData: Icons.email,
               validator: (value) {
                 if (value!.isEmpty) {
                   return "Please enter email";

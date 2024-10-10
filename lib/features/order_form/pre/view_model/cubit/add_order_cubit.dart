@@ -169,7 +169,9 @@ class AddOrderCubit extends HydratedCubit<AddOrderState> {
         emitUpdatedState();
       }
     } catch (e) {
-      debugPrint("Error picking or compressing images: $e");
+      emit(state.copyWith(
+          imageCompreeState: AuthRequestState.erorr,
+          erorrMessage: "Error compressing image"));
     }
   }
 
@@ -179,11 +181,7 @@ class AddOrderCubit extends HydratedCubit<AddOrderState> {
 
       final result = await FlutterImageCompress.compressAndGetFile(file.path,
           '${file.path.substring(0, file.path.lastIndexOf('/'))}/comp_${file.name}',
-          quality: 80,
-          minWidth: 1080, // Set to desired resolution
-          minHeight: 720,
-          format: CompressFormat.webp);
-
+          quality: 70, format: CompressFormat.jpeg);
       emit(state.copyWith(imageCompreeState: AuthRequestState.sucess));
       return result;
     } catch (e) {

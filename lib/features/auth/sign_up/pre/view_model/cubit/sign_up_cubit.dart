@@ -14,6 +14,7 @@ class SignUpCubit extends Cubit<SignUpState> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  String countryCode = "";
   GlobalKey<FormState> formKey = GlobalKey();
   final SignUpRepo signUpRepo;
   toggleObscure() {

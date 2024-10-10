@@ -75,7 +75,9 @@ class SignUpViewBody extends StatelessWidget {
               searchBoxDecoration: InputDecoration(
                   label: Text(
                       "search by country name or digital code".tr(context))),
-              onInputChanged: (PhoneNumber number) {},
+              onInputChanged: (PhoneNumber number) {
+                signUpCubit.countryCode = number.dialCode.toString();
+              },
               onInputValidated: (bool value) {},
               inputDecoration: InputDecoration(
                   hintText: "enter_phone".tr(context),
@@ -126,6 +128,9 @@ class SignUpViewBody extends StatelessWidget {
               inputBorder: const OutlineInputBorder(),
               onSaved: (PhoneNumber number) {
                 print('On Saved: $number');
+
+                signUpCubit.phoneController.text =
+                    number.phoneNumber.toString();
               },
             ),
             const SizedBox(
@@ -176,7 +181,8 @@ class SignUpViewBody extends StatelessWidget {
                 signUpCubit.fetchSignUp(SetSignUpModel(
                     name: signUpCubit.nameController.text,
                     email: signUpCubit.emailController.text,
-                    phone: signUpCubit.phoneController.text,
+                    phone:
+                        "${signUpCubit.countryCode}${signUpCubit.phoneController.text}",
                     password: signUpCubit.passwordController.text,
                     passwordConfirmation: signUpCubit.passwordController.text));
               },

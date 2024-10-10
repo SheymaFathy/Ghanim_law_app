@@ -40,6 +40,7 @@ class PaymentMyFatorahScreen extends StatelessWidget {
                   customSnackBarWidget(state.erorrMessage, Colors.red));
             getIt<PaymentMyFatorahCubit>().resetStates();
             GoRouter.of(context).pop();
+            GoRouter.of(context).pop();
           }
         },
         builder: (context, state) {

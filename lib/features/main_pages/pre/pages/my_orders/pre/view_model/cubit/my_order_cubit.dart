@@ -10,6 +10,11 @@ class MyOrderCubit extends Cubit<MyOrderState> {
   MyOrderCubit(this.myOrderRepo) : super(const MyOrderState());
   final MyOrderRepo myOrderRepo;
   void fetchOrdersData() async {
+    if (state.erorrStatusCode != null) {
+      emit(state.copyWith(
+        myOrdersState: RequestState.loading,
+      ));
+    }
     final response = await myOrderRepo.fetchOrdersData();
     response.fold((ifLeft) {
       emit(state.copyWith(
@@ -17,6 +22,7 @@ class MyOrderCubit extends Cubit<MyOrderState> {
           erorrStatusCode: ifLeft.statusCode ?? 0,
           erorrMessage: ifLeft.erorrMessage));
     }, (ifRight) {
+      print(ifRight);
       emit(state.copyWith(
           myOrdersState: RequestState.sucess, myOrderModel: ifRight));
     });

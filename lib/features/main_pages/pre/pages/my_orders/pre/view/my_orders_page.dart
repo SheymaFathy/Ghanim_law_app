@@ -23,20 +23,19 @@ class MyOrderViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: getIt<MyOrderCubit>()..fetchOrdersData(),
-      child:
-          BlocConsumer<MyOrderCubit, MyOrderState>(listener: (context, state) {
-        if (state.myOrdersState == RequestState.erorr) {
-          if (state.erorrStatusCode != null && state.erorrStatusCode == 401) {
-            CacheHelper.clearData(key: 'uId');
-            checkUserMethod();
+    return BlocConsumer<MyOrderCubit, MyOrderState>(
+        bloc: getIt<MyOrderCubit>()..fetchOrdersData(),
+        listener: (context, state) {
+          if (state.myOrdersState == RequestState.erorr) {
+            if (state.erorrStatusCode != null && state.erorrStatusCode == 401) {
+              CacheHelper.clearData(key: 'uId');
+              checkUserMethod();
+            } else {
+              checkUserMethod();
+            }
           }
-        }
-      }, builder: (context, state) {
-        if (state.erorrStatusCode == 401) {
-          return const RequiredLoginScreen();
-        } else {
+        },
+        builder: (context, state) {
           switch (state.myOrdersState) {
             case RequestState.loading:
               return Center(
@@ -60,15 +59,17 @@ class MyOrderViewBody extends StatelessWidget {
                 ),
               );
             case RequestState.erorr:
-              return CustomErorrPageWidget(
-                onTap: () {
-                  context.read<MyOrderCubit>().fetchOrdersData();
-                },
-                errorMessage: state.erorrMessage,
-              );
+              if (state.erorrStatusCode == 401) {
+                return const RequiredLoginScreen();
+              } else {
+                return CustomErorrPageWidget(
+                  onTap: () {
+                    context.read<MyOrderCubit>().fetchOrdersData();
+                  },
+                  errorMessage: state.erorrMessage,
+                );
+              }
           }
-        }
-      }),
-    );
+        });
   }
 }

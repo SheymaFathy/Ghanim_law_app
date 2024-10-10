@@ -4,6 +4,7 @@ import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/enum/enum.dart';
 import 'package:ghanim_law_app/core/widget/app_bar.dart';
 import 'package:ghanim_law_app/core/widget/custom_erorr_page_widget.dart';
+import 'package:ghanim_law_app/core/widget/custom_snackbar_widget.dart';
 import 'package:ghanim_law_app/core/widget/global_textfield.dart';
 import 'package:ghanim_law_app/features/auth/widget/custom_auth_title.dart';
 import 'package:ghanim_law_app/features/payment/pre/view/widget/custom_loading_payment.dart';
@@ -34,6 +35,10 @@ class OrderForm extends StatelessWidget {
         value: getIt<AddOrderCubit>(),
         child: BlocConsumer<AddOrderCubit, AddOrderState>(
           listener: (context, state) {
+            if (state.imageCompreeState == AuthRequestState.erorr) {
+              customSnackBarWidget(
+                  "This image is not supported".tr(context), Colors.red);
+            }
             addorderListeners(context, state);
           },
           builder: (context, state) {

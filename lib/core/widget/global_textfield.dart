@@ -11,6 +11,8 @@ class GlobalTextfield extends StatelessWidget {
   final String? Function(String?)? onChanged;
   final int? maxline;
   final bool? readOnly;
+  final TextAlign? textAlign;
+  final TextDirection? textDirection;
   const GlobalTextfield(
       {super.key,
       required this.hinttext,
@@ -22,18 +24,21 @@ class GlobalTextfield extends StatelessWidget {
       this.onChanged,
       this.validator,
       this.maxline,
-      this.readOnly});
+      this.textAlign,
+      this.readOnly,
+      this.textDirection});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       child: TextFormField(
+        textDirection: textDirection,
         readOnly: readOnly ?? false,
         maxLines: maxline,
         onChanged: onChanged,
         validator: validator,
-        controller: mycontroller,
+        controller: mycontroller, textAlign: textAlign ?? TextAlign.right,
         obscureText: obbscureText ?? false, // Potential issue here
         decoration: InputDecoration(
           hintText: hinttext,

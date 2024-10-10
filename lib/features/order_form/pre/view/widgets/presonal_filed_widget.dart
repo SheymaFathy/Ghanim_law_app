@@ -41,6 +41,8 @@ class PersonalFiledWidget extends StatelessWidget {
           },
         ),
         GlobalTextfield(
+          textAlign: TextAlign.left,
+          textDirection: TextDirection.ltr,
           mycontroller: addOrderCubit.phoneController,
           hinttext: 'phone'.tr(context),
           readOnly: addOrderCubit.paymentResponse == null ? false : true,

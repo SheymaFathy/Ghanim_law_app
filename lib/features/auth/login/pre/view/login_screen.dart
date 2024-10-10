@@ -12,6 +12,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/constants/app_router.dart';
 import '../../../../../core/widget/app_bar.dart';
 
+import '../../../../main_pages/pre/pages/my_orders/pre/view_model/cubit/my_order_cubit.dart';
 import '../view_model/cubit/login_cubit.dart';
 import 'login_view_body.dart';
 import 'widget/login_erorr_widget.dart';
@@ -41,6 +42,7 @@ class LoginScreen extends StatelessWidget {
               } else if (state.loginState == AuthRequestState.sucess) {
                 CacheHelper.saveData(
                     key: 'uId', value: state.loginModel!.token!);
+
                 UserData.init();
                 GoRouter.of(context).pushReplacement(AppRouter.kHomeView);
                 loginMaterialBannerWidget(context);
