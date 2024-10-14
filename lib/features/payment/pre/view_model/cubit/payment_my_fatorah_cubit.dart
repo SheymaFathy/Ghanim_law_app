@@ -102,6 +102,7 @@ class PaymentMyFatorahCubit extends HydratedCubit<PaymentMyFatorahState> {
     emit(state.copyWith(paymentSendState: PaymentState.requestPaymentLoading));
 
     var request = MFSendPaymentRequest(
+        customerCivilId: "666666666",
         displayCurrencyIso: MFCurrencyISO.QATAR_QAR,
         invoiceValue: int.parse(paymentMyFatorahModel.price),
         customerName: paymentMyFatorahModel.name,

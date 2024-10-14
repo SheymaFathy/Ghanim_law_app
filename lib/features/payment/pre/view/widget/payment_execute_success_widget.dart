@@ -27,7 +27,8 @@ class PaymentExecuteSucsessAndUploadOrderWidget extends StatelessWidget {
         }
       },
       bloc: getIt<AddOrderCubit>()
-        ..fetchUploadOrder(paymentMyFatorahModel.serviceName),
+        ..fetchUploadOrder(paymentMyFatorahModel.serviceName,
+            state.executePaymentResponse!.toJson()!),
       builder: (context, addOrderState) {
         switch (addOrderState.addOrderState) {
           case AuthRequestState.normal:

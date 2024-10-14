@@ -9,13 +9,15 @@ import 'package:ghanim_law_app/features/order_form/data/model/add_order_result_m
 
 abstract class AddOrderRepo {
   Future<Either<Faliure, AddOrderResultModel>> fetchAddOrder(
-      AddOrderModel order);
+      AddOrderModel order,
+      {required Map<String, dynamic> paymentResult});
 }
 
 class AddOrderRepoImp extends AddOrderRepo {
   @override
   Future<Either<Faliure, AddOrderResultModel>> fetchAddOrder(
-      AddOrderModel order) async {
+      AddOrderModel order,
+      {required Map<String, dynamic> paymentResult}) async {
     try {
       FormData formData = FormData();
       // Upload Doc Files
@@ -54,6 +56,7 @@ class AddOrderRepoImp extends AddOrderRepo {
       // Upload description
 
       // Upload Person Information
+      formData.fields.add(MapEntry("payment", paymentResult.toString()));
       formData.fields.add(MapEntry("name", order.name!));
       formData.fields.add(MapEntry("email", order.email!));
       formData.fields.add(MapEntry("phone", order.phone!));

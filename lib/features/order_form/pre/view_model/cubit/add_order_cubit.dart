@@ -119,22 +119,23 @@ class AddOrderCubit extends HydratedCubit<AddOrderState> {
   }
 
   // Fetch and Upload Order
-  Future<void> fetchUploadOrder(String orderType) async {
+  Future<void> fetchUploadOrder(
+      String orderType, Map<String, dynamic> paymentResult) async {
     emit(state.copyWith(
         addOrderState: AuthRequestState.loading, validateFormValues: true));
 
     final response = await addOrderRepo.fetchAddOrder(
-      AddOrderModel(
-        name: nameController.text,
-        email: emailController.text,
-        phone: phoneController.text,
-        description: detailsController.text,
-        image: imageFiles,
-        typeOrder: orderType,
-        voice: recordsList,
-        docs: pickedFiles,
-      ),
-    );
+        AddOrderModel(
+          name: nameController.text,
+          email: emailController.text,
+          phone: phoneController.text,
+          description: detailsController.text,
+          image: imageFiles,
+          typeOrder: orderType,
+          voice: recordsList,
+          docs: pickedFiles,
+        ),
+        paymentResult: paymentResult);
 
     response.fold(
       (error) => emit(state.copyWith(
