@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/responsive_text/app_style.dart';
 
-import '../../view_model/cubit/payment_my_fatorah_cubit.dart';
+import '../../../../order_form/pre/view_model/cubit/add_order_cubit.dart';
 
-AppBar appBarPayment(PaymentMyFatorahState state, BuildContext context) {
+AppBar appBarPayment(AddOrderState state, BuildContext context) {
   bool shouldShowBackButton() {
     return !(state.paymentSendState == PaymentState.executePaymentLoading ||
         state.paymentSendState == PaymentState.executePaymentSuccess);
@@ -21,7 +21,14 @@ AppBar appBarPayment(PaymentMyFatorahState state, BuildContext context) {
       case PaymentState.executePaymentLoading:
         return "Payment is being completed".tr(context);
       case PaymentState.executePaymentSuccess:
+      case PaymentState.sendOrderIdLoading:
+        return "Payment is being completed".tr(context);
+      case PaymentState.paymentErorr:
+        return "An error occurred".tr(context);
+      case PaymentState.sendOrderIdSuccess:
         return "The payment was completed successfully".tr(context);
+      case PaymentState.sendOrderIdError:
+        return "An error occurred sending the request".tr(context);
       default:
         return "";
     }

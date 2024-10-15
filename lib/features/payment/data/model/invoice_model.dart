@@ -6,7 +6,7 @@ class PaymentMyFatorahModel {
   final String? name;
   final String? lang;
   final String? countryCode;
-
+  final String? orderID;
   PaymentMyFatorahModel(
       {required this.price,
       required this.serviceName,
@@ -14,5 +14,6 @@ class PaymentMyFatorahModel {
       this.countryCode,
       this.email,
       this.phone,
-      this.name});
+      this.name,
+      this.orderID});
 }

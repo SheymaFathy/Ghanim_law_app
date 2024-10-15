@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:ghanim_law_app/features/order_form/pre/view_model/cubit/add_order_cubit.dart';
 
 import '../../../../../core/get_it/service_locator.dart';
 import '../../../data/model/invoice_model.dart';
-import '../../view_model/cubit/payment_my_fatorah_cubit.dart';
 import 'payment_method_build_item.dart';
 
 class PaymentMethodsList extends StatelessWidget {
   const PaymentMethodsList(this.paymentMyFatorahModel, {super.key});
   final PaymentMyFatorahModel paymentMyFatorahModel;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,9 +16,9 @@ class PaymentMethodsList extends StatelessWidget {
       child: ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
-        itemCount: getIt<PaymentMyFatorahCubit>().state.paymentMethods.length,
+        itemCount: getIt<AddOrderCubit>().state.paymentMethods.length,
         itemBuilder: (BuildContext ctxt, int index) {
-          final int id = getIt<PaymentMyFatorahCubit>()
+          final int id = getIt<AddOrderCubit>()
               .state
               .paymentMethods[index]
               .paymentMethodId!;

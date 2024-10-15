@@ -47,3 +47,7 @@ class _AutoDirectionState extends State<AutoDirection> {
     return intl.Bidi.detectRtlDirectionality(text);
   }
 }
+
+bool isArabic(String text) {
+  return RegExp(r'^[\u0600-\u06FF]').hasMatch(text);
+}

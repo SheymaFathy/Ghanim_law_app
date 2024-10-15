@@ -6,23 +6,27 @@ import 'package:ghanim_law_app/core/dio/dio_helper.dart';
 import 'package:ghanim_law_app/core/erorr/server_faliure.dart';
 import 'package:ghanim_law_app/features/order_form/data/model/add_order_model.dart';
 import 'package:ghanim_law_app/features/order_form/data/model/add_order_result_model/add_order_result_model.dart';
+import 'package:ghanim_law_app/features/payment/data/model/paid_model/paid_model.dart';
 
 abstract class AddOrderRepo {
   Future<Either<Faliure, AddOrderResultModel>> fetchAddOrder(
-      AddOrderModel order,
-      {required Map<String, dynamic> paymentResult});
+    AddOrderModel order,
+  );
+  Future<Either<Faliure, PaidModel>> fetchPaidOrder(
+      {required String orderID, required String invoiceId});
 }
 
 class AddOrderRepoImp extends AddOrderRepo {
   @override
   Future<Either<Faliure, AddOrderResultModel>> fetchAddOrder(
-      AddOrderModel order,
-      {required Map<String, dynamic> paymentResult}) async {
+    AddOrderModel order,
+  ) async {
     try {
       FormData formData = FormData();
       // Upload Doc Files
       if (order.docs != null) {
-        for (var file in order.docs!) {
+        var docsCopy = List.from(order.docs!);
+        for (var file in docsCopy) {
           formData.files.add(MapEntry('documents[]',
               await MultipartFile.fromFile(file.path!, filename: file.name)));
         }
@@ -30,7 +34,10 @@ class AddOrderRepoImp extends AddOrderRepo {
       // Upload Doc Files
       // Upload Images Files
       if (order.image != null) {
-        for (var file in order.image!) {
+        // قم بإنشاء نسخة من قائمة الصور للتكرار عليها
+        var imageCopy = List.from(order.image!);
+
+        for (var file in imageCopy) {
           // ignore: avoid_print
           print(file.name);
           formData.files.add(MapEntry('images[]',
@@ -56,7 +63,7 @@ class AddOrderRepoImp extends AddOrderRepo {
       // Upload description
 
       // Upload Person Information
-      formData.fields.add(MapEntry("payment", paymentResult.toString()));
+
       formData.fields.add(MapEntry("name", order.name!));
       formData.fields.add(MapEntry("email", order.email!));
       formData.fields.add(MapEntry("phone", order.phone!));
@@ -72,6 +79,27 @@ class AddOrderRepoImp extends AddOrderRepo {
         print(e.message);
         print(e.error);
         print(e.response);
+        return Left(ServerFaliure.fromDioErorr(e));
+      } else {
+        return Left(ServerFaliure(erorrMessage: e.toString()));
+      }
+    }
+  }
+
+  @override
+  Future<Either<Faliure, PaidModel>> fetchPaidOrder(
+      {required String orderID, required String invoiceId}) async {
+    print(orderID);
+    print(invoiceId);
+    try {
+      final response =
+          await DioHelper.postData(url: "/api/orders/$orderID/checkout", data: {
+        "invoice_id": invoiceId,
+      });
+      return Right(PaidModel.fromJson(response.data));
+    } on Exception catch (e) {
+      print(e);
+      if (e is DioException) {
         return Left(ServerFaliure.fromDioErorr(e));
       } else {
         return Left(ServerFaliure(erorrMessage: e.toString()));

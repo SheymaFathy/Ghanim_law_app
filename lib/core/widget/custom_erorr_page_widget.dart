@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
+import 'package:ghanim_law_app/core/auto_direction.dart';
 
 import '../method/handler_errorr_message_text.dart';
 import '../responsive_text/app_style.dart';
@@ -36,6 +37,8 @@ class CustomErorrPageWidget extends StatelessWidget {
           ),
           Text(
             erorrMessage(errorMessage, context),
+            textAlign:
+                isArabic(errorMessage) ? TextAlign.right : TextAlign.left,
             style: TextStyle(
                 fontWeight: FontWeight.w300,
                 fontSize: getResponsiveFontSize(context, fontSize: 22)),

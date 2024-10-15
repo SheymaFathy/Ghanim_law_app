@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/auto_direction.dart';
 import 'package:ghanim_law_app/core/constants/styles.dart';
+import 'package:ghanim_law_app/core/widget/custom_button.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../../core/constants/app_router.dart';
+import '../../../../payment/data/model/invoice_model.dart';
 import '../../view_model/cubit/my_order_details_cubit.dart';
 import 'my_order_details_transaction_details_widget.dart';
 import 'my_order_preson_details_widget.dart';
@@ -103,7 +107,27 @@ class MyOrderDetailsViewBody extends StatelessWidget {
                       ),
                     ]),
               ),
-            )
+            ),
+          if (state.myOrderDetailsModel!.data!.paid!.price == 0)
+            CustomBotton(
+                backgroundColor: Theme.of(context).colorScheme.onSurface,
+                textColor: Theme.of(context).colorScheme.surface,
+                text: "Checkout".tr(context),
+                onPressed: () {
+                  PaymentMyFatorahModel paymentMyFatorahModel =
+                      PaymentMyFatorahModel(
+                          serviceName:
+                              state.myOrderDetailsModel!.data!.type!.code!,
+                          price: state.myOrderDetailsModel!.data!.price!.price
+                              .toString(),
+                          name: state.myOrderDetailsModel!.data!.name,
+                          email: state.myOrderDetailsModel!.data!.email,
+                          phone: state.myOrderDetailsModel!.data!.phone,
+                          orderID:
+                              state.myOrderDetailsModel!.data!.id.toString());
+                  GoRouter.of(context)
+                      .push(AppRouter.kMyFatoora, extra: paymentMyFatorahModel);
+                })
         ],
       ),
     );

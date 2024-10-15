@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ghanim_law_app/features/order_form/pre/view_model/cubit/add_order_cubit.dart';
 
 import '../../../../../core/get_it/service_locator.dart';
 import '../../../../main_pages/pre/pages/settings/pre/view_model/cubit/setting_cubit.dart';
 import '../../../data/model/invoice_model.dart';
-import '../../view_model/cubit/payment_my_fatorah_cubit.dart';
 
 class PaymentMethodsBuildItem extends StatelessWidget {
   const PaymentMethodsBuildItem(
@@ -19,12 +19,17 @@ class PaymentMethodsBuildItem extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: InkWell(
         onTap: () {
-          getIt<PaymentMyFatorahCubit>().setMethodId(
-              getIt<PaymentMyFatorahCubit>()
-                  .state
-                  .paymentMethods[index]
-                  .paymentMethodId!);
-          getIt<PaymentMyFatorahCubit>().sendPayment(paymentMyFatorahModel);
+          print(getIt<AddOrderCubit>()
+              .state
+              .paymentMethods[index]
+              .paymentMethodId);
+          getIt<AddOrderCubit>().setMethodId(getIt<AddOrderCubit>()
+              .state
+              .paymentMethods[index]
+              .paymentMethodId!);
+          getIt<AddOrderCubit>().getPaymentStatus(
+            paymentMyFatorahModel,
+          );
         },
         child: Container(
           padding: const EdgeInsets.all(15),
@@ -37,10 +42,7 @@ class PaymentMethodsBuildItem extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Image.network(
-                  getIt<PaymentMyFatorahCubit>()
-                      .state
-                      .paymentMethods[index]
-                      .imageUrl!,
+                  getIt<AddOrderCubit>().state.paymentMethods[index].imageUrl!,
                   height: 35.0,
                 ),
                 const SizedBox(
@@ -48,12 +50,12 @@ class PaymentMethodsBuildItem extends StatelessWidget {
                 ),
                 Text(
                   settingCubit.state.locale.languageCode == "en"
-                      ? getIt<PaymentMyFatorahCubit>()
+                      ? getIt<AddOrderCubit>()
                               .state
                               .paymentMethods[index]
                               .paymentMethodEn ??
                           ""
-                      : getIt<PaymentMyFatorahCubit>()
+                      : getIt<AddOrderCubit>()
                               .state
                               .paymentMethods[index]
                               .paymentMethodAr ??

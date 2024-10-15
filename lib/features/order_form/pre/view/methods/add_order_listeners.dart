@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
-import 'package:ghanim_law_app/features/payment/pre/view_model/cubit/payment_my_fatorah_cubit.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/constants/app_router.dart';
@@ -27,6 +26,7 @@ addorderListeners(context, AddOrderState state) async {
           "this_files_Not_Validate".tr(context), Colors.red));
   }
   if (state.addOrderState == AuthRequestState.loading) {
+    GoRouter.of(context).pop();
     EasyLoading.show(
         status: 'loading...'.tr(context), maskType: EasyLoadingMaskType.black);
   } else if (state.addOrderState == AuthRequestState.erorr) {
@@ -35,17 +35,18 @@ addorderListeners(context, AddOrderState state) async {
       ..hideCurrentSnackBar()
       ..showSnackBar(customSnackBarWidget(
           erorrMessage(state.erorrMessage, context), Colors.red));
+    getIt<AddOrderCubit>().resetStates();
   } else if (state.addOrderState == AuthRequestState.sucess) {
     EasyLoading.dismiss();
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(customSnackBarWidget(
           "order_sccess".tr(context), Theme.of(context).colorScheme.onSurface));
-    BlocProvider.of<AddOrderCubit>(context).clearFields();
+
+    GoRouter.of(context).replace(AppRouter.korderdetails,
+        extra: {"id": state.addOrderResultModel!.data!.id!});
+    getIt<AddOrderCubit>().resetStates();
     getIt<MyOrderCubit>().fetchOrdersData();
-    getIt<PaymentMyFatorahCubit>().serviceName = null;
-    getIt<PaymentMyFatorahCubit>().resetStates();
-    GoRouter.of(context).go(AppRouter.kHomeView);
   }
   if (state.imageCompreeState == AuthRequestState.loading) {
     EasyLoading.show(

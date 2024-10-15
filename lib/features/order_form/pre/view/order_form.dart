@@ -8,6 +8,7 @@ import 'package:ghanim_law_app/core/widget/custom_snackbar_widget.dart';
 import 'package:ghanim_law_app/core/widget/global_textfield.dart';
 import 'package:ghanim_law_app/features/auth/widget/custom_auth_title.dart';
 import 'package:ghanim_law_app/features/payment/pre/view/widget/custom_loading_payment.dart';
+import '../../../../core/auto_direction.dart';
 import '../../../../core/get_it/service_locator.dart';
 
 import '../../../main_pages/pre/pages/profile/pre/view_model/cubit/profile_cubit.dart';
@@ -39,7 +40,10 @@ class OrderForm extends StatelessWidget {
               customSnackBarWidget(
                   "This image is not supported".tr(context), Colors.red);
             }
-            addorderListeners(context, state);
+            addorderListeners(
+              context,
+              state,
+            );
           },
           builder: (context, state) {
             final addOrderCubit = context.read<AddOrderCubit>();
@@ -79,6 +83,12 @@ class OrderForm extends StatelessWidget {
                       },
                     ),
                     GlobalTextfield(
+                        textAlign: addOrderCubit.nameController.text == ""
+                            ? null
+                            : isArabic(addOrderCubit.nameController.text)
+                                ? TextAlign.right
+                                : TextAlign.left,
+                        iconData: Icons.content_paste,
                         mycontroller: addOrderCubit.detailsController,
                         maxline: 5,
                         hinttext: "submit-consultation".tr(context)),

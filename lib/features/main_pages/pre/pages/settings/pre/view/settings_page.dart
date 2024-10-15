@@ -99,7 +99,7 @@ class SettingsPage extends StatelessWidget {
                   title: Text("terms_and_privcy".tr(context)),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                   onTap: () {
-                    GoRouter.of(context).push(AppRouter.kpolicy);
+                    GoRouter.of(context).push(AppRouter.kpolicy, extra: true);
                   },
                 ),
               ),
@@ -125,7 +125,7 @@ class SettingsPage extends StatelessWidget {
                         },
                       ),
                     ),
-                   const SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                   ],

@@ -124,7 +124,9 @@ abstract class AppRouter {
           }),
       GoRoute(
           path: kpolicy,
-          builder: (context, state) => const PrivacyPolicyPage()),
+          builder: (context, state) => PrivacyPolicyPage(
+                isAppbar: state.extra as bool,
+              )),
       GoRoute(
           path: korderdetails,
           builder: (context, state) {

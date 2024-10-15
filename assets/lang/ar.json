@@ -153,5 +153,9 @@
     "I agree to the rules and usage policy": "اوافق علي القوانين وسياسة الاستخدام",
     "next": "التالي",
     "search by country name or digital code": "البحث حسب اسم البلد أو الرمز الرقمي",
-    "This image is not supported": "هذه الصورة غير مدعومة"
+    "This image is not supported": "هذه الصورة غير مدعومة",
+    "Wait a few moments": "الرجاء الانتظار قليلاً ...",
+    "continue_payment": "متابعة الدفع",
+    "An error occurred": "حدث خطأ",
+    "An error occurred sending the request": "حدث خطأ أثناء ارسال الطلب"
 }

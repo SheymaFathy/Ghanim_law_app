@@ -35,13 +35,16 @@ class OrdersWidget extends StatelessWidget {
               Text(
                 orders.status!.label!,
                 style: TextStyle(
-                    color: orders.status!.code == 'completed'
+                    color: (orders.status!.code == 'new' &&
+                            orders.paid!.price != 0)
                         ? Colors.green
-                        : orders.status!.code == 'in_progress'
-                            ? Colors.blue
-                            : orders.status!.code == 'rejected'
-                                ? Colors.red
-                                : null),
+                        : orders.status!.code == 'completed'
+                            ? Colors.green
+                            : orders.status!.code == 'in_progress'
+                                ? Colors.blue
+                                : orders.status!.code == 'rejected'
+                                    ? Colors.red
+                                    : null),
               ),
             ],
           ),

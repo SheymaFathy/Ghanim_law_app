@@ -14,7 +14,6 @@ import 'package:ghanim_law_app/features/main_pages/pre/view_model/cubit/main_pag
 import 'package:ghanim_law_app/features/order_details/data/repo/my_order_details_repo.dart';
 
 import 'package:ghanim_law_app/features/order_details/pre/view_model/cubit/my_order_details_cubit.dart';
-import 'package:ghanim_law_app/features/payment/pre/view_model/cubit/payment_my_fatorah_cubit.dart';
 
 import '../../features/order_form/pre/view_model/cubit/add_order_cubit.dart';
 import '../../features/main_pages/pre/pages/settings/pre/view_model/cubit/setting_cubit.dart';
@@ -33,8 +32,6 @@ class ServiceLocator {
     getIt.registerLazySingleton(() => ProfileCubit(getIt()));
     getIt.registerLazySingleton(() => MyOrderCubit(getIt()));
     getIt.registerLazySingleton(() => MyOrderDetailsCubit(getIt()));
-    getIt.registerLazySingleton(() => PaymentMyFatorahCubit());
-
     getIt.registerSingleton<MyOrderDetailsRepo>(MyOrderDetailsRepoImp());
 
     getIt.registerSingleton<AddOrderRepo>(AddOrderRepoImp());

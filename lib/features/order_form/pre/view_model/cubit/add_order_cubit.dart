@@ -1,31 +1,217 @@
-// ignore_for_file: avoid_print
+import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/features/order_form/data/model/add_order_model.dart';
 import 'package:ghanim_law_app/features/order_form/data/model/add_order_result_model/add_order_result_model.dart';
 import 'package:ghanim_law_app/features/order_form/data/repo/add_order_repo.dart';
-import 'package:ghanim_law_app/features/payment/pre/view_model/cubit/payment_my_fatorah_cubit.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:myfatoorah_flutter/MFModels.dart';
+import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import '../../../../../core/constants/app_router.dart';
 import '../../../../../core/enum/enum.dart';
 import '../../../../../core/get_it/service_locator.dart';
+import '../../../../main_pages/pre/pages/settings/pre/view_model/cubit/setting_cubit.dart';
 import '../../../../payment/data/model/invoice_model.dart';
 
 part 'add_order_state.dart';
 
-class AddOrderCubit extends HydratedCubit<AddOrderState> {
+class AddOrderCubit extends Cubit<AddOrderState> {
   AddOrderCubit(this.addOrderRepo) : super(const AddOrderState());
   final AddOrderRepo addOrderRepo;
+// Payment My Fatorah
 
+  final ImagePicker picker = ImagePicker();
+  List<XFile>? imageFiles = [];
+  List<PlatformFile>? pickedFiles = [];
+  XFile? recordsList;
+
+  static int? paymentMethodId;
+
+  Future<void> init(PaymentMyFatorahModel paymentMyFatorahModel) async {
+    emit(state.copyWith(paymentSendState: PaymentState.init));
+    if (Config.testAPIKey.isEmpty) {
+      emit(state.copyWith(
+          responsePayment:
+              "Missing API Token Key.. You can get it from here: https://myfatoorah.readme.io/docs/test-token"));
+      return;
+    }
+
+    await MFSDK.init(Config.testAPIKey, MFCountry.QATAR, MFEnvironment.TEST);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      initiatePayment(paymentMyFatorahModel);
+    });
+  }
+
+  String convertToHexWithoutAlpha(int colorValue) {
+    String hexString =
+        colorValue.toRadixString(16).padLeft(8, '0').toUpperCase();
+
+    return hexString.substring(2); // Returns the RGB part of the hex string
+  }
+
+  void setUpActionBar(BuildContext context) {
+    MFSDK.setUpActionBar(
+        toolBarTitleColor: "#Ffffff",
+        toolBarTitle: "Checkout".tr(context),
+        isShowToolBar: true);
+  }
+
+  Future<void> initiatePayment(
+      PaymentMyFatorahModel paymentMyFatorahModel) async {
+    emit(state.copyWith(paymentSendState: PaymentState.methodsPaymentLoading));
+    var request = MFInitiatePaymentRequest(
+        invoiceAmount: num.parse(paymentMyFatorahModel.price),
+        currencyIso: MFCurrencyISO.QATAR_QAR);
+
+    await MFSDK.initiatePayment(request, MFLanguage.ARABIC).then((value) {
+      emit(state.copyWith(
+          paymentMethods: value.paymentMethods!,
+          paymentSendState: PaymentState.methodsPaymentSuccess));
+      log('Initiate Payment Response: ${jsonEncode(value.toJson())}');
+    }).catchError((error) {
+      log('Initiate Payment Error: ${error.toString()}');
+      emit(state.copyWith(
+          erorrMessage: error.message,
+          paymentSendState: PaymentState.paymentErorr));
+    });
+  }
+
+  void log(String message) {
+    debugPrint(message);
+  }
+
+  Future sendPayment(PaymentMyFatorahModel paymentMyFatorahModel) async {
+    emit(state.copyWith(requestIdPaymentState: RequestState.loading));
+
+    var request = MFSendPaymentRequest(
+        customerReference: paymentMyFatorahModel.orderID,
+        displayCurrencyIso: MFCurrencyISO.QATAR_QAR,
+        invoiceValue: int.parse(paymentMyFatorahModel.price),
+        customerName: paymentMyFatorahModel.name,
+        customerEmail: paymentMyFatorahModel.email,
+        invoiceItems: [
+          MFInvoiceItem(
+            quantity: 1,
+            unitPrice: double.parse(paymentMyFatorahModel.price),
+            itemName: paymentMyFatorahModel.serviceName,
+          )
+        ],
+        notificationOption: MFNotificationOption.EMAIL);
+
+    await MFSDK.sendPayment(request, MFLanguage.ARABIC).then((value) {
+      log("Send Payment Response: ${jsonEncode(value.toJson())}");
+      emit(state.copyWith(
+          requestIdPaymentState: RequestState.sucess,
+          paymentResponseOrderId: value));
+    }).catchError((error) {
+      log('Send Payment Error: ${error.toString()}');
+      emit(state.copyWith(
+          requestIdPaymentState: RequestState.erorr,
+          erorrMessage: error.message));
+    });
+  }
+
+  Future<void> executeRegularPayment(
+    PaymentMyFatorahModel paymentMyFatorahModel,
+    BuildContext context,
+  ) async {
+    emit(state.copyWith(paymentSendState: PaymentState.executePaymentLoading));
+
+    setUpActionBar(context);
+    var request = MFExecutePaymentRequest(
+      customerReference: paymentMyFatorahModel.orderID,
+      displayCurrencyIso: MFCurrencyISO.QATAR_QAR,
+      customerEmail: paymentMyFatorahModel.email,
+      customerName: paymentMyFatorahModel.name,
+      paymentMethodId: paymentMethodId,
+      invoiceValue: double.parse(paymentMyFatorahModel.price),
+      invoiceItems: [
+        MFInvoiceItem(
+          quantity: 1,
+          unitPrice: double.parse(paymentMyFatorahModel.price),
+          itemName: paymentMyFatorahModel.serviceName,
+        )
+      ],
+    );
+
+    await MFSDK
+        .executePayment(request, MFLanguage.ARABIC, (invoiceId) {})
+        .then((value) async {
+      emit(state.copyWith(
+          paymentSendState: PaymentState.executePaymentSuccess,
+          executePaymentResponse: value));
+      log("Execute Payment Response: ${jsonEncode(value.toJson())}");
+      await fetchPainOrder(
+          paymentMyFatorahModel.orderID!, value.invoiceId!.toString());
+    }).catchError((error) {
+      emit(state.copyWith(
+          paymentSendState: PaymentState.paymentErorr,
+          erorrMessage: error.message));
+      log('Execute Payment Error: ${error}');
+    });
+  }
+
+  fetchPainOrder(String orderId, String invoiceId) async {
+    emit(state.copyWith(paymentSendState: PaymentState.sendOrderIdLoading));
+    final result = await addOrderRepo.fetchPaidOrder(
+        orderID: orderId, invoiceId: invoiceId);
+
+    result.fold((ifLeft) {
+      emit(state.copyWith(paymentSendState: PaymentState.sendOrderIdError));
+    }, (ifRight) {
+      emit(state.copyWith(paymentSendState: PaymentState.sendOrderIdSuccess));
+    });
+    print(state.paymentSendState);
+  }
+
+  void setMethodId(int id) {
+    print(paymentMethodId);
+    paymentMethodId = id;
+  }
+
+  Future<void> getPaymentStatus(
+      PaymentMyFatorahModel paymentMyFatorahModel) async {
+    emit(state.copyWith(paymentSendState: PaymentState.statusPaymentLoading));
+    await sendPayment(paymentMyFatorahModel);
+
+    MFGetPaymentStatusRequest request = MFGetPaymentStatusRequest(
+        key: state.paymentResponseOrderId!.invoiceId!.toString(),
+        keyType: MFKeyType.INVOICEID);
+
+    await MFSDK.getPaymentStatus(request, MFLanguage.ARABIC).then((value) {
+      print("ResPoser results:${value.toJson()} ");
+      emit(state.copyWith(
+          paymentSendState: PaymentState.statusPaymentSuccess,
+          paymentStatusResponse: value));
+    }).catchError((error) {
+      emit(state.copyWith(
+          paymentSendState: PaymentState.paymentErorr,
+          erorrMessage: error.message));
+    });
+  }
+
+  resetStates() {
+    detailsController.text = '';
+    recordsList = null;
+    imageFiles?.clear();
+    pickedFiles?.clear();
+    emit(state.copyWith(
+      imageFiles: [],
+      records: null,
+      pickedFiles: [],
+    ));
+  }
+
+  // Payment MAyFatorah
   // Controllers
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -36,11 +222,6 @@ class AddOrderCubit extends HydratedCubit<AddOrderState> {
 
   MFGetPaymentStatusResponse? paymentResponse;
   String? previousOrderType;
-
-  final ImagePicker picker = ImagePicker();
-  List<XFile>? imageFiles = [];
-  List<PlatformFile>? pickedFiles = [];
-  XFile? recordsList;
 
   bool isRecording = false;
   String? fileRecordPath;
@@ -60,22 +241,11 @@ class AddOrderCubit extends HydratedCubit<AddOrderState> {
   // Add Order Validation
   Future<void> validateAndAddOrder(
       BuildContext context, String orderType, String price) async {
-    print(getIt<PaymentMyFatorahCubit>().serviceName);
-    if (getIt<PaymentMyFatorahCubit>().serviceName == null) {
-      resetPaymentStates();
-      if (areOrderFieldsEmpty()) {
-        emit(state.copyWith(validateFormValues: false));
-      } else {
-        navigateToPayment(context, orderType, price);
-      }
+    if (areOrderFieldsEmpty()) {
+      emit(state.copyWith(validateFormValues: false));
     } else {
-      handleExistingOrder(context, orderType, price);
+      fetchUploadOrder(orderType, price);
     }
-  }
-
-  void resetPaymentStates() {
-    getIt<PaymentMyFatorahCubit>().resetStates();
-    getIt<PaymentMyFatorahCubit>().clear();
   }
 
   bool areOrderFieldsEmpty() {
@@ -100,12 +270,7 @@ class AddOrderCubit extends HydratedCubit<AddOrderState> {
 
   void handleExistingOrder(
       BuildContext context, String orderType, String price) {
-    if (getIt<PaymentMyFatorahCubit>().serviceName == orderType) {
-      navigateToPayment(context, orderType, price);
-    } else {
-      showOrderError(context);
-    }
-    Navigator.of(context).pop();
+    navigateToPayment(context, orderType, price);
   }
 
   void showOrderError(BuildContext context) {
@@ -119,23 +284,21 @@ class AddOrderCubit extends HydratedCubit<AddOrderState> {
   }
 
   // Fetch and Upload Order
-  Future<void> fetchUploadOrder(
-      String orderType, Map<String, dynamic> paymentResult) async {
+  Future<void> fetchUploadOrder(String orderType, String price) async {
     emit(state.copyWith(
         addOrderState: AuthRequestState.loading, validateFormValues: true));
-
     final response = await addOrderRepo.fetchAddOrder(
-        AddOrderModel(
-          name: nameController.text,
-          email: emailController.text,
-          phone: phoneController.text,
-          description: detailsController.text,
-          image: imageFiles,
-          typeOrder: orderType,
-          voice: recordsList,
-          docs: pickedFiles,
-        ),
-        paymentResult: paymentResult);
+      AddOrderModel(
+        name: nameController.text,
+        email: emailController.text,
+        phone: phoneController.text,
+        description: detailsController.text,
+        image: imageFiles,
+        typeOrder: orderType,
+        voice: recordsList,
+        docs: pickedFiles,
+      ),
+    );
 
     response.fold(
       (error) => emit(state.copyWith(
@@ -151,9 +314,8 @@ class AddOrderCubit extends HydratedCubit<AddOrderState> {
   }
 
   Future<void> resetPayment() async {
-    getIt<PaymentMyFatorahCubit>().serviceName = null;
-    await getIt<PaymentMyFatorahCubit>().resetStates();
-    getIt<PaymentMyFatorahCubit>().clear();
+    resetStates();
+    // getIt<PaymentMyFatorahCubit>().clear();
   }
 
   // Image Operations
@@ -277,65 +439,9 @@ class AddOrderCubit extends HydratedCubit<AddOrderState> {
         pickedFiles: pickedFiles,
         records: recordsList));
   }
+}
 
-  @override
-  AddOrderState? fromJson(Map<String, dynamic> json) {
-    try {
-      return AddOrderState(
-        imageFiles: (json['imageFiles'] as List<dynamic>?)
-            ?.map((item) => XFile(item))
-            .toList(),
-        pickedFiles: (json['pickedFiles'] as List<dynamic>?)
-            ?.map((item) => platformFileFromMap(item as Map<String, dynamic>))
-            .toList(),
-        isRecording: json['isRecording'] as bool,
-        records: json['records'] != null ? XFile(json['records']) : null,
-        addOrderState: AuthRequestState.values[json['addOrderState'] as int],
-        erorrMessage:
-            json['errorMessage'] != null ? json['errorMessage'] as String : "",
-        validateFileExtensions: json['validateFileExtensions'] as bool,
-        validateFormValues: json['validateFormValues'] as bool,
-        imageCompreeState:
-            AuthRequestState.values[json['imageCompressState'] as int],
-      );
-    } catch (e) {
-      return null;
-    }
-  }
-
-  @override
-  Map<String, dynamic>? toJson(AddOrderState state) {
-    return {
-      'imageFiles': state.imageFiles?.map((e) => e.path).toList(),
-      'pickedFiles':
-          state.pickedFiles?.map((e) => platformFileToMap(e)).toList(),
-      'isRecording': state.isRecording,
-      'records': state.records?.path,
-      'addOrderState': state.addOrderState.index,
-      'errorMessage': state.erorrMessage,
-      'validateFileExtensions': state.validateFileExtensions,
-      'validateFormValues': state.validateFormValues,
-      'imageCompressState': state.imageCompreeState.index,
-    };
-  }
-
-  PlatformFile platformFileFromMap(Map<String, dynamic> map) {
-    return PlatformFile(
-      path: map['path'] as String?,
-      name: map['name'] as String,
-      size: map['size'] as int,
-      bytes: map['bytes'] as Uint8List?,
-      readStream: map['readStream'] as Stream<List<int>>?,
-    );
-  }
-
-  Map<String, dynamic> platformFileToMap(PlatformFile file) {
-    return {
-      'path': file.path,
-      'name': file.name,
-      'size': file.size,
-      'bytes': file.bytes,
-      'readStream': file.readStream,
-    };
-  }
+class Config {
+  static const String testAPIKey =
+      "rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL";
 }

@@ -13,17 +13,26 @@ class AddOrderModel extends Equatable {
   final List<XFile>? image;
   final List<PlatformFile>? docs;
 
-  const AddOrderModel(
-      {this.name,
-      this.email,
-      this.phone,
-      this.typeOrder,
-      this.voice,
-      this.image,
-      this.docs,
-      this.description});
+  const AddOrderModel({
+    this.name,
+    this.email,
+    this.phone,
+    this.typeOrder,
+    this.voice,
+    this.image,
+    this.docs,
+    this.description,
+  });
 
   @override
-  List<Object?> get props =>
-      [name, email, phone, typeOrder, voice, image, docs, description];
+  List<Object?> get props => [
+        name,
+        email,
+        phone,
+        typeOrder,
+        voice,
+        image,
+        docs,
+        description,
+      ];
 }

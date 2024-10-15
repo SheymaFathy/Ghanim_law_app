@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
+import 'package:ghanim_law_app/features/order_form/pre/view_model/cubit/add_order_cubit.dart';
 
 import '../../../../../core/get_it/service_locator.dart';
 import '../../../../../core/widget/custom_button.dart';
 import '../../../data/model/invoice_model.dart';
-import '../../view_model/cubit/payment_my_fatorah_cubit.dart';
 import 'payment_details_view.dart';
 
 class PaymentStatusSuccessWidget extends StatelessWidget {
@@ -15,7 +15,7 @@ class PaymentStatusSuccessWidget extends StatelessWidget {
   });
 
   final PaymentMyFatorahModel paymentMyFatorahModel;
-  final PaymentMyFatorahState state;
+  final AddOrderState state;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -23,18 +23,19 @@ class PaymentStatusSuccessWidget extends StatelessWidget {
         Expanded(
             child: PaymentDetailsView(
                 stateResponse: state.paymentStatusResponse!)),
-        Container(
-          margin: const EdgeInsets.only(bottom: 5),
-          child: CustomBotton(
-              borderRadius: BorderRadius.circular(12),
-              backgroundColor: Theme.of(context).colorScheme.onSurface,
-              textColor: Theme.of(context).colorScheme.surface,
-              text: "Checkout".tr(context),
-              onPressed: () {
-                getIt<PaymentMyFatorahCubit>()
-                    .executeRegularPayment(paymentMyFatorahModel, context);
-              }),
-        )
+        if (state.paymentSendState != PaymentState.executePaymentLoading)
+          Container(
+            margin: const EdgeInsets.only(bottom: 5),
+            child: CustomBotton(
+                borderRadius: BorderRadius.circular(12),
+                backgroundColor: Theme.of(context).colorScheme.onSurface,
+                textColor: Theme.of(context).colorScheme.surface,
+                text: "continue_payment".tr(context),
+                onPressed: () {
+                  getIt<AddOrderCubit>()
+                      .executeRegularPayment(paymentMyFatorahModel, context);
+                }),
+          )
       ],
     );
   }

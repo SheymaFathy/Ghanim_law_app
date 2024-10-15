@@ -1,90 +1,140 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/get_it/service_locator.dart';
+import 'package:ghanim_law_app/features/order_form/pre/view_model/cubit/add_order_cubit.dart';
 import 'package:go_router/go_router.dart';
-
+import '../../../../core/constants/app_router.dart';
+import '../../../../core/widget/custom_button.dart';
 import '../../../../core/widget/custom_erorr_page_widget.dart';
 import '../../../../core/widget/custom_snackbar_widget.dart';
 import '../../data/model/invoice_model.dart';
-import '../view_model/cubit/payment_my_fatorah_cubit.dart';
-
 import 'widget/appbar_payment_widget.dart';
+import 'widget/custom_loading_payment.dart';
 import 'widget/payment_execute_loading_widget.dart';
-import 'widget/payment_execute_success_widget.dart';
 import 'widget/payment_init_widget.dart';
 import 'widget/payment_method_loading_widget.dart';
 import 'widget/payment_methods_list.dart';
-import 'widget/payment_request_payment_loading_widget.dart';
-import 'widget/payment_request_payment_success_widget.dart';
 import 'widget/payment_status_loading_widget.dart';
 import 'widget/payment_status_success_widget.dart';
 
 class PaymentMyFatorahScreen extends StatelessWidget {
-  const PaymentMyFatorahScreen(
-      {super.key, required this.paymentMyFatorahModel});
+  const PaymentMyFatorahScreen({
+    super.key,
+    required this.paymentMyFatorahModel,
+  });
   final PaymentMyFatorahModel paymentMyFatorahModel;
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: getIt<PaymentMyFatorahCubit>()..init(paymentMyFatorahModel),
-      child: BlocConsumer<PaymentMyFatorahCubit, PaymentMyFatorahState>(
-        bloc: getIt<PaymentMyFatorahCubit>(),
-        listener: (context, state) async {
-          if (state.paymentSendState == PaymentState.executePaymentSuccess) {
-            await Future.delayed(const Duration(seconds: 5)).then((onValue) {});
-          } else if (state.paymentSendState == PaymentState.paymentErorr) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                  customSnackBarWidget(state.erorrMessage, Colors.red));
-            getIt<PaymentMyFatorahCubit>().resetStates();
-            GoRouter.of(context).pop();
-            GoRouter.of(context).pop();
-          }
-        },
-        builder: (context, state) {
-          return Scaffold(
-            appBar: appBarPayment(state, context),
-            body: Builder(
-              builder: (context) {
-                switch (state.paymentSendState) {
-                  case PaymentState.init:
-                    return const PaymentInitWidget();
-                  case PaymentState.methodsPaymentLoading:
-                    return const PaymentMethodLoadingWidget();
-                  case PaymentState.methodsPaymentSuccess:
-                    return PaymentMethodsList(paymentMyFatorahModel);
-                  case PaymentState.requestPaymentLoading:
-                    return const PaymentRequestPaymentLoadingWidget();
-                  case PaymentState.requestPaymentSuccess:
-                    return const PaymentRequestPaymentSuccessWidget();
-                  case PaymentState.statusPaymentLoading:
-                    return const PaymentStatusLoadingWidget();
-                  case PaymentState.statusPaymentSuccess:
-                    return PaymentStatusSuccessWidget(
-                        state: state,
-                        paymentMyFatorahModel: paymentMyFatorahModel);
-                  case PaymentState.executePaymentLoading:
-                    return const PaymentExecuteLoadingWidget();
-                  case PaymentState.executePaymentSuccess:
-                    return PaymentExecuteSucsessAndUploadOrderWidget(
-                        state: state,
-                        paymentMyFatorahModel: paymentMyFatorahModel);
-                  case PaymentState.paymentErorr:
-                    return CustomErorrPageWidget(
-                      errorMessage: state.erorrMessage,
-                      onTap: () {
-                        getIt<PaymentMyFatorahCubit>().initiatePayment(
-                            num.parse(paymentMyFatorahModel.price));
-                      },
-                    );
-                }
-              },
-            ),
-          );
-        },
-      ),
+    return BlocConsumer<AddOrderCubit, AddOrderState>(
+      bloc: getIt<AddOrderCubit>()..init(paymentMyFatorahModel),
+      listener: (context, state) async {
+        if (state.paymentSendState == PaymentState.executePaymentSuccess) {
+          await Future.delayed(const Duration(seconds: 5)).then((onValue) {});
+        } else if (state.paymentSendState == PaymentState.paymentErorr) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+                customSnackBarWidget(state.erorrMessage, Colors.red));
+          // getIt<AddOrderCubit>().resetStates();
+          // GoRouter.of(context).pop();
+          // GoRouter.of(context).pop();
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: appBarPayment(state, context),
+          body: Builder(
+            builder: (context) {
+              switch (state.paymentSendState) {
+                case PaymentState.init:
+                  return const PaymentInitWidget();
+                case PaymentState.methodsPaymentLoading:
+                  return const PaymentMethodLoadingWidget();
+                case PaymentState.methodsPaymentSuccess:
+                  return PaymentMethodsList(paymentMyFatorahModel);
+                case PaymentState.statusPaymentLoading:
+                  return const PaymentStatusLoadingWidget();
+                case PaymentState.statusPaymentSuccess:
+                  return PaymentStatusSuccessWidget(
+                      state: state,
+                      paymentMyFatorahModel: paymentMyFatorahModel);
+                case PaymentState.executePaymentLoading:
+                  return const PaymentExecuteLoadingWidget();
+                case PaymentState.executePaymentSuccess:
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                case PaymentState.paymentErorr:
+                  return CustomErorrPageWidget(
+                    errorMessage: state.erorrMessage,
+                    onTap: () {
+                      getIt<AddOrderCubit>()
+                          .initiatePayment(paymentMyFatorahModel);
+                    },
+                  );
+                case PaymentState.sendOrderIdLoading:
+                  return CustomLoadingPayment(
+                    text: "Wait a few moments.".tr(context),
+                  );
+                case PaymentState.sendOrderIdSuccess:
+                  return Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Column(
+                          children: [
+                            Icon(
+                              Icons.done_sharp,
+                              size: 115,
+                              color: Colors.green,
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              "Payment Done Successfully",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 45,
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            CustomBotton(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.onSurface,
+                                textColor:
+                                    Theme.of(context).colorScheme.surface,
+                                text: "Home",
+                                onPressed: () {
+                                  GoRouter.of(context).go(AppRouter.kHomeView);
+                                }),
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+
+                case PaymentState.sendOrderIdError:
+                  return CustomErorrPageWidget(
+                    errorMessage: state.erorrMessage,
+                    onTap: () {
+                      getIt<AddOrderCubit>().fetchPainOrder(
+                          paymentMyFatorahModel.orderID.toString(),
+                          state.executePaymentResponse!.invoiceId!.toString());
+                    },
+                  );
+              }
+            },
+          ),
+        );
+      },
     );
   }
 }
