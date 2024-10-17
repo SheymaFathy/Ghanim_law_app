@@ -13,7 +13,7 @@ AppBar myAppBar(BuildContext context, String title,
             onPressed: () {
               GoRouter.of(context).go(AppRouter.kHomeView);
             },
-            icon: Icon(Icons.home),
+            icon: const Icon(Icons.home),
             color: Theme.of(context).colorScheme.onSurface)
         : null,
     actions: actionWidget != null ? [actionWidget] : null,

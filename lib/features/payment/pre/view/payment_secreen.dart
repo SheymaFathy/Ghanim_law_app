@@ -93,7 +93,7 @@ class PaymentMyFatorahScreen extends StatelessWidget {
                     text: "Wait a few moments.".tr(context),
                   );
                 case PaymentState.sendOrderIdSuccess:
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
 
                 case PaymentState.sendOrderIdError:
                   return CustomErorrPageWidget(

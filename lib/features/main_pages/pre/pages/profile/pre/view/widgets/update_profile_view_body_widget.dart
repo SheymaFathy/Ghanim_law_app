@@ -107,7 +107,7 @@ class UpdateProfileViewBodyWidget extends StatelessWidget {
               inputBorder: const OutlineInputBorder(),
               onSaved: (PhoneNumber number) {},
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             GlobalTextfield(

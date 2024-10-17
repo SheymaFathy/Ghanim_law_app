@@ -27,7 +27,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       nameController.text = profileData!.name!;
       phoneController.text = profileData.phone!;
       emailController.text = profileData.email!;
-      PhoneNumber.getRegionInfoFromPhoneNumber(profile!.data!.phone!)
+      PhoneNumber.getRegionInfoFromPhoneNumber(profile.data!.phone!)
           .then((onValue) {
         togglePhoneNumber(onValue);
       }).catchError((onError) {

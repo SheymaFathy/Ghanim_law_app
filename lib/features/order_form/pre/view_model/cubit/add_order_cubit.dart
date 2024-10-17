@@ -185,7 +185,7 @@ class AddOrderCubit extends Cubit<AddOrderState> {
         emit(state.copyWith(
             paymentSendState: PaymentState.paymentErorr,
             erorrMessage: error.message));
-        log('Execute Payment Error: ${error}');
+        log('Execute Payment Error: $error');
       });
     }).catchError((onError) {
       GoRouter.of(context).pop();
