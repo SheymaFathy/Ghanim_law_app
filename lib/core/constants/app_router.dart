@@ -130,9 +130,11 @@ abstract class AppRouter {
       GoRoute(
           path: korderdetails,
           builder: (context, state) {
-            Map<String, int?>? args = state.extra as Map<String, int?>?;
+            Map<String, dynamic>? args = state.extra as Map<String, dynamic>?;
+
             return MyOrderDetails(
               id: args!["id"]!,
+              showAppBar: args['appbar'] ?? true,
             );
           }),
 

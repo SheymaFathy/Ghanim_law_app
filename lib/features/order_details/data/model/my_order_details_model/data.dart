@@ -20,23 +20,23 @@ class Data extends Equatable {
   final String? pdf;
   final List<dynamic>? documents;
   final List? images;
-
-  const Data({
-    this.id,
-    this.name,
-    this.email,
-    this.phone,
-    this.description,
-    this.type,
-    this.status,
-    this.rejectReason,
-    this.price,
-    this.paid,
-    this.voice,
-    this.pdf,
-    this.documents,
-    this.images,
-  });
+  final String? invoiceId;
+  const Data(
+      {this.id,
+      this.name,
+      this.email,
+      this.phone,
+      this.description,
+      this.type,
+      this.status,
+      this.rejectReason,
+      this.price,
+      this.paid,
+      this.voice,
+      this.pdf,
+      this.documents,
+      this.images,
+      this.invoiceId});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json['id'] as int?,
@@ -61,6 +61,7 @@ class Data extends Equatable {
         pdf: json['pdf'] as String?,
         documents: json['documents'] as List<dynamic>?,
         images: json['images'] as List?,
+        invoiceId: json['invoice_id'] as String?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -78,6 +79,7 @@ class Data extends Equatable {
         'pdf': pdf,
         'documents': documents,
         'images': images,
+        'invoice_id': invoiceId,
       };
 
   @override
@@ -97,6 +99,7 @@ class Data extends Equatable {
       pdf,
       documents,
       images,
+      invoiceId
     ];
   }
 }

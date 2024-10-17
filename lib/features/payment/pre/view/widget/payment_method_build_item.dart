@@ -27,9 +27,8 @@ class PaymentMethodsBuildItem extends StatelessWidget {
               .state
               .paymentMethods[index]
               .paymentMethodId!);
-          getIt<AddOrderCubit>().getPaymentStatus(
-            paymentMyFatorahModel,
-          );
+          getIt<AddOrderCubit>()
+              .getPaymentStatus(paymentMyFatorahModel, context);
         },
         child: Container(
           padding: const EdgeInsets.all(15),

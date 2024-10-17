@@ -1,9 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/enum/enum.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/profile/data/model/profile_model.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/profile/data/repo/profile_repo.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 import '../../../data/model/set/set_profile_data_model.dart';
 
@@ -16,7 +19,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  initUpdatePrfileData(ProfileModel profile) {
+  initUpdatePrfileData(ProfileModel profile, context) {
     final profileData = profile.data;
     if (nameController.text.isEmpty ||
         phoneController.text.isEmpty ||
@@ -24,6 +27,18 @@ class ProfileCubit extends Cubit<ProfileState> {
       nameController.text = profileData!.name!;
       phoneController.text = profileData.phone!;
       emailController.text = profileData.email!;
+      PhoneNumber.getRegionInfoFromPhoneNumber(profile!.data!.phone!)
+          .then((onValue) {
+        togglePhoneNumber(onValue);
+      }).catchError((onError) {
+        onError as PlatformException;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("This PhoneNumber is not valid".tr(context)),
+            backgroundColor: Colors.red,
+          ),
+        );
+      });
     }
   }
 
@@ -34,7 +49,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       final result = await profileRepo.updateProfile(SetProfileDataModel(
           method: 'PUT',
           name: nameController.text,
-          phone: phoneController.text,
+          phone: phoneNumber.phoneNumber.toString(),
           email: emailController.text));
       result.fold((ifLeft) {
         emit(state.copyWith(
@@ -54,7 +69,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   checkValuesFormFiled(ProfileModel profile) {
     if (nameController.text != profile.data!.name ||
-        phoneController.text != profile.data!.phone ||
+        phoneNumber.phoneNumber != profile.data!.phone ||
         emailController.text != profile.data!.email) {
       emit(state.copyWith(
           checkValuesFormFiled: true,
@@ -66,7 +81,18 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  fetchProfileData() async {
+  PhoneNumber phoneNumber = PhoneNumber(isoCode: "QA");
+  togglePhoneNumber(PhoneNumber phoneNumberSelecte) {
+    phoneNumber = phoneNumberSelecte;
+    emit(state.copyWith(phoneNumber: phoneNumberSelecte));
+  }
+
+  fetchProfileData({bool isRloadShow = false}) async {
+    if (isRloadShow) {
+      emit(state.copyWith(
+        profileRequestState: RequestState.loading,
+      ));
+    }
     final result = await profileRepo.fetchProfileData();
     result.fold((ifLeft) {
       emit(state.copyWith(

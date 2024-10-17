@@ -47,13 +47,15 @@ class AddOrderRepoImp extends AddOrderRepo {
       // Upload Images Files
       // Upload Voice File
       if (order.voice != null) {
-        print(
-            "هل voice تساوي null :${order.voice == null}${order.voice!.name}");
         formData.files.add(MapEntry(
             'voice',
             await MultipartFile.fromFile(order.voice!.path,
-                filename: order.voice!.name,
-                contentType: DioMediaType.parse("audio/wav"))));
+                filename: order.voice!.name)));
+        // formData.files.add(MapEntry(
+        //     'voice',
+        //     await MultipartFile.fromFile(order.voice!.path,
+        //         filename: order.voice!.name,
+        //         contentType: DioMediaType.parse("audio/aac"))));
       }
       // Upload Voice File
       // Upload description
@@ -71,14 +73,11 @@ class AddOrderRepoImp extends AddOrderRepo {
       // Upload Person Information
       final response =
           await DioHelper.postData(url: "/api/orders", data: formData);
-
+      //  print(formData.)
+      print(response.statusCode);
       return Right(AddOrderResultModel.fromJson(response.data));
     } on Exception catch (e) {
       if (e is DioException) {
-        print(e.type);
-        print(e.message);
-        print(e.error);
-        print(e.response);
         return Left(ServerFaliure.fromDioErorr(e));
       } else {
         return Left(ServerFaliure(erorrMessage: e.toString()));

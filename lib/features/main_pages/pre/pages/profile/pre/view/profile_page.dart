@@ -24,6 +24,8 @@ class ProfilePage extends StatelessWidget {
                       state.profileErorrStatusCode == 401) {
                     CacheHelper.clearData(key: 'uId');
                     checkUserMethod();
+                  } else {
+                    checkUserMethod();
                   }
                 }
               },
@@ -34,12 +36,16 @@ class ProfilePage extends StatelessWidget {
                   case RequestState.sucess:
                     return ProfileViewBodyWidget(state: state);
                   case RequestState.erorr:
-                    return CustomErorrPageWidget(
-                      onTap: () {
-                        context.read<ProfileCubit>().fetchProfileData();
-                      },
-                      errorMessage: state.profileErorrMessage,
-                    );
+                    if (state.profileErorrStatusCode == 401) {
+                      return const RequiredLoginScreen();
+                    } else {
+                      return CustomErorrPageWidget(
+                        onTap: () {
+                          context.read<ProfileCubit>().fetchProfileData();
+                        },
+                        errorMessage: state.profileErorrMessage,
+                      );
+                    }
                 }
               },
             ),

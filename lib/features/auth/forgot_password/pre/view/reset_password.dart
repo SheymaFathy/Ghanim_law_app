@@ -78,7 +78,8 @@ class ResetPasswordScreen extends StatelessWidget {
                             return "write_new_password".tr(context);
                           } else if (value !=
                               forgotCubit.rePasswordController.text) {
-                            return "password and repassword is not equal";
+                            return "password and repassword is not equal"
+                                .tr(context);
                           }
                           return null;
                         },
@@ -92,7 +93,8 @@ class ResetPasswordScreen extends StatelessWidget {
                             return "write_new_password".tr(context);
                           } else if (value !=
                               forgotCubit.passwordController.text) {
-                            return "password and repassword is not equal";
+                            return "password and repassword is not equal"
+                                .tr(context);
                           }
                           return null;
                         },

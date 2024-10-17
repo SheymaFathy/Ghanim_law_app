@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
+import '../../../../../../../../core/profile.dart';
 import '../../../../../../../../core/widget/custom_button.dart';
 import '../../../../../../../../core/widget/global_textfield.dart';
 import '../../../../../../../auth/widget/custom_auth_title.dart';
+import '../../../../../../../auth/widget/custom_textfield.dart';
 import '../../view_model/cubit/profile_cubit.dart';
 
 class UpdateProfileViewBodyWidget extends StatelessWidget {
@@ -35,7 +38,7 @@ class UpdateProfileViewBodyWidget extends StatelessWidget {
               },
               validator: (value) {
                 if (value!.isEmpty) {
-                  return "Please enter name";
+                  return "enter_name".tr(context);
                 } else {
                   return null;
                 }
@@ -44,26 +47,67 @@ class UpdateProfileViewBodyWidget extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            GlobalTextfield(
-              onChanged: (value) {
+            InternationalPhoneNumberInput(
+              locale: UserData.lang,
+              searchBoxDecoration: InputDecoration(
+                  label: Text(
+                      "search by country name or digital code".tr(context))),
+              onInputChanged: (PhoneNumber number) {
                 profileCubit.checkValuesFormFiled(state.profileModel!);
-                return null;
+                profileCubit.togglePhoneNumber(number);
               },
-              mycontroller: profileCubit.phoneController,
-              textDirection: TextDirection.ltr,
-              hinttext: "enter_phone".tr(context),
-              textAlign: TextAlign.left,
-              label: "phone".tr(context),
-              iconData: Icons.phone,
+              onInputValidated: (bool value) {},
+              inputDecoration: InputDecoration(
+                  hintText: "enter_phone".tr(context),
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                  hintStyle: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.5)),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 35),
+                  label: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        "phone".tr(context),
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Theme.of(context).colorScheme.onSurface),
+                      )),
+                  border: outlineInputBorder(context),
+                  enabledBorder: outlineInputBorder(context),
+                  focusedBorder: outlineInputBorder(context)),
+              selectorConfig: const SelectorConfig(
+                useEmoji: true,
+                selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                useBottomSheetSafeArea: true,
+              ),
+              countrySelectorScrollControlled: true,
+              ignoreBlank: false,
+              autoValidateMode: AutovalidateMode.disabled,
               validator: (value) {
-                if (value!.isEmpty) {
-                  return "Please enter Phonenumber";
+                if (value!.length < 9) {
+                  return "phone number is Short".tr(context);
+                }
+                if (value.isEmpty) {
+                  return "Please Enter your phone number".tr(context);
                 } else {
                   return null;
                 }
               },
+              selectorTextStyle:
+                  TextStyle(color: Theme.of(context).colorScheme.onSurface),
+              initialValue: state.phoneNumber ?? profileCubit.phoneNumber,
+              textFieldController: profileCubit.phoneController,
+              formatInput: true,
+              keyboardType: const TextInputType.numberWithOptions(
+                  signed: true, decimal: true),
+              inputBorder: const OutlineInputBorder(),
+              onSaved: (PhoneNumber number) {},
             ),
-            const SizedBox(
+            SizedBox(
               height: 20,
             ),
             GlobalTextfield(
@@ -78,7 +122,7 @@ class UpdateProfileViewBodyWidget extends StatelessWidget {
               iconData: Icons.email,
               validator: (value) {
                 if (value!.isEmpty) {
-                  return "Please enter email";
+                  return "enter_email".tr(context);
                 } else {
                   return null;
                 }

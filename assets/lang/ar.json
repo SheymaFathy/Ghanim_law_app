@@ -157,5 +157,12 @@
     "Wait a few moments": "الرجاء الانتظار قليلاً ...",
     "continue_payment": "متابعة الدفع",
     "An error occurred": "حدث خطأ",
-    "An error occurred sending the request": "حدث خطأ أثناء ارسال الطلب"
+    "An error occurred sending the request": "حدث خطأ أثناء ارسال الطلب",
+    "Payment Done Successfully": "تمت عملية الدفع بنجاح",
+    "This PhoneNumber is not valid": "رقم الهاتف غير صالح",
+    "undefined": "غير معروف",
+    "nothing": "لا شيء",
+    "order_id": " رقم الطلب",
+    "password and repassword is not equal": "كلمة المرور غير متطابقة",
+    "No Orders Yet ...": "لا توجد طلبات حتي الان..."
 }

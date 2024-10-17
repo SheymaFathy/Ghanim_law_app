@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/get_it/service_locator.dart';
+import 'package:ghanim_law_app/features/main_pages/pre/pages/my_orders/pre/view_model/cubit/my_order_cubit.dart';
 import 'package:ghanim_law_app/features/order_form/pre/view_model/cubit/add_order_cubit.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_router.dart';
@@ -40,6 +41,19 @@ class PaymentMyFatorahScreen extends StatelessWidget {
           // getIt<AddOrderCubit>().resetStates();
           // GoRouter.of(context).pop();
           // GoRouter.of(context).pop();
+        } else if (state.paymentSendState == PaymentState.sendOrderIdSuccess) {
+          GoRouter.of(context).pop();
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(customSnackBarWidget(
+                "The payment was completed successfully".tr(context),
+                Colors.green));
+          getIt<MyOrderCubit>().fetchOrdersData();
+          // GoRouter.of(context).replace(AppRouter.korderdetails, extra: {
+          //   "appbar": false,
+          //   "id": int.parse(
+          //       state.paymentResponseOrderId!.customerReference.toString())
+          // });
         }
       },
       builder: (context, state) {
@@ -79,47 +93,7 @@ class PaymentMyFatorahScreen extends StatelessWidget {
                     text: "Wait a few moments.".tr(context),
                   );
                 case PaymentState.sendOrderIdSuccess:
-                  return Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const Column(
-                          children: [
-                            Icon(
-                              Icons.done_sharp,
-                              size: 115,
-                              color: Colors.green,
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Text(
-                              "Payment Done Successfully",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              height: 45,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            CustomBotton(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.onSurface,
-                                textColor:
-                                    Theme.of(context).colorScheme.surface,
-                                text: "Home",
-                                onPressed: () {
-                                  GoRouter.of(context).go(AppRouter.kHomeView);
-                                }),
-                          ],
-                        )
-                      ],
-                    ),
-                  );
+                  return Center(child: CircularProgressIndicator());
 
                 case PaymentState.sendOrderIdError:
                   return CustomErorrPageWidget(

@@ -76,8 +76,9 @@ class SignUpViewBody extends StatelessWidget {
                   label: Text(
                       "search by country name or digital code".tr(context))),
               onInputChanged: (PhoneNumber number) {
-                signUpCubit.countryCode = number.dialCode.toString();
+                signUpCubit.togglePhoneNumber(number);
               },
+              initialValue: state.phoneNumber ?? signUpCubit.phoneNumber,
               onInputValidated: (bool value) {},
               inputDecoration: InputDecoration(
                   hintText: "enter_phone".tr(context),
@@ -107,7 +108,7 @@ class SignUpViewBody extends StatelessWidget {
                 useBottomSheetSafeArea: true,
               ),
               ignoreBlank: false,
-              autoValidateMode: AutovalidateMode.disabled,
+              autoValidateMode: AutovalidateMode.always,
               validator: (value) {
                 if (value!.length < 9) {
                   return "phone number is Short".tr(context);
@@ -181,8 +182,7 @@ class SignUpViewBody extends StatelessWidget {
                 signUpCubit.fetchSignUp(SetSignUpModel(
                     name: signUpCubit.nameController.text,
                     email: signUpCubit.emailController.text,
-                    phone:
-                        "${signUpCubit.countryCode}${signUpCubit.phoneController.text}",
+                    phone: signUpCubit.phoneNumber.phoneNumber.toString(),
                     password: signUpCubit.passwordController.text,
                     passwordConfirmation: signUpCubit.passwordController.text));
               },

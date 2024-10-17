@@ -157,5 +157,12 @@
     "Wait a few moments": "Wait a few moments ...",
     "continue_payment": "Continue Payment",
     "An error occurred": "An error occurred",
-    "An error occurred sending the request": "An error occurred sending the request"
+    "An error occurred sending the request": "An error occurred sending the request",
+    "Payment Done Successfully": "Payment Done Successfully",
+    "This PhoneNumber is not valid": "This PhoneNumber is not valid",
+    "undefined": "undefined",
+    "nothing": "Nothing",
+    "order_id": "Order Id",
+    "password and repassword is not equal": "Password and Repassword is not equal",
+    "No Orders Yet ...": "No Orders Yet ..."
 }

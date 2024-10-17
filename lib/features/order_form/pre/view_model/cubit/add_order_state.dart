@@ -21,6 +21,7 @@ class AddOrderState {
   final bool isPaymentSuccess;
   final RequestState requestIdPaymentState;
   final MFSendPaymentResponse? paymentResponseOrderId;
+  final PhoneNumber? phoneNumber;
   const AddOrderState(
       {this.imageFiles,
       this.pickedFiles,
@@ -41,60 +42,61 @@ class AddOrderState {
       this.paymentStatusState = RequestState.loading,
       this.paymentSendState = PaymentState.init,
       this.requestIdPaymentState = RequestState.loading,
-      this.response = ''});
+      this.response = '',
+      this.phoneNumber});
 
-  AddOrderState copyWith({
-    List<XFile>? imageFiles,
-    List<PlatformFile>? pickedFiles,
-    Duration? currentPosition,
-    Duration? totalDuration,
-    XFile? records,
-    bool? isRecording,
-    bool? isPlaying,
-    RequestState? playAudioState,
-    AudioPlayer? audioPlayer,
-    AddOrderResultModel? addOrderResultModel,
-    AuthRequestState? addOrderState,
-    String? erorrMessage,
-    bool? validateFileExtensions,
-    bool? validateFormValues,
-    AuthRequestState? imageCompreeState,
-    String? responsePayment,
-    List<MFPaymentMethod>? paymentMethods,
-    String? erorrPaymentMessage,
-    MFGetPaymentStatusResponse? paymentStatusResponse,
-    RequestState? paymentStatusState,
-    PaymentState? paymentSendState,
-    MFGetPaymentStatusResponse? executePaymentResponse,
-    bool? isPaymentSuccess,
-    RequestState? requestIdPaymentState,
-    MFSendPaymentResponse? paymentResponseOrderId,
-  }) {
+  AddOrderState copyWith(
+      {List<XFile>? imageFiles,
+      List<PlatformFile>? pickedFiles,
+      Duration? currentPosition,
+      Duration? totalDuration,
+      XFile? records,
+      bool? isRecording,
+      bool? isPlaying,
+      RequestState? playAudioState,
+      AudioPlayer? audioPlayer,
+      AddOrderResultModel? addOrderResultModel,
+      AuthRequestState? addOrderState,
+      String? erorrMessage,
+      bool? validateFileExtensions,
+      bool? validateFormValues,
+      AuthRequestState? imageCompreeState,
+      String? responsePayment,
+      List<MFPaymentMethod>? paymentMethods,
+      String? erorrPaymentMessage,
+      MFGetPaymentStatusResponse? paymentStatusResponse,
+      RequestState? paymentStatusState,
+      PaymentState? paymentSendState,
+      MFGetPaymentStatusResponse? executePaymentResponse,
+      bool? isPaymentSuccess,
+      RequestState? requestIdPaymentState,
+      MFSendPaymentResponse? paymentResponseOrderId,
+      PhoneNumber? phoneNumber}) {
     return AddOrderState(
-      imageFiles: imageFiles ?? this.imageFiles,
-      pickedFiles: pickedFiles ?? this.pickedFiles,
-      isRecording: isRecording ?? this.isRecording,
-      records: records ?? this.records,
-      addOrderResultModel: addOrderResultModel ?? this.addOrderResultModel,
-      addOrderState: addOrderState ?? AuthRequestState.normal,
-      erorrMessage: erorrMessage ?? this.erorrMessage,
-      validateFileExtensions: validateFileExtensions ?? true,
-      validateFormValues: validateFormValues ?? true,
-      imageCompreeState: imageCompreeState ?? AuthRequestState.normal,
-      erorrPaymentMessage: erorrPaymentMessage ?? this.erorrPaymentMessage,
-      executePaymentResponse:
-          executePaymentResponse ?? this.executePaymentResponse,
-      isPaymentSuccess: isPaymentSuccess ?? this.isPaymentSuccess,
-      paymentResponseOrderId:
-          paymentResponseOrderId ?? this.paymentResponseOrderId,
-      paymentMethods: paymentMethods ?? this.paymentMethods,
-      paymentStatusResponse:
-          paymentStatusResponse ?? this.paymentStatusResponse,
-      paymentStatusState: paymentStatusState ?? this.paymentStatusState,
-      paymentSendState: paymentSendState ?? this.paymentSendState,
-      requestIdPaymentState:
-          requestIdPaymentState ?? this.requestIdPaymentState,
-    );
+        imageFiles: imageFiles ?? this.imageFiles,
+        pickedFiles: pickedFiles ?? this.pickedFiles,
+        isRecording: isRecording ?? this.isRecording,
+        records: records ?? this.records,
+        addOrderResultModel: addOrderResultModel ?? this.addOrderResultModel,
+        addOrderState: addOrderState ?? AuthRequestState.normal,
+        erorrMessage: erorrMessage ?? this.erorrMessage,
+        validateFileExtensions: validateFileExtensions ?? true,
+        validateFormValues: validateFormValues ?? true,
+        imageCompreeState: imageCompreeState ?? AuthRequestState.normal,
+        erorrPaymentMessage: erorrPaymentMessage ?? this.erorrPaymentMessage,
+        executePaymentResponse:
+            executePaymentResponse ?? this.executePaymentResponse,
+        isPaymentSuccess: isPaymentSuccess ?? this.isPaymentSuccess,
+        paymentResponseOrderId:
+            paymentResponseOrderId ?? this.paymentResponseOrderId,
+        paymentMethods: paymentMethods ?? this.paymentMethods,
+        paymentStatusResponse:
+            paymentStatusResponse ?? this.paymentStatusResponse,
+        paymentStatusState: paymentStatusState ?? this.paymentStatusState,
+        paymentSendState: paymentSendState ?? this.paymentSendState,
+        requestIdPaymentState:
+            requestIdPaymentState ?? this.requestIdPaymentState,
+        phoneNumber: phoneNumber ?? this.phoneNumber);
   }
 
   // @override

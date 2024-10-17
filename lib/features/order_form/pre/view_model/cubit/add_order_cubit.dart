@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
@@ -11,6 +12,7 @@ import 'package:ghanim_law_app/features/order_form/data/model/add_order_result_m
 import 'package:ghanim_law_app/features/order_form/data/repo/add_order_repo.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 import 'package:path_provider/path_provider.dart';
@@ -27,13 +29,18 @@ class AddOrderCubit extends Cubit<AddOrderState> {
   AddOrderCubit(this.addOrderRepo) : super(const AddOrderState());
   final AddOrderRepo addOrderRepo;
 // Payment My Fatorah
-
+  PhoneNumber phoneNumber = PhoneNumber(isoCode: "QA");
   final ImagePicker picker = ImagePicker();
   List<XFile>? imageFiles = [];
   List<PlatformFile>? pickedFiles = [];
   XFile? recordsList;
 
   static int? paymentMethodId;
+
+  togglePhoneNumber(PhoneNumber phoneNumberSelecte) {
+    phoneNumber = phoneNumberSelecte;
+    emit(state.copyWith(phoneNumber: phoneNumberSelecte));
+  }
 
   Future<void> init(PaymentMyFatorahModel paymentMyFatorahModel) async {
     emit(state.copyWith(paymentSendState: PaymentState.init));
@@ -89,34 +96,51 @@ class AddOrderCubit extends Cubit<AddOrderState> {
     debugPrint(message);
   }
 
-  Future sendPayment(PaymentMyFatorahModel paymentMyFatorahModel) async {
+  Future sendPayment(
+      PaymentMyFatorahModel paymentMyFatorahModel, context) async {
     emit(state.copyWith(requestIdPaymentState: RequestState.loading));
+    await PhoneNumber.getRegionInfoFromPhoneNumber(paymentMyFatorahModel.phone!)
+        .then((onValue) async {
+      final lenthNumber = onValue.dialCode!.length;
 
-    var request = MFSendPaymentRequest(
-        customerReference: paymentMyFatorahModel.orderID,
-        displayCurrencyIso: MFCurrencyISO.QATAR_QAR,
-        invoiceValue: int.parse(paymentMyFatorahModel.price),
-        customerName: paymentMyFatorahModel.name,
-        customerEmail: paymentMyFatorahModel.email,
-        invoiceItems: [
-          MFInvoiceItem(
-            quantity: 1,
-            unitPrice: double.parse(paymentMyFatorahModel.price),
-            itemName: paymentMyFatorahModel.serviceName,
-          )
-        ],
-        notificationOption: MFNotificationOption.EMAIL);
+      var request = MFSendPaymentRequest(
+          customerReference: paymentMyFatorahModel.orderID,
+          displayCurrencyIso: MFCurrencyISO.QATAR_QAR,
+          invoiceValue: int.parse(paymentMyFatorahModel.price),
+          customerName: paymentMyFatorahModel.name,
+          customerEmail: paymentMyFatorahModel.email,
+          customerMobile: onValue.phoneNumber!.substring(1 + lenthNumber),
+          mobileCountryCode: "+${onValue.dialCode}",
+          invoiceItems: [
+            MFInvoiceItem(
+              quantity: 1,
+              unitPrice: double.parse(paymentMyFatorahModel.price),
+              itemName: paymentMyFatorahModel.serviceName,
+            )
+          ],
+          notificationOption: MFNotificationOption.EMAIL);
 
-    await MFSDK.sendPayment(request, MFLanguage.ARABIC).then((value) {
-      log("Send Payment Response: ${jsonEncode(value.toJson())}");
-      emit(state.copyWith(
-          requestIdPaymentState: RequestState.sucess,
-          paymentResponseOrderId: value));
-    }).catchError((error) {
-      log('Send Payment Error: ${error.toString()}');
-      emit(state.copyWith(
-          requestIdPaymentState: RequestState.erorr,
-          erorrMessage: error.message));
+      await MFSDK.sendPayment(request, MFLanguage.ARABIC).then((value) {
+        log("Send Payment Response: ${jsonEncode(value.toJson())}");
+        emit(state.copyWith(
+            requestIdPaymentState: RequestState.sucess,
+            paymentResponseOrderId: value));
+      }).catchError((error) {
+        //  error as MFException;
+
+        log('Send Payment Error: ${error.toString()}');
+        emit(state.copyWith(
+            requestIdPaymentState: RequestState.erorr,
+            erorrMessage: error.message));
+      });
+    }).catchError((onError) {
+      GoRouter.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("This PhoneNumber is not valid".tr(context)),
+          backgroundColor: Colors.red,
+        ),
+      );
     });
   }
 
@@ -127,36 +151,50 @@ class AddOrderCubit extends Cubit<AddOrderState> {
     emit(state.copyWith(paymentSendState: PaymentState.executePaymentLoading));
 
     setUpActionBar(context);
-    var request = MFExecutePaymentRequest(
-      customerReference: paymentMyFatorahModel.orderID,
-      displayCurrencyIso: MFCurrencyISO.QATAR_QAR,
-      customerEmail: paymentMyFatorahModel.email,
-      customerName: paymentMyFatorahModel.name,
-      paymentMethodId: paymentMethodId,
-      invoiceValue: double.parse(paymentMyFatorahModel.price),
-      invoiceItems: [
-        MFInvoiceItem(
-          quantity: 1,
-          unitPrice: double.parse(paymentMyFatorahModel.price),
-          itemName: paymentMyFatorahModel.serviceName,
-        )
-      ],
-    );
+    PhoneNumber.getRegionInfoFromPhoneNumber(paymentMyFatorahModel.phone!)
+        .then((onValue) async {
+      final lenthNumber = onValue.dialCode!.length;
+      var request = MFExecutePaymentRequest(
+        customerReference: paymentMyFatorahModel.orderID,
+        displayCurrencyIso: MFCurrencyISO.QATAR_QAR,
+        customerEmail: paymentMyFatorahModel.email,
+        customerName: paymentMyFatorahModel.name,
+        paymentMethodId: paymentMethodId,
+        customerMobile: onValue.phoneNumber!.substring(1 + lenthNumber),
+        mobileCountryCode: "+${onValue.dialCode}",
+        invoiceValue: double.parse(paymentMyFatorahModel.price),
+        invoiceItems: [
+          MFInvoiceItem(
+            quantity: 1,
+            unitPrice: double.parse(paymentMyFatorahModel.price),
+            itemName: paymentMyFatorahModel.serviceName,
+          )
+        ],
+      );
 
-    await MFSDK
-        .executePayment(request, MFLanguage.ARABIC, (invoiceId) {})
-        .then((value) async {
-      emit(state.copyWith(
-          paymentSendState: PaymentState.executePaymentSuccess,
-          executePaymentResponse: value));
-      log("Execute Payment Response: ${jsonEncode(value.toJson())}");
-      await fetchPainOrder(
-          paymentMyFatorahModel.orderID!, value.invoiceId!.toString());
-    }).catchError((error) {
-      emit(state.copyWith(
-          paymentSendState: PaymentState.paymentErorr,
-          erorrMessage: error.message));
-      log('Execute Payment Error: ${error}');
+      await MFSDK
+          .executePayment(request, MFLanguage.ARABIC, (invoiceId) {})
+          .then((value) async {
+        emit(state.copyWith(
+            paymentSendState: PaymentState.executePaymentSuccess,
+            executePaymentResponse: value));
+        log("Execute Payment Response: ${jsonEncode(value.toJson())}");
+        await fetchPainOrder(
+            paymentMyFatorahModel.orderID!, value.invoiceId!.toString());
+      }).catchError((error) {
+        emit(state.copyWith(
+            paymentSendState: PaymentState.paymentErorr,
+            erorrMessage: error.message));
+        log('Execute Payment Error: ${error}');
+      });
+    }).catchError((onError) {
+      GoRouter.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("This PhoneNumber is not valid".tr(context)),
+          backgroundColor: Colors.red,
+        ),
+      );
     });
   }
 
@@ -179,10 +217,9 @@ class AddOrderCubit extends Cubit<AddOrderState> {
   }
 
   Future<void> getPaymentStatus(
-      PaymentMyFatorahModel paymentMyFatorahModel) async {
+      PaymentMyFatorahModel paymentMyFatorahModel, context) async {
     emit(state.copyWith(paymentSendState: PaymentState.statusPaymentLoading));
-    await sendPayment(paymentMyFatorahModel);
-
+    await sendPayment(paymentMyFatorahModel, context);
     MFGetPaymentStatusRequest request = MFGetPaymentStatusRequest(
         key: state.paymentResponseOrderId!.invoiceId!.toString(),
         keyType: MFKeyType.INVOICEID);
@@ -204,11 +241,13 @@ class AddOrderCubit extends Cubit<AddOrderState> {
     recordsList = null;
     imageFiles?.clear();
     pickedFiles?.clear();
-    emit(state.copyWith(
-      imageFiles: [],
-      records: null,
-      pickedFiles: [],
-    ));
+    detailsController.clear();
+
+    // emit(state.copyWith(
+    //   imageFiles: [],
+    //   records: null,
+    //   pickedFiles: [],
+    // ));
   }
 
   // Payment MAyFatorah
@@ -217,7 +256,7 @@ class AddOrderCubit extends Cubit<AddOrderState> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController detailsController = TextEditingController();
-
+  String? countryCode = 'QA';
   final GlobalKey<FormState> formKey = GlobalKey();
 
   MFGetPaymentStatusResponse? paymentResponse;
@@ -244,7 +283,7 @@ class AddOrderCubit extends Cubit<AddOrderState> {
     if (areOrderFieldsEmpty()) {
       emit(state.copyWith(validateFormValues: false));
     } else {
-      fetchUploadOrder(orderType, price);
+      fetchUploadOrder(orderType, price, context);
     }
   }
 
@@ -284,33 +323,47 @@ class AddOrderCubit extends Cubit<AddOrderState> {
   }
 
   // Fetch and Upload Order
-  Future<void> fetchUploadOrder(String orderType, String price) async {
-    emit(state.copyWith(
-        addOrderState: AuthRequestState.loading, validateFormValues: true));
-    final response = await addOrderRepo.fetchAddOrder(
-      AddOrderModel(
-        name: nameController.text,
-        email: emailController.text,
-        phone: phoneController.text,
-        description: detailsController.text,
-        image: imageFiles,
-        typeOrder: orderType,
-        voice: recordsList,
-        docs: pickedFiles,
-      ),
-    );
+  Future<void> fetchUploadOrder(String orderType, String price, context) async {
+    PhoneNumber.getRegionInfoFromPhoneNumber(state.phoneNumber == null
+            ? phoneNumber.phoneNumber.toString()
+            : state.phoneNumber!.phoneNumber!.toString())
+        .then((onValue) async {
+      emit(state.copyWith(
+          addOrderState: AuthRequestState.loading, validateFormValues: true));
 
-    response.fold(
-      (error) => emit(state.copyWith(
-          addOrderState: AuthRequestState.erorr,
-          erorrMessage: error.erorrMessage)),
-      (result) async {
-        emit(state.copyWith(
-            addOrderState: AuthRequestState.sucess,
-            addOrderResultModel: result));
-        resetPayment();
-      },
-    );
+      final response = await addOrderRepo.fetchAddOrder(
+        AddOrderModel(
+          name: nameController.text,
+          email: emailController.text,
+          phone: "${onValue.phoneNumber}",
+          description: detailsController.text,
+          image: imageFiles,
+          typeOrder: orderType,
+          voice: recordsList,
+          docs: pickedFiles,
+        ),
+      );
+
+      response.fold(
+        (error) => emit(state.copyWith(
+            addOrderState: AuthRequestState.erorr,
+            erorrMessage: error.erorrMessage)),
+        (result) async {
+          emit(state.copyWith(
+              addOrderState: AuthRequestState.sucess,
+              addOrderResultModel: result));
+          resetPayment();
+        },
+      );
+    }).catchError((onError) {
+      onError as PlatformException;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("This PhoneNumber is not valid".tr(context)),
+          backgroundColor: Colors.red,
+        ),
+      );
+    });
   }
 
   Future<void> resetPayment() async {

@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 
 class Paid extends Equatable {
-  final int? price;
+  final dynamic price;
   final String? currency;
   final String? formatted;
 
   const Paid({this.price, this.currency, this.formatted});
 
   factory Paid.fromJson(Map<String, dynamic> json) => Paid(
-        price: json['price'] as int?,
+        price: json['price'],
         currency: json['currency'] as String?,
         formatted: json['formatted'] as String?,
       );

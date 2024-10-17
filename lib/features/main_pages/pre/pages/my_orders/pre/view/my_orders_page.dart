@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
+import 'package:ghanim_law_app/core/constants/styles.dart';
 import 'package:ghanim_law_app/core/enum/enum.dart';
 import 'package:ghanim_law_app/core/get_it/service_locator.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/my_orders/pre/view/widgets/my_order_widget.dart';
@@ -44,20 +46,39 @@ class MyOrderViewBody extends StatelessWidget {
                 ),
               );
             case RequestState.sucess:
-              return Center(
-                child: ListView.builder(
-                  itemCount: state.myOrderModel!.data!.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      child: OrdersWidget(
-                        index: index,
-                        orders: state.myOrderModel!.data![index],
+              return state.myOrderModel!.data!.isEmpty
+                  ? Center(
+                      child: Column(
+                        children: [
+                          const Icon(
+                            Icons.library_books,
+                            size: 75,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "No Orders Yet ...".tr(context),
+                            style: Styles.textStyle20,
+                          )
+                        ],
+                      ),
+                    )
+                  : Center(
+                      child: ListView.builder(
+                        itemCount: state.myOrderModel!.data!.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 5.0),
+                            child: OrdersWidget(
+                              index: index,
+                              orders: state.myOrderModel!.data![index],
+                            ),
+                          );
+                        },
                       ),
                     );
-                  },
-                ),
-              );
             case RequestState.erorr:
               if (state.erorrStatusCode == 401) {
                 return const RequiredLoginScreen();

@@ -10,8 +10,8 @@ import '../../../../../core/widget/app_bar.dart';
 profileMyAppbar(context) => myAppBar(context, "profile".tr(context),
     actionWidget: UserData.uId != null
         ? IconButton(
-            onPressed: () {
-              CacheHelper.clearData(key: "uId").then((onValue) {
+            onPressed: () async {
+              await CacheHelper.clearData(key: "uId").then((onValue) {
                 GoRouter.of(context).go(AppRouter.kLogin);
                 UserData.init();
               });

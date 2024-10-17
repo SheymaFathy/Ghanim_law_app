@@ -5,6 +5,7 @@ import 'package:ghanim_law_app/core/enum/enum.dart';
 import 'package:ghanim_law_app/features/auth/sign_up/data/model/get/sign_up_model.dart';
 import 'package:ghanim_law_app/features/auth/sign_up/data/model/set/set_sign_up_model.dart';
 import 'package:ghanim_law_app/features/auth/sign_up/data/repository/sign_up_repo.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 part 'sign_up_state.dart';
 
@@ -15,12 +16,18 @@ class SignUpCubit extends Cubit<SignUpState> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   String countryCode = "";
+  PhoneNumber phoneNumber = PhoneNumber(isoCode: "QA");
   GlobalKey<FormState> formKey = GlobalKey();
   final SignUpRepo signUpRepo;
   toggleObscure() {
     emit(state.copyWith(
         isObscure: !state.isObscure,
         signUpNewAccoutState: AuthRequestState.normal));
+  }
+
+  togglePhoneNumber(PhoneNumber phoneNumberSelecte) {
+    phoneNumber = phoneNumberSelecte;
+    emit(state.copyWith(phoneNumber: phoneNumberSelecte));
   }
 
   bool _formValidate() => formKey.currentState!.validate();

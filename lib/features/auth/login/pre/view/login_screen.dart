@@ -33,7 +33,7 @@ class LoginScreen extends StatelessWidget {
         body: BlocProvider(
           create: (context) => LoginCubit(getIt()),
           child: BlocConsumer<LoginCubit, LoginState>(
-            listener: (context, state) {
+            listener: (context, state) async {
               if (state.loginState == AuthRequestState.loading) {
                 loginLoadingWidget(context);
               } else if (state.loginState == AuthRequestState.erorr) {
@@ -42,8 +42,8 @@ class LoginScreen extends StatelessWidget {
                 CacheHelper.saveData(
                     key: 'uId', value: state.loginModel!.token!);
 
-                UserData.init();
-                GoRouter.of(context).pushReplacement(AppRouter.kHomeView);
+                GoRouter.of(context).go(AppRouter.kHomeView);
+                await UserData.init();
                 loginMaterialBannerWidget(context);
               }
             },

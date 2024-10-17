@@ -9,6 +9,7 @@ class ProfileState extends Equatable {
   final ProfileModel? profileUpdateModel;
   final String profileUpdatErorreMessage;
   final bool checkValuesFormFiled;
+  final PhoneNumber? phoneNumber;
   const ProfileState(
       {this.profileRequestState = RequestState.loading,
       this.profileModel,
@@ -17,7 +18,8 @@ class ProfileState extends Equatable {
       this.profileUpdateModel,
       this.profileUpdatErorreMessage = '',
       this.profileErorrStatusCode,
-      this.checkValuesFormFiled = false});
+      this.checkValuesFormFiled = false,
+      this.phoneNumber});
   ProfileState copyWith(
       {RequestState? profileRequestState,
       ProfileModel? profileModel,
@@ -26,7 +28,8 @@ class ProfileState extends Equatable {
       ProfileModel? profileUpdateModel,
       String? profileUpdatErorreMessage,
       int? profileErorrStatusCode,
-      bool? checkValuesFormFiled}) {
+      bool? checkValuesFormFiled,
+      PhoneNumber? phoneNumber}) {
     return ProfileState(
         profileRequestState: profileRequestState ?? this.profileRequestState,
         profileModel: profileModel ?? this.profileModel,
@@ -38,7 +41,8 @@ class ProfileState extends Equatable {
             profileUpdatErorreMessage ?? this.profileUpdatErorreMessage,
         checkValuesFormFiled: checkValuesFormFiled ?? this.checkValuesFormFiled,
         profileErorrStatusCode:
-            profileErorrStatusCode ?? this.profileErorrStatusCode);
+            profileErorrStatusCode ?? this.profileErorrStatusCode,
+        phoneNumber: phoneNumber ?? this.phoneNumber);
   }
 
   @override
@@ -47,9 +51,12 @@ class ProfileState extends Equatable {
         profileModel,
         profileErorrMessage,
         profileUpdateRequestState,
+        profileUpdateRequestState,
         profileUpdateModel,
         profileUpdatErorreMessage,
         checkValuesFormFiled,
-        profileErorrStatusCode
+        profileErorrStatusCode,
+        profileErorrStatusCode,
+        phoneNumber
       ];
 }

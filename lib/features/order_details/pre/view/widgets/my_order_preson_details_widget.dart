@@ -28,7 +28,7 @@ class MyOrderPersonDetailsWidget extends StatelessWidget {
                   color: (state.myOrderDetailsModel!.data!.status!.code ==
                               "new" &&
                           state.myOrderDetailsModel!.data!.paid!.price != 0)
-                      ? Colors.green
+                      ? Colors.green[700]
                       : state.myOrderDetailsModel!.data!.status!.code ==
                               'completed'
                           ? Colors.orange
@@ -52,6 +52,36 @@ class MyOrderPersonDetailsWidget extends StatelessWidget {
           trailing: Text(state.myOrderDetailsModel!.data!.email!,
               style: Styles.textStyle14),
         ),
+        const SizedBox(
+          height: 10,
+        ),
+        ListTile(
+          leading: Text("phone".tr(context), style: Styles.textStyle14),
+          trailing: Directionality(
+            textDirection: TextDirection.ltr,
+            child: Text(state.myOrderDetailsModel!.data!.phone!,
+                textAlign: TextAlign.left, style: Styles.textStyle14),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        ListTile(
+          leading: Text("order_id".tr(context), style: Styles.textStyle14),
+          trailing: Text(state.myOrderDetailsModel!.data!.id.toString(),
+              style: Styles.textStyle14),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        if (state.myOrderDetailsModel!.data!.invoiceId != null)
+          ListTile(
+            leading:
+                Text("Invoice Number".tr(context), style: Styles.textStyle14),
+            trailing: Text(
+                state.myOrderDetailsModel!.data!.invoiceId.toString(),
+                style: Styles.textStyle14),
+          ),
         const SizedBox(
           height: 10,
         ),

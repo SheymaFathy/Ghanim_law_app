@@ -12,13 +12,15 @@ import '../../../../core/widget/custom_erorr_page_widget.dart';
 import 'widgets/my_order_details_view_body.dart';
 
 class MyOrderDetails extends StatelessWidget {
-  const MyOrderDetails({super.key, required this.id});
+  const MyOrderDetails({super.key, required this.id, this.showAppBar = true});
   final int id;
+  final bool showAppBar;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: myAppBar(context, "order_details".tr(context)),
+      appBar: myAppBar(context, "order_details".tr(context),
+          showAppbar: showAppBar),
       body: BlocProvider.value(
         value: getIt<MyOrderDetailsCubit>()..fetchOrderDetailsById(id),
         child: BlocBuilder<MyOrderDetailsCubit, MyOrderDetailsState>(

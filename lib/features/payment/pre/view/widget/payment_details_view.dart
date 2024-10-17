@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/features/payment/pre/view/widget/build_payment_info_card.dart';
 import 'package:myfatoorah_flutter/MFModels.dart';
 
@@ -21,39 +22,46 @@ class PaymentDetailsView extends StatelessWidget {
             children: [
               Expanded(
                 child: BuildPaymentInfoCard(
-                    title: 'Invoice Number',
-                    content: stateResponse.invoiceId?.toString() ?? 'غير محدد'),
+                    title: 'Invoice Number'.tr(context),
+                    content: stateResponse.invoiceId?.toString() ??
+                        'undefined'.tr(context)),
               ),
               Expanded(
                 child: BuildPaymentInfoCard(
-                    title: 'Invoice Status',
-                    content: stateResponse.invoiceStatus ?? 'غير محدد'),
+                    title: 'Invoice Status'.tr(context),
+                    content:
+                        stateResponse.invoiceStatus ?? 'undefined'.tr(context)),
               ),
               Expanded(
                 child: BuildPaymentInfoCard(
-                    title: 'Invoice Amount',
-                    content: "${stateResponse.invoiceValue} ${"QAR"} "),
+                    title: 'Invoice Amount'.tr(context),
+                    content: "${stateResponse.invoiceDisplayValue} "),
               )
             ],
           ),
           BuildPaymentInfoCard(
-              title: 'Customer Name',
-              content: stateResponse.customerName ?? 'غير محدد'),
+              title: 'Customer Name'.tr(context),
+              content: stateResponse.customerName ?? 'undefined'.tr(context)),
           BuildPaymentInfoCard(
-              title: 'Customer Email',
-              content: stateResponse.customerEmail ?? 'غير محدد'),
+              title: 'phone'.tr(context),
+              content: stateResponse.customerMobile ?? 'undefined'.tr(context)),
           BuildPaymentInfoCard(
-              title: 'Invoice Reference',
-              content: stateResponse.invoiceReference ?? 'غير محدد'),
+              title: 'Customer Email'.tr(context),
+              content: stateResponse.customerEmail ?? 'undefined'.tr(context)),
           BuildPaymentInfoCard(
-              title: 'Creation Date',
+              title: 'Invoice Reference'.tr(context),
+              content:
+                  stateResponse.invoiceReference ?? 'undefined'.tr(context)),
+          BuildPaymentInfoCard(
+              title: 'Creation Date'.tr(context),
               content: convertDateTime(stateResponse.createdDate.toString()) ??
-                  'غير محدد'),
+                  'undefined'.tr(context)),
           BuildPaymentInfoCard(
-              title: 'Expiration Date',
-              content: stateResponse.expiryDate ?? 'غير محدد'),
+              title: 'Expiration Date'.tr(context),
+              content: stateResponse.expiryDate ?? 'undefined'.tr(context)),
           BuildPaymentInfoCard(
-              title: 'Comments', content: stateResponse.comments ?? 'لا توجد'),
+              title: 'Comments'.tr(context),
+              content: stateResponse.comments ?? 'nothing'.tr(context)),
         ],
       ),
     );

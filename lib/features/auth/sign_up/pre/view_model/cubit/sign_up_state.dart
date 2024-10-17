@@ -5,23 +5,26 @@ class SignUpState extends Equatable {
       {this.isObscure = true,
       this.signUpNewAccoutState = AuthRequestState.normal,
       this.signUpNewAccoutErorrMessage = '',
-      this.signUpNewAccoutModel});
+      this.signUpNewAccoutModel,
+      this.phoneNumber});
   final bool isObscure;
   final AuthRequestState signUpNewAccoutState;
   final String signUpNewAccoutErorrMessage;
   final SignUpModel? signUpNewAccoutModel;
+  final PhoneNumber? phoneNumber;
   SignUpState copyWith(
       {bool? isObscure,
       AuthRequestState? signUpNewAccoutState,
       String? signUpNewAccoutErorrMessage,
-      SignUpModel? signUpNewAccoutModel}) {
+      SignUpModel? signUpNewAccoutModel,
+      PhoneNumber? phoneNumber}) {
     return SignUpState(
-      isObscure: isObscure ?? this.isObscure,
-      signUpNewAccoutState: signUpNewAccoutState ?? this.signUpNewAccoutState,
-      signUpNewAccoutErorrMessage:
-          signUpNewAccoutErorrMessage ?? this.signUpNewAccoutErorrMessage,
-      signUpNewAccoutModel: signUpNewAccoutModel ?? this.signUpNewAccoutModel,
-    );
+        isObscure: isObscure ?? this.isObscure,
+        signUpNewAccoutState: signUpNewAccoutState ?? this.signUpNewAccoutState,
+        signUpNewAccoutErorrMessage:
+            signUpNewAccoutErorrMessage ?? this.signUpNewAccoutErorrMessage,
+        signUpNewAccoutModel: signUpNewAccoutModel ?? this.signUpNewAccoutModel,
+        phoneNumber: phoneNumber ?? this.phoneNumber);
   }
 
   @override
@@ -30,5 +33,6 @@ class SignUpState extends Equatable {
         signUpNewAccoutState,
         signUpNewAccoutErorrMessage,
         signUpNewAccoutModel,
+        phoneNumber
       ];
 }

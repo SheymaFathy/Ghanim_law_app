@@ -56,7 +56,7 @@ class UpdateProfile extends StatelessWidget {
               case RequestState.loading:
                 return const Center(child: CircularProgressIndicator());
               case RequestState.sucess:
-                profileCubit.initUpdatePrfileData(state.profileModel!);
+                profileCubit.initUpdatePrfileData(state.profileModel!, context);
                 return UpdateProfileViewBodyWidget(
                     profileCubit: profileCubit, state: state);
               case RequestState.erorr:
