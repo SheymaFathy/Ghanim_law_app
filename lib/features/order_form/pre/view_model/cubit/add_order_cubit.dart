@@ -20,6 +20,7 @@ import 'package:record/record.dart';
 import '../../../../../core/constants/app_router.dart';
 import '../../../../../core/enum/enum.dart';
 import '../../../../../core/get_it/service_locator.dart';
+import '../../../../main_pages/pre/pages/home/pre/view_model/cubit/home_cubit.dart';
 import '../../../../main_pages/pre/pages/settings/pre/view_model/cubit/setting_cubit.dart';
 import '../../../../payment/data/model/invoice_model.dart';
 
@@ -51,7 +52,10 @@ class AddOrderCubit extends Cubit<AddOrderState> {
       return;
     }
 
-    await MFSDK.init(Config.testAPIKey, MFCountry.QATAR, MFEnvironment.TEST);
+    await MFSDK.init(
+        getIt<HomeCubit>().state.homeModel!.myfatoorah!.accessToken!.toString(),
+        getIt<HomeCubit>().state.homeModel!.myfatoorah!.country ?? "Qatar",
+        getIt<HomeCubit>().state.homeModel!.myfatoorah!.mode!.toUpperCase());
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       initiatePayment(paymentMyFatorahModel);

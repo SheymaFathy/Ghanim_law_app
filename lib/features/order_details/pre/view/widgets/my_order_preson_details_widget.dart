@@ -25,9 +25,7 @@ class MyOrderPersonDetailsWidget extends StatelessWidget {
           leading: Text("status".tr(context), style: Styles.textStyle14),
           trailing: Text(state.myOrderDetailsModel!.data!.status!.label!,
               style: Styles.textStyle14.copyWith(
-                  color: (state.myOrderDetailsModel!.data!.status!.code ==
-                              "new" &&
-                          state.myOrderDetailsModel!.data!.paid!.price != 0)
+                  color: (state.myOrderDetailsModel!.data!.paid!.price != 0)
                       ? Colors.green[700]
                       : state.myOrderDetailsModel!.data!.status!.code ==
                               'completed'
