@@ -74,6 +74,7 @@ class MyOrderViewBody extends StatelessWidget {
                             child: OrdersWidget(
                               index: index,
                               orders: state.myOrderModel!.data![index],
+                              state:state,
                             ),
                           );
                         },

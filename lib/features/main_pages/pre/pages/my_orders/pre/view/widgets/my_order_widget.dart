@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../../../../../../core/constants/app_router.dart';
 import '../../../data/model/my_order_model/datum.dart';
+import '../../view_model/cubit/my_order_cubit.dart';
 
 class OrdersWidget extends StatelessWidget {
   final Datum orders;
   final int index;
-  const OrdersWidget({super.key, required this.orders, required this.index});
+  final MyOrderState  state;
+  const OrdersWidget({super.key, required this.orders, required this.index, required this.state, });
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,8 @@ class OrdersWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              Text('# ${orders.id.toString()}   ',style: const TextStyle(   fontWeight: FontWeight.bold,) ),
+
               Text(
                 orders.type!.label!,
               ),
@@ -37,13 +40,13 @@ class OrdersWidget extends StatelessWidget {
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: (orders.paid!.price != 0)
-                        ? Colors.green[700]
+                        ? const Color(0xffffc107)
                         : orders.status!.code == 'completed'
-                            ? Colors.green[700]
+                            ? const Color(0xff28a745)
                             : orders.status!.code == 'in_progress'
-                                ? Colors.blue
+                                ? const Color(0xff6f42c1)
                                 : orders.status!.code == 'rejected'
-                                    ? Colors.red
+                                    ? const Color(0xffdc3545)
                                     : null),
               ),
             ],

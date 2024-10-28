@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,7 +20,6 @@ import '../../../../../core/constants/app_router.dart';
 import '../../../../../core/enum/enum.dart';
 import '../../../../../core/get_it/service_locator.dart';
 import '../../../../main_pages/pre/pages/home/pre/view_model/cubit/home_cubit.dart';
-import '../../../../main_pages/pre/pages/settings/pre/view_model/cubit/setting_cubit.dart';
 import '../../../../payment/data/model/invoice_model.dart';
 
 part 'add_order_state.dart';
