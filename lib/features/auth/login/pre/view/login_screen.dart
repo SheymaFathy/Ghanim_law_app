@@ -44,6 +44,7 @@ class LoginScreen extends StatelessWidget {
 
                 GoRouter.of(context).go(AppRouter.kHomeView);
                 await UserData.init();
+                // ignore: use_build_context_synchronously
                 loginMaterialBannerWidget(context);
               }
             },

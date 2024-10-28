@@ -37,13 +37,13 @@ class OrdersWidget extends StatelessWidget {
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: (orders.paid!.price != 0)
-                        ? Colors.green[700]
+                        ? const Color(0xffffc107)
                         : orders.status!.code == 'completed'
-                            ? Colors.green[700]
+                            ? const Color(0xff28a745)
                             : orders.status!.code == 'in_progress'
-                                ? Colors.blue
+                                ? const Color(0xff6f42c1)
                                 : orders.status!.code == 'rejected'
-                                    ? Colors.red
+                                    ? const Color(0xffdc3545)
                                     : null),
               ),
             ],
