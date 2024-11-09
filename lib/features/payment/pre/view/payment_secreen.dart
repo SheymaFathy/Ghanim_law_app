@@ -36,22 +36,19 @@ class PaymentMyFatorahScreen extends StatelessWidget {
             ..hideCurrentSnackBar()
             ..showSnackBar(
                 customSnackBarWidget(state.erorrMessage, Colors.red));
-          // getIt<AddOrderCubit>().resetStates();
-          // GoRouter.of(context).pop();
-          // GoRouter.of(context).pop();
         } else if (state.paymentSendState == PaymentState.sendOrderIdSuccess) {
           GoRouter.of(context).pop();
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
-            ..showSnackBar(customSnackBarWidget(
+            ..showSnackBar(SnackBar(
+              content: customSnackBarWidget(
                 "The payment was completed successfully".tr(context),
-                Colors.green));
+                Colors.green,
+              ),
+              duration: Duration(seconds: 5), // يمكنك تحديد المدة هنا
+            ));
+
           getIt<MyOrderCubit>().fetchOrdersData();
-          // GoRouter.of(context).replace(AppRouter.korderdetails, extra: {
-          //   "appbar": false,
-          //   "id": int.parse(
-          //       state.paymentResponseOrderId!.customerReference.toString())
-          // });
         }
       },
       builder: (context, state) {

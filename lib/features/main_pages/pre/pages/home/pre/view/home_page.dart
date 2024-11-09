@@ -26,12 +26,12 @@ class HomePage extends StatelessWidget {
             case RequestState.sucess:
               return ListView.builder(
                 padding: EdgeInsets.zero,
-                itemCount: state.homeModel!.priceModel!.length,
+                itemCount: state.homeModel!.services!.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: CustomServiceContainer(
-                      priceModel: state.homeModel!.priceModel![index],
+                      servicesModel: state.homeModel!.services![index],
                     ),
                   );
                 },

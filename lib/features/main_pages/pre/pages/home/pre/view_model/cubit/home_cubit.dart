@@ -16,6 +16,8 @@ class HomeCubit extends Cubit<HomeState> {
           homeDataState: RequestState.erorr,
           errorMessage: ifLeft.erorrMessage));
     }, (ifRight) {
+      print(ifRight.myfatoorah!.mode);
+      print(ifRight.myfatoorah!.accessToken);
       emit(state.copyWith(
           homeDataState: RequestState.sucess, homeModel: ifRight));
     });

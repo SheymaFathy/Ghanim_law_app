@@ -7,8 +7,13 @@ import '../../view_model/cubit/my_order_cubit.dart';
 class OrdersWidget extends StatelessWidget {
   final Datum orders;
   final int index;
-  final MyOrderState  state;
-  const OrdersWidget({super.key, required this.orders, required this.index, required this.state, });
+  final MyOrderState state;
+  const OrdersWidget({
+    super.key,
+    required this.orders,
+    required this.index,
+    required this.state,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +34,10 @@ class OrdersWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text('# ${orders.id.toString()}   ',style: const TextStyle(   fontWeight: FontWeight.bold,) ),
-
+              Text('# ${orders.id.toString()}   ',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  )),
               Text(
                 orders.type!.label!,
               ),
@@ -39,8 +46,8 @@ class OrdersWidget extends StatelessWidget {
                 orders.status!.label!,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: (orders.paid!.price != 0)
-                        ? const Color(0xffffc107)
+                    color: (orders.status!.code == 'new')
+                        ? Colors.blue
                         : orders.status!.code == 'completed'
                             ? const Color(0xff28a745)
                             : orders.status!.code == 'in_progress'

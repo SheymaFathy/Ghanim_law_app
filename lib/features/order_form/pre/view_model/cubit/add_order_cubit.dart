@@ -202,15 +202,16 @@ class AddOrderCubit extends Cubit<AddOrderState> {
 
   fetchPainOrder(String orderId, String invoiceId) async {
     emit(state.copyWith(paymentSendState: PaymentState.sendOrderIdLoading));
-    final result = await addOrderRepo.fetchPaidOrder(
-        orderID: orderId, invoiceId: invoiceId);
+    emit(state.copyWith(paymentSendState: PaymentState.sendOrderIdSuccess));
+    // final result = await addOrderRepo.fetchPaidOrder(
+    //     orderID: orderId, invoiceId: invoiceId);
 
-    result.fold((ifLeft) {
-      emit(state.copyWith(paymentSendState: PaymentState.sendOrderIdError));
-    }, (ifRight) {
-      emit(state.copyWith(paymentSendState: PaymentState.sendOrderIdSuccess));
-    });
-    print(state.paymentSendState);
+    // result.fold((ifLeft) {
+    //   emit(state.copyWith(paymentSendState: PaymentState.sendOrderIdError));
+    // }, (ifRight) {
+    //   emit(state.copyWith(paymentSendState: PaymentState.sendOrderIdSuccess));
+    // });
+    // print(state.paymentSendState);
   }
 
   void setMethodId(int id) {

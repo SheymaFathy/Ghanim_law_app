@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 import 'package:ghanim_law_app/core/responsive_text/app_style.dart';
 import 'package:ghanim_law_app/features/main_pages/pre/pages/home/pre/view/widgets/service_icon_build_item_widget.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../../../../core/constants/app_router.dart';
-import '../../../data/model/home_model/prices.dart';
+import '../../../data/model/home_model/home_model.dart';
 
 class CustomServiceContainer extends StatelessWidget {
-  final PriceModel priceModel;
+  final Services servicesModel;
 
   const CustomServiceContainer({
     super.key,
-    required this.priceModel,
+    required this.servicesModel,
   });
 
   @override
@@ -27,8 +26,8 @@ class CustomServiceContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         onTap: () {
           GoRouter.of(context).push(AppRouter.kOrderForm, extra: {
-            "type": priceModel.serviceName,
-            "price": priceModel.price.toString()
+            "type": servicesModel.key.toString(),
+            "price": servicesModel.price!.price.toString()
           });
         },
         child: Padding(
@@ -37,7 +36,7 @@ class CustomServiceContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ServiceIconBuildItem(
-                serviceName: priceModel.serviceName,
+                serviceName: servicesModel.key!,
               ),
               const Spacer(),
               SizedBox(
@@ -45,7 +44,7 @@ class CustomServiceContainer extends StatelessWidget {
                 child: Center(
                   child: Text(
                     textAlign: TextAlign.center,
-                    priceModel.serviceName.tr(context),
+                    servicesModel.name!,
                     style: TextStyle(
                         fontSize: getResponsiveFontSize(context, fontSize: 16)),
                   ),
@@ -53,9 +52,9 @@ class CustomServiceContainer extends StatelessWidget {
               ),
               const Spacer(),
               Text(
-                priceModel.formattedPrice,
+                servicesModel.price!.formatted.toString()!,
                 style: TextStyle(
-                    fontSize: getResponsiveFontSize(context, fontSize: 14)),
+                    fontSize: getResponsiveFontSize(context, fontSize: 16)),
               ),
             ],
           ),

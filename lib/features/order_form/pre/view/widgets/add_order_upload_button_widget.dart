@@ -27,7 +27,7 @@ class AddOrderUploadButtonWidget extends StatelessWidget {
         : CustomBotton(
             backgroundColor: Theme.of(context).colorScheme.onSurface,
             textColor: Theme.of(context).colorScheme.surface,
-            text: '${"request".tr(context)} ${orderType.tr(context)}',
+            text: "confirm".tr(context),
             onPressed: () {
               showDialog(
                 context: context,
