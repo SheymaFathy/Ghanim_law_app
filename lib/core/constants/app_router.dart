@@ -107,7 +107,7 @@ abstract class AppRouter {
           path: kUpdateProfile,
           builder: (context, state) => const UpdateProfile()),
       GoRoute(
-          path: kFeedback, builder: (context, state) => const FeedBackScreen()),
+          path: kFeedback, builder: (context, state) =>  FeedBackScreen()),
       GoRoute(
           path: kOrderForm,
           builder: (context, state) {
