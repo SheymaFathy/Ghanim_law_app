@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 
 import '../../../../../core/constants/styles.dart';
+import '../../../../chat/pre/view/chat_screen.dart';
 import '../../view_model/cubit/my_order_details_cubit.dart';
 
 class MyOrderPersonDetailsWidget extends StatelessWidget {
@@ -17,8 +18,16 @@ class MyOrderPersonDetailsWidget extends StatelessWidget {
     return Column(
       children: [
         Center(
-          child: Text(state.myOrderDetailsModel!.data!.type!.label!,
-              style: Styles.textStyle18),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(state.myOrderDetailsModel!.data!.type!.label!,
+                  style: Styles.textStyle18),
+              IconButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> Basic()));
+              }, icon: const Icon(Icons.chat, size: 45,))
+            ],
+          ),
         ),
         const SizedBox(height: 10),
         ListTile(
