@@ -3,6 +3,7 @@ import 'package:ghanim_law_app/core/AppLocalizations/app_localizations.dart';
 
 import '../../../../../core/constants/styles.dart';
 import '../../../../chat/pre/view/chat_screen.dart';
+import '../../../../chat/pre/view/chat_view.dart';
 import '../../view_model/cubit/my_order_details_cubit.dart';
 
 class MyOrderPersonDetailsWidget extends StatelessWidget {
@@ -24,7 +25,7 @@ class MyOrderPersonDetailsWidget extends StatelessWidget {
               Text(state.myOrderDetailsModel!.data!.type!.label!,
                   style: Styles.textStyle18),
               IconButton(onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> Basic()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>  ChatViewScreen()));
               }, icon: const Icon(Icons.chat, size: 45,))
             ],
           ),

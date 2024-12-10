@@ -164,5 +164,9 @@
     "nothing": "Nothing",
     "order_id": "Order Id",
     "password and repassword is not equal": "Password and Repassword is not equal",
-    "No Orders Yet ...": "No Orders Yet ..."
+    "No Orders Yet ...": "No Orders Yet ...",
+    "use_galary": "Choose from Gallery",
+    "use_camera": "Take photo",
+    "use_attachment": "Attach File",
+    "type_your_msg": "Type your message..."
 }

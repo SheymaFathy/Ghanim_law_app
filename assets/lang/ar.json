@@ -164,5 +164,9 @@
     "nothing": "لا شيء",
     "order_id": " رقم الطلب",
     "password and repassword is not equal": "كلمة المرور غير متطابقة",
-    "No Orders Yet ...": "لا توجد طلبات حتي الان..."
+    "No Orders Yet ...": "لا توجد طلبات حتي الان...",
+    "use_galary": "اختر من الاستوديو",
+    "use_camera": "التقط صورة",
+    "use_attachment": "اختر ملف",
+    "type_your_msg": "اكتب رسالتك ......"
 }
